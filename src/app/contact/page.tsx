@@ -26,43 +26,43 @@ export default function Contact() {
       </section>
 
       <section className="pb-24 container mx-auto px-4 md:px-8">
-        <div className="grid md:grid-cols-2 gap-16 bg-white rounded-3xl shadow-xl overflow-hidden">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-0 md:gap-16 bg-white rounded-3xl shadow-xl overflow-hidden">
           
           {/* Contact Details & Map Area */}
-          <div className="bg-primary-dark text-white p-12 flex flex-col justify-between">
+          <div className="bg-primary-dark text-white p-6 sm:p-8 md:p-12 flex flex-col justify-between">
             <div>
               <h2 className="font-serif text-3xl mb-8">Get in Touch</h2>
               
-              <div className="space-y-8">
-                <div className="flex items-start gap-4 hover:bg-white/5 p-4 rounded-xl transition-colors cursor-pointer">
-                  <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center shrink-0">
-                    <Phone size={24} className="text-white" />
+              <div className="space-y-6 md:space-y-8">
+                <div className="flex items-start gap-4 hover:bg-white/5 p-3 sm:p-4 rounded-xl transition-colors cursor-pointer">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white/10 rounded-full flex items-center justify-center shrink-0">
+                    <Phone size={20} className="text-white sm:w-6 sm:h-6" />
                   </div>
-                  <div>
-                    <h4 className="font-medium text-xl mb-1">24/7 Phone Support</h4>
-                    <p className="text-white/70 tracking-wide">+263 242 123 456</p>
-                    <p className="text-white/70 tracking-wide">+263 772 123 456 (Mobile/WhatsApp)</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4 hover:bg-white/5 p-4 rounded-xl transition-colors cursor-pointer">
-                  <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center shrink-0">
-                    <Mail size={24} className="text-white" />
-                  </div>
-                  <div>
-                    <h4 className="font-medium text-xl mb-1">Email Us</h4>
-                    <p className="text-white/70 tracking-wide">care@royaltyfunerals.co.zw</p>
-                    <p className="text-white/70 tracking-wide">info@royaltyfunerals.co.zw</p>
+                  <div className="min-w-0 flex-1">
+                    <h4 className="font-medium text-lg sm:text-xl mb-1">24/7 Phone Support</h4>
+                    <p className="text-white/70 tracking-wide text-sm sm:text-base break-words">+263 242 123 456</p>
+                    <p className="text-white/70 tracking-wide text-sm sm:text-base break-words">+263 772 123 456 (Mobile/WhatsApp)</p>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4 hover:bg-white/5 p-4 rounded-xl transition-colors cursor-pointer">
-                  <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center shrink-0">
-                    <MapPin size={24} className="text-white" />
+                <div className="flex items-start gap-4 hover:bg-white/5 p-3 sm:p-4 rounded-xl transition-colors cursor-pointer">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white/10 rounded-full flex items-center justify-center shrink-0">
+                    <Mail size={20} className="text-white sm:w-6 sm:h-6" />
                   </div>
-                  <div>
-                    <h4 className="font-medium text-xl mb-1">Main Office</h4>
-                    <p className="text-white/70 tracking-wide leading-relaxed">
+                  <div className="min-w-0 flex-1">
+                    <h4 className="font-medium text-lg sm:text-xl mb-1">Email Us</h4>
+                    <p className="text-white/70 tracking-wide text-sm sm:text-base break-words">care@royaltyfunerals.co.zw</p>
+                    <p className="text-white/70 tracking-wide text-sm sm:text-base break-words">info@royaltyfunerals.co.zw</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4 hover:bg-white/5 p-3 sm:p-4 rounded-xl transition-colors cursor-pointer">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white/10 rounded-full flex items-center justify-center shrink-0">
+                    <MapPin size={20} className="text-white sm:w-6 sm:h-6" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <h4 className="font-medium text-lg sm:text-xl mb-1">Main Office</h4>
+                    <p className="text-white/70 tracking-wide leading-relaxed text-sm sm:text-base break-words">
                       123 Royalty Avenue<br />
                       Borrowdale, Bulawayo<br />
                       Zimbabwe
@@ -74,11 +74,11 @@ export default function Contact() {
           </div>
 
           {/* Contact Form */}
-          <div className="p-12 pl-8">
+          <div className="p-6 sm:p-8 md:p-12">
             <h2 className="font-serif text-3xl text-primary-dark mb-8">Send Us a Message</h2>
             
             <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-              <div className="grid md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label htmlFor="firstName" className="text-sm font-medium text-gray-700">First Name</label>
                   <input type="text" id="firstName" className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all bg-gray-50" placeholder="John" />
@@ -119,7 +119,6 @@ export default function Contact() {
               </button>
             </form>
           </div>
-
         </div>
       </section>
 
