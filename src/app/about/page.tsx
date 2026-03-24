@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { Users, Award, HeartHandshake } from "lucide-react";
+import { Users, Award, HeartHandshake, Eye, Target, Heart, Star, Crown, Clock } from "lucide-react";
 
 export default function About() {
   return (
@@ -69,8 +69,47 @@ export default function About() {
         </div>
       </section>
 
+      {/* Vision & Mission */}
+      <section className="py-24 bg-white border-b border-primary/10">
+        <div className="container mx-auto px-4 md:px-8">
+          <div className="grid md:grid-cols-2 gap-12">
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="bg-background-cream p-10 rounded-3xl border border-primary/10 shadow-sm flex flex-col items-center text-center"
+            >
+              <div className="w-16 h-16 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-6">
+                <Eye size={32} />
+              </div>
+              <h2 className="font-serif text-3xl text-primary-dark mb-4">Our Vision</h2>
+              <p className="text-text-muted text-lg leading-relaxed font-light">
+                To provide a dignified world-class royal service to all our clients.
+              </p>
+            </motion.div>
+
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="bg-primary-dark text-white p-10 rounded-3xl shadow-lg flex flex-col items-center text-center"
+            >
+              <div className="w-16 h-16 rounded-full bg-white/10 text-white flex items-center justify-center mb-6 relative overflow-hidden">
+                <Target size={32} className="relative z-10" />
+              </div>
+              <h2 className="font-serif text-3xl mb-4">Our Mission</h2>
+              <p className="text-white/80 text-lg leading-relaxed font-light">
+                To offer a seamless, dignified service that respects cultural and religious beliefs of our clients.
+              </p>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
       {/* Values */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-background-cream">
         <div className="container mx-auto px-4 md:px-8">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
@@ -82,11 +121,13 @@ export default function About() {
             <p className="text-text-muted text-lg">The principles that guide every aspect of our care.</p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-center">
             {[
-              { icon: HeartHandshake, title: "Empathy", desc: "We listen with open hearts and provide emotional comfort during times of immense grief." },
-              { icon: Award, title: "Excellence", desc: "We strive for perfection in every detail, ensuring dignified and flawless arrangements." },
-              { icon: Users, title: "Community", desc: "We are deeply rooted in our community, dedicated to serving families from all walks of life." },
+              { icon: Heart, title: "Empathy", desc: "Understanding and sharing the feelings of our clients during their difficult times." },
+              { icon: Star, title: "Quality Service", desc: "Delivering excellence and exceeding expectations in every arrangement." },
+              { icon: Crown, title: "Dignity", desc: "Honoring every individual with the utmost respect and reverence." },
+              { icon: Users, title: "Team Work", desc: "Collaborating seamlessly to provide comprehensive and unwavering support." },
+              { icon: Clock, title: "Timeless", desc: "Creating enduring memories and legacies that stand the test of time." },
             ].map((val, i) => (
               <motion.div 
                 key={i}
@@ -94,7 +135,7 @@ export default function About() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1, duration: 0.5 }}
-                className="p-8 bg-background-cream rounded-2xl border border-black/5 text-center"
+                className={`p-8 bg-white rounded-2xl border border-black/5 text-center shadow-sm hover:shadow-md transition-shadow ${i === 3 ? 'lg:col-start-1 lg:ml-auto' : ''} ${i === 4 ? 'sm:col-span-2 lg:col-span-1 lg:col-start-2 lg:mr-auto sm:max-w-md sm:mx-auto lg:max-w-full' : ''}`}
               >
                 <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6">
                   <val.icon className="text-primary" size={32} />

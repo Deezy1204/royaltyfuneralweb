@@ -1,22 +1,28 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight, Heart, Shield, Clock } from "lucide-react";
-import { Phone } from "lucide-react"; // Added Phone import
+import { Phone, CheckCircle2, DollarSign, Map, HeartHandshake } from "lucide-react";
 
 export default function Home() {
+  const { scrollY } = useScroll();
+  const textY = useTransform(scrollY, [0, 800], [0, 250]);
+
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-primary-dark">
       {/* Hero Section */}
-      <section className="relative h-[90vh] flex items-center justify-center overflow-hidden">
+      <section className="sticky top-0 h-screen flex items-center justify-center overflow-hidden z-0">
         <div className="absolute inset-0 bg-primary-dark/90 z-10" />
         <div 
           className="absolute inset-0 z-0 bg-cover bg-center"
           style={{ backgroundImage: 'url("https://images.pexels.com/photos/17794572/pexels-photo-17794572.jpeg")' }}
         />
         
-        <div className="container relative z-20 px-4 md:px-8 text-center text-white mt-16">
+        <motion.div 
+          style={{ y: textY }}
+          className="container relative z-20 px-4 md:px-8 text-center text-white mt-16"
+        >
           <motion.h1 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -50,11 +56,19 @@ export default function Home() {
               Request a Consultation
             </Link>
           </motion.div>
-        </div>
+        </motion.div>
       </section>
 
-      {/* Values Section */}
-      <section className="py-24 bg-background-cream">
+      {/* Main Content Layer (Scrolls over Hero) */}
+      <motion.div 
+        initial={{ opacity: 0.8, scale: 0.95 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.7, ease: "easeOut" }}
+        viewport={{ once: true, amount: 0.05 }}
+        className="relative z-30 bg-background-cream flex flex-col pt-12 shadow-[0_-15px_40px_rgba(0,0,0,0.5)] origin-bottom rounded-t-[3rem] overflow-hidden"
+      >
+        {/* Values Section */}
+        <section className="py-24 bg-background-cream">
         <div className="container px-4 md:px-8 mx-auto">
           <motion.div 
             initial={{ opacity: 0, y: 40 }}
@@ -90,6 +104,79 @@ export default function Home() {
                 <p className="text-text-muted">{feature.desc}</p>
               </motion.div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Benefits Section */}
+      <section className="py-24 bg-white border-t border-primary/5">
+        <div className="container px-4 md:px-8 mx-auto">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="font-serif text-4xl md:text-5xl text-primary-dark mb-6">Exclusive Member Benefits</h2>
+            <p className="text-text-muted text-lg">
+              When you choose Royalty Funeral Services, you gain access to comprehensive benefits designed to provide complete peace of mind.
+            </p>
+          </div>
+
+          {/* Highlighted Catchy Benefits */}
+          <div className="grid md:grid-cols-3 gap-6 mb-16">
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="bg-primary-dark text-white p-8 rounded-2xl shadow-lg relative overflow-hidden"
+            >
+              <DollarSign className="absolute -right-4 -top-4 w-32 h-32 text-white/5" />
+              <h3 className="font-serif text-2xl mb-4 text-primary-light">Premium Cash-Back</h3>
+              <p className="text-white/80 font-light text-lg">Enjoy 1 full year of premium cash-back for every claim-free 5-year period.</p>
+            </motion.div>
+
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="bg-primary text-white p-8 rounded-2xl shadow-lg relative overflow-hidden"
+            >
+              <Map className="absolute -right-4 -top-4 w-32 h-32 text-white/10" />
+              <h3 className="font-serif text-2xl mb-4">Nationwide Coverage</h3>
+              <p className="text-white/80 font-light text-lg">Burial anywhere within the borders of Zimbabwe at no extra cost to you or your family.</p>
+            </motion.div>
+
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="bg-background-cream p-8 rounded-2xl border border-primary/10 shadow-sm relative overflow-hidden text-primary-dark"
+            >
+              <HeartHandshake className="absolute -right-4 -top-4 w-32 h-32 text-primary/5" />
+              <h3 className="font-serif text-2xl mb-4 text-primary">No Age Limit</h3>
+              <p className="text-text-muted font-light text-lg">Cover starting at just $6 per individual, ensuring everyone can plan for the future with dignity.</p>
+            </motion.div>
+          </div>
+
+          {/* Expanded Benefits List */}
+          <div className="bg-background-cream/50 p-8 md:p-12 rounded-3xl border border-primary/5">
+            <h3 className="font-serif text-2xl text-primary-dark mb-8 text-center border-b border-primary/10 pb-4 inline-block mx-auto flex justify-center">Comprehensive Funeral Services Included</h3>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-y-4 gap-x-8">
+              {[
+                "Grocery Allowance & Airtime",
+                "Body Removal & Mortuary Services",
+                "Body Wash & Professional Dressing",
+                "Quality Casket & Hearse Provision",
+                "Transport for Mourners",
+                "Repatriation Services",
+                "Funeral Cash Plan",
+                "Optional Spousal/Principal Death Benefit"
+              ].map((benefit, i) => (
+                <div key={i} className="flex items-start gap-3">
+                  <CheckCircle2 className="text-primary shrink-0 mt-1" size={20} />
+                  <span className="text-gray-700 font-medium">{benefit}</span>
+                </div>
+              ))}
+            </div>
+            <p className="text-sm text-text-muted mt-8 text-center italic">* Certain benefits are subject to waiting periods and chosen plans. E.g., The $6 plan includes a 2-tier casket, hearse, and a $50 cash allowance with a 6-month waiting period.</p>
           </div>
         </div>
       </section>
@@ -163,6 +250,8 @@ export default function Home() {
           </motion.div>
         </div>
       </section>
+      
+      </motion.div>
     </div>
   );
 }

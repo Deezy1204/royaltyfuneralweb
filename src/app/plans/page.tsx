@@ -82,7 +82,7 @@ const spousalDeathOptions = [
 ];
 
 
-export default function Policies() {
+export default function PlansAndPricing() {
   const [selectedPlanId, setSelectedPlanId] = useState<string>("white");
   const [selectedCategory, setSelectedCategory] = useState<PlanCategory>("Single life");
   const [selectedOptionIndex, setSelectedOptionIndex] = useState<number>(0);
@@ -127,7 +127,7 @@ export default function Policies() {
             animate={{ opacity: 1, y: 0 }}
             className="font-serif text-5xl md:text-6xl mb-6"
           >
-            Funeral Policy Options
+            Plans & Pricing
           </motion.h1>
           <motion.p
             initial={{ opacity: 0 }}
@@ -135,7 +135,7 @@ export default function Policies() {
             transition={{ delay: 0.2 }}
             className="text-white/80 text-xl font-light"
           >
-            Secure your family's future and relieve them of financial burdens with our straightforward, comprehensive coverage plans in the policy options.
+            Transparent and flexible funeral cover designed for every family and budget.
           </motion.p>
         </div>
       </section>
