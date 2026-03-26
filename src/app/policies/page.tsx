@@ -93,16 +93,16 @@ export default function Policies() {
   // --- Calculations ---
   const activePlan = plans.find(p => p.id === selectedPlanId) || plans[0];
   const activeOptions = selectedCategory === "Single life" ? activePlan.singleLife : activePlan.family;
-  
+
   // Guard against varying array lengths if they switch categories
   const safeOptionIndex = selectedOptionIndex < activeOptions.length ? selectedOptionIndex : 0;
   const basePrice = activeOptions[safeOptionIndex].basePrice;
   const dependentPrice = selectedCategory === "Single life" ? activePlan.singleDependentPrice : activePlan.familyDependentPrice;
-  
+
   const totalDependentsCost = dependents * dependentPrice;
   const accidentalCost = accidentalDeathOptions[accidentalOption].price;
   const spousalCost = spousalDeathOptions[spousalOption].price;
-  
+
   const totalPremium = basePrice + totalDependentsCost + accidentalCost + spousalCost;
 
   // --- Handlers ---
@@ -117,14 +117,15 @@ export default function Policies() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen pt-20 bg-background-cream">
-      
+    <div className="flex flex-col min-h-screen bg-background-cream">
+
       {/* Header */}
       <section className="bg-primary-dark text-white py-16 md:py-24 border-b border-primary/10">
         <div className="container mx-auto px-4 md:px-8 text-center max-w-4xl">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.0 }}
             className="font-serif text-5xl md:text-6xl mb-6"
           >
             Funeral Policy Options
@@ -132,7 +133,7 @@ export default function Policies() {
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
+            transition={{ duration: 1.0, delay: 0.4 }}
             className="text-white/80 text-xl font-light"
           >
             Secure your family's future and relieve them of financial burdens with our straightforward, comprehensive coverage plans in the policy options.
@@ -143,12 +144,12 @@ export default function Policies() {
       {/* Main Content */}
       <div className="container mx-auto px-4 md:px-8 py-16">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
-          
+
           {/* Left Column: Plan Information */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.9 }}
             className="space-y-12"
           >
             <div className="mb-10">
@@ -185,7 +186,7 @@ export default function Policies() {
                 <ShieldPlus className="text-primary" size={28} />
                 <h3 className="font-serif text-3xl text-primary-dark">Optional Benefits</h3>
               </div>
-              
+
               <div className="space-y-6">
                 <div>
                   <h4 className="font-medium text-lg text-primary mb-2">Accidental Death Benefit (Lump-sum)</h4>
@@ -207,10 +208,10 @@ export default function Policies() {
           </motion.div>
 
           {/* Right Column: Premium Calculator */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ duration: 0.9, delay: 0.4 }}
             className="lg:sticky lg:top-32 h-fit"
           >
             <div className="bg-white p-8 md:p-10 rounded-3xl shadow-xl border border-primary/10">
@@ -229,8 +230,8 @@ export default function Policies() {
                 <div>
                   <label className="block text-sm font-medium text-primary-dark mb-2">Select Package</label>
                   <div className="relative">
-                    <select 
-                      value={selectedPlanId} 
+                    <select
+                      value={selectedPlanId}
                       onChange={handlePlanChange}
                       className="w-full appearance-none bg-background-cream border border-gray-200 text-gray-800 py-3 px-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
                     >
@@ -245,8 +246,8 @@ export default function Policies() {
                   <div>
                     <label className="block text-sm font-medium text-primary-dark mb-2">Coverage Type</label>
                     <div className="relative">
-                      <select 
-                        value={selectedCategory} 
+                      <select
+                        value={selectedCategory}
                         onChange={handleCategoryChange}
                         className="w-full appearance-none bg-background-cream border border-gray-200 text-gray-800 py-3 px-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary transition-all"
                       >
@@ -261,8 +262,8 @@ export default function Policies() {
                   <div>
                     <label className="block text-sm font-medium text-primary-dark mb-2">Specific Option</label>
                     <div className="relative">
-                      <select 
-                        value={safeOptionIndex} 
+                      <select
+                        value={safeOptionIndex}
                         onChange={(e) => setSelectedOptionIndex(Number(e.target.value))}
                         className="w-full appearance-none bg-background-cream border border-gray-200 text-gray-800 py-3 px-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary transition-all"
                       >
@@ -282,12 +283,12 @@ export default function Policies() {
                     <span className="text-primary">${dependentPrice}/each</span>
                   </label>
                   <div className="flex items-center gap-4">
-                    <button 
+                    <button
                       onClick={() => setDependents(Math.max(0, dependents - 1))}
                       className="w-12 h-12 rounded-xl bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-xl font-medium transition-colors"
                     >-</button>
                     <span className="w-12 text-center text-xl font-medium">{dependents}</span>
-                    <button 
+                    <button
                       onClick={() => setDependents(dependents + 1)}
                       className="w-12 h-12 rounded-xl bg-primary text-white hover:bg-primary-dark flex items-center justify-center text-xl font-medium transition-colors"
                     >+</button>
@@ -296,13 +297,13 @@ export default function Policies() {
 
                 <div className="pt-6 border-t border-gray-100 space-y-4">
                   <h3 className="font-medium text-primary-dark border-b pb-2">Optional Benefits</h3>
-                  
+
                   {/* Accidental Death */}
                   <div>
                     <label className="block text-sm text-gray-600 mb-2">Accidental Death Benefit</label>
                     <div className="relative">
-                      <select 
-                        value={accidentalOption} 
+                      <select
+                        value={accidentalOption}
                         onChange={(e) => setAccidentalOption(Number(e.target.value))}
                         className="w-full appearance-none bg-background-cream border border-gray-200 text-gray-800 py-3 px-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary transition-all"
                       >
@@ -320,8 +321,8 @@ export default function Policies() {
                   <div>
                     <label className="block text-sm text-gray-600 mb-2">Spousal/Principal Member Death</label>
                     <div className="relative">
-                      <select 
-                        value={spousalOption} 
+                      <select
+                        value={spousalOption}
                         onChange={(e) => setSpousalOption(Number(e.target.value))}
                         className="w-full appearance-none bg-background-cream border border-gray-200 text-gray-800 py-3 px-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary transition-all"
                       >
@@ -346,7 +347,7 @@ export default function Policies() {
                   </div>
                   <span className="text-white/80 mb-2">/ month</span>
                 </div>
-                
+
                 <p className="text-xs text-center text-gray-400 mt-4">
                   *This is an estimate. Final premiums are subject to underwriting and terms & conditions.
                 </p>

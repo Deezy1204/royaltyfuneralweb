@@ -21,7 +21,6 @@ export default function Header() {
     { name: "About Us", href: "/about" },
     { name: "Our Services", href: "/services" },
     { name: "Policy Options", href: "/policies" },
-    { name: "Resources", href: "/resources" },
     { name: "Contact", href: "/contact" },
   ];
 
@@ -49,7 +48,7 @@ export default function Header() {
         </nav>
 
         <div className="hidden md:flex items-center gap-4">
-          <a href="tel:+26312345678" className="flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full font-semibold hover:bg-primary hover:text-white transition-colors">
+          <a href="tel:+263717874750" className="flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full font-semibold hover:bg-primary hover:text-white transition-colors">
             <Phone size={16} />
             <span className="hidden lg:inline">24/7 Support</span>
           </a>
@@ -72,7 +71,7 @@ export default function Header() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "100vh" }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
             className="md:hidden fixed inset-0 top-[72px] bg-background-cream z-40 overflow-y-auto border-t border-primary/10"
           >
             <div className="container mx-auto px-4 py-8 flex flex-col gap-6">
@@ -96,7 +95,7 @@ export default function Header() {
               </nav>
 
               <div className="mt-8 flex justify-center">
-                <a href="tel:+26312345678" className="flex items-center justify-center gap-2 w-full max-w-sm px-6 py-4 bg-primary text-white rounded-xl font-medium shadow-lg hover:bg-primary-dark transition-colors">
+                <a href="tel:+263717874750" className="flex items-center justify-center gap-2 w-full max-w-sm px-6 py-4 bg-primary text-white rounded-xl font-medium shadow-lg hover:bg-primary-dark transition-colors">
                   <Phone size={20} />
                   <span>Call 24/7 Support</span>
                 </a>

@@ -1,0 +1,140 @@
+{
+  "-OmDwnSWo1viMeRVnBSg": {
+    "arrearsAmount": 0,
+    "clientId": "-OmDwnN7Ipnidu5cGcjX",
+    "coverAmount": 15000,
+    "createdAt": "2025-12-10T09:20:39.706Z",
+    "effectiveDate": "2025-12-10T09:20:39.706Z",
+    "inceptionDate": "2025-12-10T09:20:39.706Z",
+    "lastPaymentDate": "2026-02-26T00:00:00.000Z",
+    "paymentFrequency": "MONTHLY",
+    "paymentMethod": "CASH",
+    "planType": "GOLD",
+    "policyNumber": "POL-20260224-0953",
+    "policyType": "INDIVIDUAL",
+    "premiumAmount": 150,
+    "renewalDate": "2027-02-24T09:20:39.706Z",
+    "status": "ACTIVE",
+    "waitingPeriodEnd": "2026-03-11T09:20:39.706Z"
+  },
+  "-OmOFpKPD4ceqIciwh3j": {
+    "arrearsAmount": 0,
+    "clientId": "-OmOFpFkQPzv3svRFIEM",
+    "coverAmount": 50000,
+    "createdAt": "2026-02-26T09:24:18.803Z",
+    "dependents": {
+      "dep_1772097858803_0": {
+        "clientId": "-OmOFpFkQPzv3svRFIEM",
+        "coverAmount": 0,
+        "dateOfBirth": "1971-02-03",
+        "firstName": "Silibaziso",
+        "gender": "Female",
+        "idNumber": "56786345Z46",
+        "lastName": "Moyo",
+        "policyId": "-OmOFpKPD4ceqIciwh3j",
+        "relationship": "PARENT",
+        "waitingPeriodEnd": "2026-08-26T09:24:18.803Z"
+      }
+    },
+    "effectiveDate": "2026-02-26T09:24:18.803Z",
+    "inceptionDate": "2026-02-26T09:24:18.803Z",
+    "lastPaymentDate": "2026-03-02T00:00:00.000Z",
+    "paymentFrequency": "MONTHLY",
+    "paymentMethod": "CARD",
+    "planType": "PURPLE",
+    "policyNumber": "POL-20260226-4538",
+    "policyType": "FAMILY",
+    "premiumAmount": 580,
+    "renewalDate": "2027-02-26T09:24:18.803Z",
+    "status": "ACTIVE",
+    "waitingPeriodEnd": "2026-08-26T09:24:18.803Z"
+  },
+  "-Omhu9IVYZhP49UUdbrW": {
+    "clientId": "-Omhu9EBX61ZwVxNdViZ",
+    "coverAmount": 35000,
+    "createdAt": "2026-03-02T09:37:11.748Z",
+    "dependents": {
+      "dep_1772444231748_0": {
+        "clientId": "-Omhu9EBX61ZwVxNdViZ",
+        "coverAmount": 0,
+        "dateOfBirth": "1997-08-12",
+        "firstName": "Peniel",
+        "gender": "Male",
+        "idNumber": "7845674853",
+        "lastName": "Ncube",
+        "policyId": "-Omhu9IVYZhP49UUdbrW",
+        "relationship": "SIBLING",
+        "waitingPeriodEnd": "2026-09-02T09:37:11.748Z"
+      },
+      "dep_1772444231748_1": {
+        "clientId": "-Omhu9EBX61ZwVxNdViZ",
+        "coverAmount": 0,
+        "dateOfBirth": "2008-03-08",
+        "firstName": "Hope",
+        "gender": "Male",
+        "idNumber": "345934598753",
+        "lastName": "Ncube",
+        "policyId": "-Omhu9IVYZhP49UUdbrW",
+        "relationship": "SIBLING",
+        "waitingPeriodEnd": "2026-09-02T09:37:11.748Z"
+      }
+    },
+    "effectiveDate": "2026-03-02T09:37:11.748Z",
+    "inceptionDate": "2026-03-02T09:37:11.748Z",
+    "paymentFrequency": "QUARTERLY",
+    "paymentMethod": "CASH",
+    "planType": "BLUE",
+    "policyNumber": "POL-20260302-1040",
+    "policyType": "FAMILY",
+    "premiumAmount": 470,
+    "renewalDate": "2027-03-02T09:37:11.748Z",
+    "status": "ACTIVE",
+    "waitingPeriodEnd": "2026-09-02T09:37:11.748Z"
+  },
+  "-Omrr1kTQzx7KXRnQzCt": {
+    "arrearsAmount": 0,
+    "clientId": "-Omrr1fgG3CC5isqjFfW",
+    "coverAmount": 25000,
+    "createdAt": "2026-03-04T07:59:50.171Z",
+    "dependents": {
+      "dep_1772611415428_71": {
+        "clientId": "-Omrr1fgG3CC5isqjFfW",
+        "dateOfBirth": "1971-02-12",
+        "firstName": "Jane Doe",
+        "idNumber": "23h4564564564",
+        "lastName": "",
+        "policyId": "-Omrr1kTQzx7KXRnQzCt",
+        "relationship": "Dependent",
+        "waitingPeriodEnd": "2026-09-04T08:03:35.428Z"
+      }
+    },
+    "effectiveDate": "2026-03-04T07:59:50.171Z",
+    "inceptionDate": "2026-03-04T07:59:50.171Z",
+    "lastPaymentDate": "2026-03-04T00:00:00.000Z",
+    "paymentFrequency": "MONTHLY",
+    "paymentMethod": "CASH",
+    "planType": "GOLD",
+    "policyNumber": "POL-20260304-9885",
+    "policyType": "INDIVIDUAL",
+    "premiumAmount": 250,
+    "renewalDate": "2027-03-04T07:59:50.171Z",
+    "status": "ACTIVE",
+    "waitingPeriodEnd": "2026-09-04T07:59:50.171Z"
+  },
+  "-OnRtzR770zg8-SCz8fZ": {
+    "clientId": "-OnRtzLw-_myH7Nj96y7",
+    "coverAmount": 15000,
+    "createdAt": "2026-03-11T12:38:36.447Z",
+    "effectiveDate": "2026-03-11T12:38:36.447Z",
+    "inceptionDate": "2026-03-11T12:38:36.447Z",
+    "paymentFrequency": "MONTHLY",
+    "paymentMethod": "CASH",
+    "planType": "WHITE",
+    "policyNumber": "POL-20260311-7583",
+    "policyType": "INDIVIDUAL",
+    "premiumAmount": 150,
+    "renewalDate": "2027-03-11T12:38:36.447Z",
+    "status": "ACTIVE",
+    "waitingPeriodEnd": "2026-06-09T12:38:36.447Z"
+  }
+}

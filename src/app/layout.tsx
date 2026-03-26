@@ -17,6 +17,9 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   title: "Royalty Funeral Services | Dignity, Respect, Comfort",
   description: "Providing compassionate, respectful, and dignified funeral services, cremation, and grief support.",
+  icons: {
+    icon: "/src/app/logo.ico",
+  },
 };
 
 export default function RootLayout({

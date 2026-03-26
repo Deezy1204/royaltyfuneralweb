@@ -22,20 +22,6 @@ const services = [
     description: "Providing a tranquil final resting place. We assist with selecting caskets, securing burial plots, organizing graveside committal services, and arranging for permanent memorials or headstones.",
   },
   {
-    id: "cremation",
-    title: "Cremation Services",
-    icon: FileType2,
-    image: "https://images.pexels.com/photos/31046047/pexels-photo-31046047.jpeg",
-    description: "Offering flexible and dignified cremation options. Families can choose an urn, hold a memorial service before or after the cremation, or arrange for the scattering of ashes in a meaningful location.",
-  },
-  {
-    id: "grief",
-    title: "Grief Support",
-    icon: Heart,
-    image: "https://images.pexels.com/photos/17794572/pexels-photo-17794572.jpeg",
-    description: "Our care doesn't end after the service. We offer comprehensive grief counseling resources, support groups, and reading materials to guide your family through the healing journey.",
-  },
-  {
     id: "pre-planning",
     title: "Pre-planning",
     icon: BookHeart,
@@ -48,12 +34,13 @@ export default function Services() {
   const [activeTab, setActiveTab] = useState(services[0].id);
 
   return (
-    <div className="flex flex-col min-h-screen pt-20">
+    <div className="flex flex-col min-h-screen">
       <section className="bg-background-cream py-16 md:py-24 border-b border-primary/10">
         <div className="container mx-auto px-4 md:px-8 text-center max-w-4xl">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9 }}
             className="font-serif text-5xl md:text-6xl text-primary-dark mb-6"
           >
             Our Services
@@ -61,7 +48,7 @@ export default function Services() {
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
+            transition={{ duration: 1.0, delay: 0.4 }}
             className="text-text-muted text-xl font-light"
           >
             Comprehensive, compassionate care dedicated to honoring every life.
@@ -105,7 +92,7 @@ export default function Services() {
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -20 }}
-                    transition={{ duration: 0.4 }}
+                    transition={{ duration: 0.8 }}
                     className="flex flex-col gap-8"
                   >
                     <div className="relative aspect-video rounded-3xl overflow-hidden shadow-xl">

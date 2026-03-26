@@ -5,20 +5,21 @@ import { Mail, MapPin, Phone, Send } from "lucide-react";
 
 export default function Contact() {
   return (
-    <div className="flex flex-col min-h-screen pt-20 bg-background-cream">
-      
+    <div className="flex flex-col min-h-screen bg-background-cream">
+
       <section className="py-20 text-center container mx-auto px-4 md:px-8 max-w-3xl">
-        <motion.h1 
+        <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9 }}
           className="font-serif text-5xl md:text-6xl text-primary-dark mb-6"
         >
           Contact Us
         </motion.h1>
-        <motion.p 
+        <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
+          transition={{ duration: 1.0, delay: 0.4 }}
           className="text-text-muted text-xl font-light mb-12"
         >
           We are available 24 hours a day, 7 days a week to assist you. Please reach out to us with any questions or for immediate assistance.
@@ -27,21 +28,21 @@ export default function Contact() {
 
       <section className="pb-24 container mx-auto px-4 md:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-0 md:gap-16 bg-white rounded-3xl shadow-xl overflow-hidden">
-          
+
           {/* Contact Details & Map Area */}
           <div className="bg-primary-dark text-white p-6 sm:p-8 md:p-12 flex flex-col justify-between">
             <div>
               <h2 className="font-serif text-3xl mb-8">Get in Touch</h2>
-              
+
               <div className="space-y-6 md:space-y-8">
                 <div className="flex items-start gap-4 hover:bg-white/5 p-3 sm:p-4 rounded-xl transition-colors cursor-pointer">
                   <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white/10 rounded-full flex items-center justify-center shrink-0">
                     <Phone size={20} className="text-white sm:w-6 sm:h-6" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <h4 className="font-medium text-lg sm:text-xl mb-1">24/7 Phone Support</h4>
-                    <p className="text-white/70 tracking-wide text-sm sm:text-base break-words">+263 242 123 456</p>
-                    <p className="text-white/70 tracking-wide text-sm sm:text-base break-words">+263 772 123 456 (Mobile/WhatsApp)</p>
+                    <h4 className="font-medium text-lg sm:text-xl mb-1">24/7 Hotline Numbers</h4>
+                    <p className="text-white/70 tracking-wide text-sm sm:text-base break-words">+263 71 787 4750</p>
+                    <p className="text-white/70 tracking-wide text-sm sm:text-base break-words">+263 71 787 4747</p>
                   </div>
                 </div>
 
@@ -63,8 +64,8 @@ export default function Contact() {
                   <div className="min-w-0 flex-1">
                     <h4 className="font-medium text-lg sm:text-xl mb-1">Main Office</h4>
                     <p className="text-white/70 tracking-wide leading-relaxed text-sm sm:text-base break-words">
-                      123 Royalty Avenue<br />
-                      Borrowdale, Bulawayo<br />
+                      Stand 15383, Khami Road<br />
+                      Kelvin North 11, Bulawayo<br />
                       Zimbabwe
                     </p>
                   </div>
@@ -76,7 +77,7 @@ export default function Contact() {
           {/* Contact Form */}
           <div className="p-6 sm:p-8 md:p-12">
             <h2 className="font-serif text-3xl text-primary-dark mb-8">Send Us a Message</h2>
-            
+
             <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="space-y-2">

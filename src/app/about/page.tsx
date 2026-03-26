@@ -14,7 +14,7 @@ export default function About() {
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 1.0 }}
             className="font-serif text-5xl md:text-6xl mb-6 tracking-tight"
           >
             About Us
@@ -22,7 +22,7 @@ export default function About() {
           <motion.p 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ duration: 1.0, delay: 0.4 }}
             className="text-white/80 text-xl font-light"
           >
             A legacy of compassionate care, honoring generations with dignity and profound respect.
@@ -38,7 +38,7 @@ export default function About() {
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.7 }}
+              transition={{ duration: 0.9 }}
             >
               <h2 className="font-serif text-4xl text-primary-dark mb-6">Our Story</h2>
               <div className="space-y-4 text-text-muted text-lg font-light leading-relaxed">
@@ -55,7 +55,7 @@ export default function About() {
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.7 }}
+              transition={{ duration: 1.1 }}
               className="relative aspect-square md:aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl"
             >
               <Image 
@@ -77,7 +77,7 @@ export default function About() {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.9 }}
               className="bg-background-cream p-10 rounded-3xl border border-primary/10 shadow-sm flex flex-col items-center text-center"
             >
               <div className="w-16 h-16 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-6">
@@ -93,7 +93,7 @@ export default function About() {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              transition={{ duration: 0.9, delay: 0.3 }}
               className="bg-primary-dark text-white p-10 rounded-3xl shadow-lg flex flex-col items-center text-center"
             >
               <div className="w-16 h-16 rounded-full bg-white/10 text-white flex items-center justify-center mb-6 relative overflow-hidden">
@@ -134,7 +134,7 @@ export default function About() {
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.1, duration: 0.5 }}
+                transition={{ delay: i * 0.15, duration: 0.8 }}
                 className={`p-8 bg-white rounded-2xl border border-black/5 text-center shadow-sm hover:shadow-md transition-shadow ${i === 3 ? 'lg:col-start-1 lg:ml-auto' : ''} ${i === 4 ? 'sm:col-span-2 lg:col-span-1 lg:col-start-2 lg:mr-auto sm:max-w-md sm:mx-auto lg:max-w-full' : ''}`}
               >
                 <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6">

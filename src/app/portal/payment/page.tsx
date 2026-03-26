@@ -1,14 +1,22 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Copy, CreditCard, Landmark, CheckCircle2 } from "lucide-react";
+import { Copy, CreditCard, Landmark, CheckCircle2, AlertCircle } from "lucide-react";
 import { useState } from "react";
+import { usePortal } from "../layout";
+
+function formatCurrency(amount: number) {
+  return `$${(amount || 0).toFixed(2)}`;
+}
 
 export default function MakePayment() {
+  const { policy } = usePortal();
   const [copied, setCopied] = useState(false);
 
+  if (!policy) return null;
+
   const handleCopy = () => {
-    navigator.clipboard.writeText("RFS-88492-23");
+    navigator.clipboard.writeText(policy.policyNumber);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -36,7 +44,7 @@ export default function MakePayment() {
             <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Amount to Pay (USD)</label>
-                <input type="text" readOnly value="$35.00" className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl font-medium text-gray-900 focus:outline-none" />
+                <input type="text" readOnly value={formatCurrency(policy.premiumAmount + (policy.arrearsAmount || 0))} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl font-medium text-gray-900 focus:outline-none" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Payment Method</label>
@@ -85,7 +93,7 @@ export default function MakePayment() {
               <div className="flex justify-between pt-2 items-center bg-blue-50/50 -mx-6 px-6 pb-2 -mb-6 rounded-b-xl border-t border-blue-100">
                 <span className="text-gray-700 font-sans font-medium">Your Reference:</span>
                 <div className="flex items-center gap-2">
-                  <span className="font-bold text-primary tracking-wider">RFS-88492-23</span>
+                  <span className="font-bold text-primary tracking-wider">{policy.policyNumber}</span>
                   <button onClick={handleCopy} className="text-gray-400 hover:text-primary transition-colors focus:outline-none ml-2" title="Copy Reference">
                     {copied ? <CheckCircle2 size={16} className="text-green-500" /> : <Copy size={16} />}
                   </button>
@@ -108,22 +116,20 @@ export default function MakePayment() {
             <div className="space-y-3 text-sm mb-6">
               <div className="flex justify-between text-gray-600">
                 <span>Policy Premium</span>
-                <span>$35.00</span>
+                <span>{formatCurrency(policy.premiumAmount)}</span>
               </div>
               <div className="flex justify-between text-gray-600">
-                <span>Late Fees</span>
-                <span>$0.00</span>
+                <span>Arrears</span>
+                <span>{formatCurrency(policy.arrearsAmount || 0)}</span>
               </div>
               <div className="flex justify-between font-bold text-lg text-primary-dark pt-3 border-t border-gray-200 mt-2">
                 <span>Total Due</span>
-                <span>$35.00</span>
+                <span>{formatCurrency(policy.premiumAmount + (policy.arrearsAmount || 0))}</span>
               </div>
             </div>
             
             <div className="bg-yellow-50 text-yellow-800 text-xs p-3 rounded-lg flex items-start gap-2 border border-yellow-100">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 mt-0.5 shrink-0">
-                <path fillRule="evenodd" d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z" clipRule="evenodd" />
-              </svg>
+              <AlertCircle size={16} className="shrink-0 mt-0.5" />
               <span>Please ensure your payment is completed before the 1st of next month to avoid policy suspension.</span>
             </div>
           </motion.div>

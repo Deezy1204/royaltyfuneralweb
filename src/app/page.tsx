@@ -21,12 +21,12 @@ export default function Home() {
         
         <motion.div 
           style={{ y: textY }}
-          className="container relative z-20 px-4 md:px-8 text-center text-white mt-16"
+          className="container relative z-20 px-4 md:px-8 text-center text-white"
         >
           <motion.h1 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
             className="font-serif text-5xl md:text-7xl lg:text-8xl mb-6 font-medium tracking-tight text-white/95"
           >
             Honoring Life <br />
@@ -36,7 +36,7 @@ export default function Home() {
           <motion.p 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
+            transition={{ duration: 1.0, delay: 0.5 }}
             className="max-w-2xl mx-auto text-lg md:text-xl text-white/80 mb-10 font-light"
           >
             Providing compassionate, respectful, and dignified funeral services, cremation, and grief support to help families navigate their time of need.
@@ -45,7 +45,7 @@ export default function Home() {
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
+            transition={{ duration: 1.0, delay: 0.7 }}
             className="flex flex-col sm:flex-row gap-4 justify-center items-center"
           >
             <Link href="/services" className="bg-white text-primary-dark px-8 py-4 rounded-full font-medium hover:bg-white/90 transition-all flex items-center gap-2 group shadow-xl">
@@ -63,7 +63,7 @@ export default function Home() {
       <motion.div 
         initial={{ opacity: 0.8, scale: 0.95 }}
         whileInView={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.7, ease: "easeOut" }}
+        transition={{ duration: 1.1, ease: "easeOut" }}
         viewport={{ once: true, amount: 0.05 }}
         className="relative z-30 bg-background-cream flex flex-col pt-12 shadow-[0_-15px_40px_rgba(0,0,0,0.5)] origin-bottom rounded-t-[3rem] overflow-hidden"
       >
@@ -74,7 +74,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7 }}
+            transition={{ duration: 1.1 }}
             className="text-center max-w-3xl mx-auto mb-16"
           >
             <h2 className="font-serif text-4xl md:text-5xl text-primary-dark mb-6">Our Commitment</h2>
@@ -94,7 +94,7 @@ export default function Home() {
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
+                transition={{ duration: 0.9, delay: i * 0.15 }}
                 className="bg-white p-8 rounded-2xl shadow-sm border border-primary/5 hover:shadow-md transition-shadow text-center group"
               >
                 <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6 group-hover:bg-primary transition-colors duration-300">
@@ -124,6 +124,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
+              transition={{ duration: 1.0 }}
               className="bg-primary-dark text-white p-8 rounded-2xl shadow-lg relative overflow-hidden"
             >
               <DollarSign className="absolute -right-4 -top-4 w-32 h-32 text-white/5" />
@@ -135,7 +136,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
+              transition={{ duration: 1.0, delay: 0.15 }}
               className="bg-primary text-white p-8 rounded-2xl shadow-lg relative overflow-hidden"
             >
               <Map className="absolute -right-4 -top-4 w-32 h-32 text-white/10" />
@@ -147,7 +148,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
+              transition={{ duration: 1.1, delay: 0.3 }}
               className="bg-background-cream p-8 rounded-2xl border border-primary/10 shadow-sm relative overflow-hidden text-primary-dark"
             >
               <HeartHandshake className="absolute -right-4 -top-4 w-32 h-32 text-primary/5" />
@@ -189,6 +190,7 @@ export default function Home() {
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
+              transition={{ duration: 1.0 }}
               className="max-w-2xl"
             >
               <h2 className="font-serif text-4xl md:text-5xl text-primary-dark mb-4">Our Services</h2>
@@ -198,6 +200,7 @@ export default function Home() {
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
+              transition={{ duration: 1.0, delay: 0.2 }}
             >
               <Link href="/services" className="text-primary font-medium hover:text-primary-dark flex items-center gap-2 mt-6 md:mt-0 underline-offset-4 hover:underline">
                 View All Services
@@ -216,7 +219,7 @@ export default function Home() {
                 initial={{ opacity: 0, scale: 0.95 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: i * 0.1 }}
+                transition={{ duration: 1.0, delay: i * 0.2 }}
                 className="group cursor-pointer"
               >
                 <div className="overflow-hidden rounded-2xl mb-6 aspect-[4/3] bg-gray-100 relative">

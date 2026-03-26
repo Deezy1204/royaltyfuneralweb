@@ -50,11 +50,15 @@ export default function Footer() {
             <ul className="space-y-4 text-white/80">
               <li className="flex items-start gap-3">
                 <MapPin className="shrink-0 mt-1" size={20} />
-                <span>123 Royalty Avenue, Bulawayo, Zimbabwe</span>
+                <span>Stand 15383, Khami Road Kelvin North 11, Bulawayo</span>
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="shrink-0" size={20} />
-                <span>+263 242 123 456 (24/7 Line)</span>
+                <span>+263 71 787 4750 (24/7 Hotline)</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <Phone className="shrink-0" size={20} />
+                <span>+263 71 787 4747 (24/7 Hotline)</span>
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="shrink-0" size={20} />
