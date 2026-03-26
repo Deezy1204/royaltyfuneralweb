@@ -4,7 +4,7 @@ import { useState, createContext, useContext, useEffect } from "react";
 import { db } from "@/lib/firebase";
 import { ref, query, orderByChild, equalTo, get, set } from "firebase/database";
 import { motion, AnimatePresence } from "framer-motion";
-import { Lock, KeyRound, Eye, EyeOff, LogOut, User, FileText, CreditCard, FileCheck } from "lucide-react";
+import { Lock, KeyRound, Eye, EyeOff, LogOut, User, FileText, CreditCard, FileCheck, Shield } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
@@ -75,42 +75,109 @@ const navLinks = [
   { name: "Make a Payment", href: "/portal/payment", icon: CreditCard },
 ];
 
-function PortalSidebar({ client, policy, onSignOut }: { client: ClientData; policy: PolicyData; onSignOut: () => void }) {
+function PortalNavbar({ client, policy, onSignOut }: { client: ClientData; policy: PolicyData; onSignOut: () => void }) {
   const pathname = usePathname();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   return (
-    <aside className="w-full md:w-64 bg-white border-r border-gray-200 shrink-0 h-auto md:h-[calc(100vh-80px)] md:sticky md:top-[40px] flex flex-col">
-      <div className="p-6 flex-1">
-        <div className="mb-6">
-          <h2 className="font-serif text-xl text-primary-dark mb-0.5">Client Portal</h2>
-          <p className="text-sm text-text-muted">Welcome, {client.firstName}</p>
-          <p className="text-xs text-gray-400 mt-1 font-mono">{policy.policyNumber}</p>
-        </div>
-        <nav className="space-y-2">
-          {navLinks.map(({ name, href, icon: Icon }) => (
-            <Link
-              key={href}
-              href={href}
-              className={`flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-colors ${pathname === href
-                ? "bg-primary/5 text-primary"
-                : "text-gray-600 hover:bg-gray-50 hover:text-primary"
-                }`}
+    <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100 shadow-sm">
+      <div className="max-w-7xl mx-auto px-4 md:px-8">
+        <div className="flex items-center justify-between h-20">
+          {/* Logo & Brand */}
+          <Link href="/portal" className="flex items-center gap-3 group">
+            <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-white shadow-lg group-hover:scale-105 transition-transform">
+              <Shield size={20} />
+            </div>
+            <div>
+              <span className="font-serif text-lg font-bold text-primary-dark block leading-none">Royalty</span>
+              <span className="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Portal</span>
+            </div>
+          </Link>
+
+          {/* Desktop Tabs */}
+          <div className="hidden md:flex items-center gap-1">
+            {navLinks.map(({ name, href, icon: Icon }) => (
+              <Link
+                key={href}
+                href={href}
+                className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-sm transition-all duration-300 ${pathname === href
+                  ? "bg-primary text-white shadow-md shadow-primary/20"
+                  : "text-gray-500 hover:text-primary hover:bg-primary/5"
+                  }`}
+              >
+                <Icon size={16} />
+                {name}
+              </Link>
+            ))}
+          </div>
+
+          {/* User Info & Actions */}
+          <div className="hidden md:flex items-center gap-6 border-l border-gray-100 pl-6 ml-2">
+            <div className="text-right">
+              <p className="text-sm font-bold text-gray-900">{client.firstName}</p>
+              <p className="text-[10px] font-mono text-gray-400 uppercase">{policy.policyNumber}</p>
+            </div>
+            <button
+              onClick={onSignOut}
+              className="w-10 h-10 rounded-full bg-red-50 text-red-500 flex items-center justify-center hover:bg-red-500 hover:text-white transition-all duration-300 shadow-sm"
+              title="Sign Out"
             >
-              <Icon size={18} />
-              {name}
-            </Link>
-          ))}
-        </nav>
+              <LogOut size={18} />
+            </button>
+          </div>
+
+          {/* Mobile Menu Toggle */}
+          <button 
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="md:hidden p-2 text-gray-500 hover:text-primary transition-colors"
+          >
+            {isMobileMenuOpen ? <FileText size={24} /> : <User size={24} />}
+          </button>
+        </div>
       </div>
-      <div className="p-6 border-t border-gray-100">
-        <button
-          onClick={onSignOut}
-          className="flex items-center gap-3 text-red-500 hover:text-red-700 transition-colors font-medium px-4 py-2 w-full text-left"
-        >
-          <LogOut size={18} />
-          Sign Out
-        </button>
-      </div>
-    </aside>
+
+      {/* Mobile Menu Dropdown */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            className="md:hidden bg-white border-t border-gray-100 overflow-hidden"
+          >
+            <div className="p-4 space-y-2">
+              <div className="px-4 py-3 bg-gray-50 rounded-2xl mb-4">
+                <p className="font-bold text-gray-900">{client.firstName} {client.lastName}</p>
+                <p className="text-xs text-gray-500 font-mono tracking-tight">{policy.policyNumber}</p>
+              </div>
+              <nav className="space-y-1">
+                {navLinks.map(({ name, href, icon: Icon }) => (
+                  <Link
+                    key={href}
+                    href={href}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className={`flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm transition-all ${pathname === href
+                      ? "bg-primary text-white"
+                      : "text-gray-600 hover:bg-gray-50"
+                      }`}
+                  >
+                    <Icon size={18} />
+                    {name}
+                  </Link>
+                ))}
+                <button
+                  onClick={onSignOut}
+                  className="flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm text-red-500 hover:bg-red-50 transition-all w-full text-left"
+                >
+                  <LogOut size={18} />
+                  Sign Out
+                </button>
+              </nav>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </nav>
   );
 }
 
@@ -370,13 +437,21 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
 
   return (
     <PortalContext.Provider value={{ client, policy, signOut: handleSignOut }}>
-      <div className="flex flex-col md:flex-row min-h-screen bg-gray-50">
-        <PortalSidebar client={client} policy={policy} onSignOut={handleSignOut} />
-        <main className="flex-1 p-6 md:p-10">
-          <div className="max-w-4xl mx-auto">
+      <div className="min-h-screen bg-[#fcfcf9] flex flex-col">
+        <PortalNavbar client={client} policy={policy} onSignOut={handleSignOut} />
+        <main className="flex-1 p-4 md:p-10">
+          <div className="max-w-6xl mx-auto">
             {children}
           </div>
         </main>
+        
+        <footer className="py-8 bg-white border-t border-gray-100">
+          <div className="max-w-6xl mx-auto px-4 text-center">
+            <p className="text-[10px] uppercase font-black tracking-widest text-gray-300">
+              Royalty Funeral Services Zimbabwe · Client Portal 2.0
+            </p>
+          </div>
+        </footer>
       </div>
     </PortalContext.Provider>
   );

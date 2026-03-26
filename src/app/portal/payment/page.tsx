@@ -73,27 +73,22 @@ export default function MakePayment() {
             </div>
             <p className="text-gray-600 mb-6 text-sm">For clients based in South Africa, you can make a direct Electronic Funds Transfer (EFT) to our FNB account. <strong className="text-red-500">Crucial:</strong> Use your policy number as the exact reference so we can allocate your payment.</p>
             
-            <div className="bg-gray-50 p-6 rounded-xl border border-gray-100 space-y-3 font-mono text-sm">
-              <div className="flex justify-between border-b border-gray-200 pb-2">
-                <span className="text-gray-500">Bank:</span>
-                <span className="font-medium text-gray-900">First National Bank (FNB)</span>
-              </div>
-              <div className="flex justify-between border-b border-gray-200 pb-2">
-                <span className="text-gray-500">Account Name:</span>
-                <span className="font-medium text-gray-900">Royalty Funeral Services SA</span>
-              </div>
-              <div className="flex justify-between border-b border-gray-200 pb-2">
-                <span className="text-gray-500">Account No:</span>
-                <span className="font-medium text-gray-900 tracking-wider">62123456789</span>
-              </div>
-              <div className="flex justify-between border-b border-gray-200 pb-2">
-                <span className="text-gray-500">Branch Code:</span>
-                <span className="font-medium text-gray-900">250655</span>
-              </div>
-              <div className="flex justify-between pt-2 items-center bg-blue-50/50 -mx-6 px-6 pb-2 -mb-6 rounded-b-xl border-t border-blue-100">
-                <span className="text-gray-700 font-sans font-medium">Your Reference:</span>
+            <div className="bg-gray-50 p-4 md:p-6 rounded-xl border border-gray-100 space-y-3 font-mono text-xs md:text-sm">
+              {[
+                ["Bank", "First National Bank (FNB)"],
+                ["Account Name", "Royalty Funeral Services SA"],
+                ["Account No", "62123456789"],
+                ["Branch Code", "250655"],
+              ].map(([label, value]) => (
+                <div key={label} className="flex flex-col sm:flex-row sm:justify-between border-b border-gray-200 pb-2 last:border-0 last:pb-0">
+                  <span className="text-gray-500">{label}:</span>
+                  <span className="font-bold text-gray-900">{value}</span>
+                </div>
+              ))}
+              <div className="flex flex-col sm:flex-row sm:justify-between pt-4 items-start sm:items-center bg-blue-50/50 -mx-4 md:-mx-6 px-4 md:px-6 pb-4 -mb-4 md:-mb-6 rounded-b-xl border-t border-blue-100 gap-2">
+                <span className="text-gray-700 font-sans font-medium text-sm">Your Reference:</span>
                 <div className="flex items-center gap-2">
-                  <span className="font-bold text-primary tracking-wider">{policy.policyNumber}</span>
+                  <span className="font-black text-primary tracking-wider text-sm">{policy.policyNumber}</span>
                   <button onClick={handleCopy} className="text-gray-400 hover:text-primary transition-colors focus:outline-none ml-2" title="Copy Reference">
                     {copied ? <CheckCircle2 size={16} className="text-green-500" /> : <Copy size={16} />}
                   </button>

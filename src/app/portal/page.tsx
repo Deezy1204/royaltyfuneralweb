@@ -70,9 +70,9 @@ export default function PortalDashboard() {
               ["Address", `${client.streetAddress}, ${client.city}`],
               ["Date of Birth", formatDate(client.dateOfBirth)],
             ].map(([label, value]) => (
-              <div key={label} className="grid grid-cols-3 gap-2 border-b border-gray-100 pb-2 last:border-0">
-                <span className="text-gray-500 font-medium col-span-1 text-xs">{label}</span>
-                <span className="text-gray-900 col-span-2 break-words">{value}</span>
+              <div key={label} className="flex flex-col sm:grid sm:grid-cols-3 gap-1 sm:gap-2 border-b border-gray-100 pb-3 sm:pb-2 last:border-0">
+                <span className="text-gray-400 font-bold uppercase text-[10px] tracking-wider sm:col-span-1">{label}</span>
+                <span className="text-gray-900 sm:col-span-2 break-words text-sm font-medium">{value}</span>
               </div>
             ))}
           </div>
