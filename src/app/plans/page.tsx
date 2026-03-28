@@ -1,107 +1,88 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Calculator, CheckCircle2, ShieldPlus, ChevronDown } from "lucide-react";
+import { 
+  ArrowRight, ShieldPlus, CheckCircle2, Calculator, 
+  ChevronDown, ChevronRight, Loader2, ShieldCheck,
+  Phone, DollarSign, Map, HeartHandshake
+} from "lucide-react";
+import { getPlanData } from "@/lib/firebase-utils";
 
 // --- Data Models ---
 type PlanCategory = "Single life" | "Family";
 
-interface PlanOption {
-  name: string;
-  basePrice: number;
-}
-
-interface PlanDetail {
-  id: string;
-  name: string;
-  color: string;
-  singleLife: PlanOption[];
-  singleDependentPrice: number;
-  family: PlanOption[];
-  familyDependentPrice: number;
-}
-
-const plans: PlanDetail[] = [
-  {
-    id: "white",
-    name: "Royalty White",
-    color: "bg-gray-100 text-gray-800 border-gray-200",
-    singleLife: [{ name: "Single life (1 person)", basePrice: 6 }],
-    singleDependentPrice: 3,
-    family: [{ name: "Family (5 people)", basePrice: 10 }],
-    familyDependentPrice: 3,
-  },
-  {
-    id: "gold",
-    name: "Royalty Gold",
-    color: "bg-yellow-100 text-yellow-800 border-yellow-300",
-    singleLife: [{ name: "Single life (1 person)", basePrice: 8 }],
-    singleDependentPrice: 4,
-    family: [
-      { name: "Family (5 people)", basePrice: 12 },
-      { name: "Royalty 10 (10 people)", basePrice: 20 },
-      { name: "Royalty 12 (12 people)", basePrice: 25 },
-    ],
-    familyDependentPrice: 4,
-  },
-  {
-    id: "blue",
-    name: "Royalty Blue",
-    color: "bg-blue-100 text-blue-800 border-blue-300",
-    singleLife: [{ name: "Single life (1 person)", basePrice: 12 }],
-    singleDependentPrice: 5,
-    family: [
-      { name: "Family (5 people)", basePrice: 15 },
-      { name: "Group", basePrice: 20 },
-    ],
-    familyDependentPrice: 5,
-  },
-  {
-    id: "purple",
-    name: "Royalty Purple",
-    color: "bg-purple-100 text-purple-800 border-purple-300",
-    singleLife: [{ name: "Single life (1 person)", basePrice: 15 }],
-    singleDependentPrice: 6,
-    family: [{ name: "Family (5 people)", basePrice: 20 }],
-    familyDependentPrice: 6,
-  },
-];
-
-const accidentalDeathOptions = [
-  { label: "None", price: 0 },
-  { label: "$750 Benefit", price: 5 },
-  { label: "$1500 Benefit", price: 7.5 },
-  { label: "$2000 Benefit", price: 10 },
-];
-
-const spousalDeathOptions = [
-  { label: "None", price: 0 },
-  { label: "$300 Benefit", price: 5 },
-  { label: "$600 Benefit", price: 10 },
-];
-
-
 export default function PlansAndPricing() {
-  const [selectedPlanId, setSelectedPlanId] = useState<string>("white");
-  const [selectedCategory, setSelectedCategory] = useState<PlanCategory>("Single life");
-  const [selectedOptionIndex, setSelectedOptionIndex] = useState<number>(0);
-  const [dependents, setDependents] = useState<number>(0);
-  const [accidentalOption, setAccidentalOption] = useState<number>(0);
-  const [spousalOption, setSpousalOption] = useState<number>(0);
+  const [plans, setPlans] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedPlanId, setSelectedPlanId] = useState("");
+  const [selectedOptionIndex, setSelectedOptionIndex] = useState(0);
+  const [dependents, setDependents] = useState(0);
+  const [accidentalOption, setAccidentalOption] = useState(0);
+  const [spousalOption, setSpousalOption] = useState(0);
+
+  // Dynamic benefits from RTDB
+  const [accidentalDeathOptions, setAccidentalDeathOptions] = useState<any[]>([{ id: 'none', label: 'None', premium: 0 }]);
+  const [spousalDeathOptions, setSpousalDeathOptions] = useState<any[]>([{ id: 'none', label: 'None', premium: 0 }]);
+
+  useEffect(() => {
+    async function fetchAllData() {
+      try {
+        const { plans: plansData, optionalBenefits } = await getPlanData();
+        setPlans(plansData);
+        if (plansData.length > 0) {
+          setSelectedPlanId(plansData[0].id);
+        }
+
+        if (optionalBenefits.ACCIDENTAL_DEATH) {
+          setAccidentalDeathOptions([
+            { id: 'none', label: 'None', premium: 0 },
+            ...optionalBenefits.ACCIDENTAL_DEATH.map((opt: any) => ({
+              ...opt,
+              label: `$${opt.cover} Benefit`
+            }))
+          ]);
+        }
+        if (optionalBenefits.SPOUSAL_DEATH) {
+          setSpousalDeathOptions([
+            { id: 'none', label: 'None', premium: 0 },
+            ...optionalBenefits.SPOUSAL_DEATH.map((opt: any) => ({
+              ...opt,
+              label: `$${opt.cover} Benefit`
+            }))
+          ]);
+        }
+      } catch (error) {
+        console.error("Failed to fetch plan data:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchAllData();
+  }, []);
 
   // --- Calculations ---
   const activePlan = plans.find(p => p.id === selectedPlanId) || plans[0];
-  const activeOptions = selectedCategory === "Single life" ? activePlan.singleLife : activePlan.family;
   
-  // Guard against varying array lengths if they switch categories
-  const safeOptionIndex = selectedOptionIndex < activeOptions.length ? selectedOptionIndex : 0;
-  const basePrice = activeOptions[safeOptionIndex].basePrice;
-  const dependentPrice = selectedCategory === "Single life" ? activePlan.singleDependentPrice : activePlan.familyDependentPrice;
+  if (loading || !activePlan) {
+    return (
+      <div className="flex flex-col min-h-screen pt-20 bg-background-cream items-center justify-center">
+        <Loader2 className="animate-spin text-primary" size={48} />
+        <p className="mt-4 text-primary-dark font-medium">Loading packages...</p>
+      </div>
+    );
+  }
+
+  const activeOptions = activePlan?.options || [];
+  
+  // Guard against varying array lengths
+  const safeOptionIndex = (activeOptions.length > 0 && selectedOptionIndex < activeOptions.length) ? selectedOptionIndex : 0;
+  const basePrice = activeOptions[safeOptionIndex]?.premium || 0;
+  const dependentPrice = activePlan?.dependentPremium || 0;
   
   const totalDependentsCost = dependents * dependentPrice;
-  const accidentalCost = accidentalDeathOptions[accidentalOption].price;
-  const spousalCost = spousalDeathOptions[spousalOption].price;
+  const accidentalCost = accidentalDeathOptions[accidentalOption]?.premium || 0;
+  const spousalCost = spousalDeathOptions[spousalOption]?.premium || 0;
   
   const totalPremium = basePrice + totalDependentsCost + accidentalCost + spousalCost;
 
@@ -111,21 +92,16 @@ export default function PlansAndPricing() {
     setSelectedOptionIndex(0); // Reset secondary option
   };
 
-  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedCategory(e.target.value as PlanCategory);
-    setSelectedOptionIndex(0); // Reset secondary option
-  };
-
   return (
     <div className="flex flex-col min-h-screen pt-20 bg-background-cream">
       
       {/* Header */}
-      <section className="bg-primary-dark text-white py-16 md:py-24 border-b border-primary/10">
+      <section className="bg-primary-dark text-white py-14 md:py-20 border-b border-primary/10">
         <div className="container mx-auto px-4 md:px-8 text-center max-w-4xl">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="font-serif text-5xl md:text-6xl mb-6"
+            className="font-serif text-4xl md:text-5xl mb-4"
           >
             Plans & Pricing
           </motion.h1>
@@ -133,7 +109,7 @@ export default function PlansAndPricing() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="text-white/80 text-xl font-light"
+            className="text-white/80 text-lg font-light"
           >
             Transparent and flexible funeral cover designed for every family and budget.
           </motion.p>
@@ -141,65 +117,87 @@ export default function PlansAndPricing() {
       </section>
 
       {/* Main Content */}
-      <div className="container mx-auto px-4 md:px-8 py-16">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
+      <div className="container mx-auto px-4 md:px-8 py-12">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
           
           {/* Left Column: Plan Information */}
           <motion.div 
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
-            className="space-y-12"
+            className="space-y-10"
           >
-            <div className="mb-10">
-              <h2 className="font-serif text-4xl text-primary-dark mb-4">Our Packages</h2>
-              <p className="text-text-muted text-lg">We offer four distinct plans to ensure you find the perfect coverage for your needs. Every plan comes with our signature compassionate care.</p>
+            <div className="text-center lg:text-left">
+              <h2 className="font-serif text-3xl text-primary-dark mb-2">Our Packages</h2>
+              <p className="text-text-muted text-sm uppercase tracking-wider font-bold opacity-60">Slick & Modern Protection</p>
             </div>
 
-            <div className="grid sm:grid-cols-2 gap-6">
+            <div className="grid md:grid-cols-2 gap-6">
               {plans.map((plan) => (
-                <div key={plan.id} className={`p-6 border rounded-2xl ${plan.color} shadow-sm`}>
-                  <h3 className="font-serif text-2xl mb-4 font-medium">{plan.name}</h3>
-                  <div className="space-y-4">
+                <div key={plan.id} className={`p-5 rounded-3xl border-2 ${plan.color} shadow-lg transition-all hover:shadow-xl relative overflow-hidden flex flex-col h-full group`}>
+                  <div className="flex justify-between items-start mb-4">
                     <div>
-                      <p className="font-semibold mb-1 border-b border-current pb-1 opacity-80">Single Life</p>
-                      <ul className="space-y-1 text-sm">
-                        {plan.singleLife.map(opt => <li key={opt.name}>{opt.name}: ${opt.basePrice}/mo</li>)}
-                        <li>Dependent: ${plan.singleDependentPrice}/mo</li>
-                      </ul>
+                      <h3 className="font-serif text-2xl font-bold mb-0.5">{plan.name}</h3>
+                      <div className="flex items-center gap-1.5 opacity-60">
+                        <ShieldCheck size={14} />
+                        <span className="text-[10px] uppercase tracking-widest font-bold">Comprehensive Cover</span>
+                      </div>
                     </div>
-                    <div>
-                      <p className="font-semibold mb-1 border-b border-current pb-1 opacity-80">Family</p>
-                      <ul className="space-y-1 text-sm">
-                        {plan.family.map(opt => <li key={opt.name}>{opt.name}: ${opt.basePrice}/mo</li>)}
-                        <li>Dependent: ${plan.familyDependentPrice}/mo</li>
-                      </ul>
+                  </div>
+                  
+                  <div className="flex-grow space-y-1 mb-4">
+                    {(plan.options || []).map((opt: any, idx: number) => (
+                      <div key={idx} className="flex justify-between items-center py-2 border-b border-current/10">
+                        <span className="text-sm font-medium">{opt.name}</span>
+                        <div className="text-right">
+                          <span className="text-xl font-bold font-serif">${opt.premium}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="pt-4 border-t border-current/20 mt-auto">
+                    <div className="flex justify-between items-center bg-white/30 p-3 rounded-2xl border border-current/10 shadow-sm">
+                      <div>
+                        <span className="text-[9px] uppercase font-bold opacity-60 block">Additional Dependent</span>
+                      </div>
+                      <div className="text-right">
+                        <span className="text-lg font-bold font-serif">${plan.dependentPremium}</span>
+                        <span className="text-[10px] opacity-60 ml-0.5">/mo</span>
+                      </div>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
 
-            <div className="bg-white p-8 rounded-3xl border border-primary/10 shadow-sm mt-8">
-              <div className="flex items-center gap-3 mb-6">
-                <ShieldPlus className="text-primary" size={28} />
-                <h3 className="font-serif text-3xl text-primary-dark">Optional Benefits</h3>
+            <div className="bg-white p-6 rounded-3xl border border-primary/10 shadow-sm">
+              <div className="flex items-center gap-3 mb-4">
+                <ShieldPlus className="text-primary" size={24} />
+                <h3 className="font-serif text-2xl text-primary-dark">Optional Benefits</h3>
               </div>
               
-              <div className="space-y-6">
+              <div className="grid md:grid-cols-2 gap-4">
                 <div>
-                  <h4 className="font-medium text-lg text-primary mb-2">Accidental Death Benefit (Lump-sum)</h4>
-                  <ul className="space-y-2 text-text-muted">
-                    <li className="flex items-center gap-2"><CheckCircle2 size={16} className="text-green-500" /> $750 benefit for $5/month</li>
-                    <li className="flex items-center gap-2"><CheckCircle2 size={16} className="text-green-500" /> $1500 benefit for $7.50/month</li>
-                    <li className="flex items-center gap-2"><CheckCircle2 size={16} className="text-green-500" /> $2000 benefit for $10/month</li>
+                  <h4 className="font-bold text-[10px] uppercase tracking-widest text-primary mb-2">Accidental Death Benefit (Lump-sum)</h4>
+                  <ul className="space-y-2">
+                    {accidentalDeathOptions.filter(o => o.id !== 'none').map((opt: any) => (
+                      <li key={opt.id} className="flex items-center justify-between p-2 rounded-xl bg-background-cream/50 border border-primary/5 text-xs">
+                        <span className="text-gray-700 font-medium">${opt.cover} Benefit</span>
+                        <span className="font-bold text-primary">${opt.premium}/mo</span>
+                      </li>
+                    ))}
                   </ul>
                 </div>
                 <div>
-                  <h4 className="font-medium text-lg text-primary mb-2">Spousal/Principal Member Death Benefit</h4>
-                  <ul className="space-y-2 text-text-muted">
-                    <li className="flex items-center gap-2"><CheckCircle2 size={16} className="text-green-500" /> $300 benefit for $5/month</li>
-                    <li className="flex items-center gap-2"><CheckCircle2 size={16} className="text-green-500" /> $600 benefit for $10/month</li>
+                  <h4 className="font-bold text-[10px] uppercase tracking-widest text-primary mb-2">Spousal/Principal Member Death Benefit</h4>
+                  <ul className="space-y-2">
+                    {spousalDeathOptions.filter(o => o.id !== 'none').map((opt: any) => (
+                      <li key={opt.id} className="flex items-center justify-between p-2 rounded-xl bg-background-cream/50 border border-primary/5 text-xs">
+                        <span className="text-gray-700 font-medium">${opt.cover} Benefit</span>
+                        <span className="font-bold text-primary">${opt.premium}/mo</span>
+                      </li>
+                    ))}
                   </ul>
                 </div>
               </div>
@@ -213,142 +211,133 @@ export default function PlansAndPricing() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="lg:sticky lg:top-32 h-fit"
           >
-            <div className="bg-white p-8 md:p-10 rounded-3xl shadow-xl border border-primary/10">
-              <div className="flex items-center gap-4 mb-8 border-b border-gray-100 pb-6">
-                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-                  <Calculator size={24} />
+            <div className="bg-white p-4 sm:p-6 md:p-8 rounded-[2rem] sm:rounded-[2.5rem] shadow-2xl border border-primary/10 relative overflow-hidden max-w-lg mx-auto lg:mx-0">
+              <div className="absolute top-0 right-0 p-4 opacity-5">
+                <Calculator size={80} />
+              </div>
+              
+              <div className="flex items-center gap-3 mb-6 border-b border-gray-100 pb-4 relative z-10">
+                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary shadow-inner shrink-0">
+                  <Calculator size={20} />
                 </div>
                 <div>
-                  <h2 className="font-serif text-3xl text-primary-dark">Premium Calculator</h2>
-                  <p className="text-text-muted text-sm">Estimate your monthly payment instantly</p>
+                  <h2 className="font-serif text-xl sm:text-2xl text-primary-dark">Price Estimator</h2>
+                  <p className="text-text-muted text-[10px] sm:text-xs">Find your perfect monthly premium</p>
                 </div>
               </div>
 
-              <div className="space-y-6">
-                {/* Plan Selection */}
-                <div>
-                  <label className="block text-sm font-medium text-primary-dark mb-2">Select Package</label>
-                  <div className="relative">
-                    <select 
-                      value={selectedPlanId} 
-                      onChange={handlePlanChange}
-                      className="w-full appearance-none bg-background-cream border border-gray-200 text-gray-800 py-3 px-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
-                    >
-                      {plans.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
-                    </select>
-                    <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={20} />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  {/* Category Selection */}
+              <div className="space-y-5 relative z-10">
+                {/* Selection */}
+                <div className="grid grid-cols-1 min-[400px]:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-primary-dark mb-2">Coverage Type</label>
+                    <label className="block text-[10px] uppercase tracking-widest font-bold text-primary mb-1.5 opacity-70">Package</label>
                     <div className="relative">
                       <select 
-                        value={selectedCategory} 
-                        onChange={handleCategoryChange}
-                        className="w-full appearance-none bg-background-cream border border-gray-200 text-gray-800 py-3 px-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+                        value={selectedPlanId} 
+                        onChange={handlePlanChange}
+                        className="w-full appearance-none bg-background-cream border border-primary/10 text-gray-800 py-2.5 px-3.5 rounded-xl focus:outline-none focus:ring-1 focus:ring-primary transition-all font-medium text-sm"
                       >
-                        <option value="Single life">Single Life</option>
-                        <option value="Family">Family</option>
+                        {plans.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
                       </select>
-                      <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={20} />
+                      <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-primary pointer-events-none" size={16} />
                     </div>
                   </div>
 
-                  {/* Specific Option Selection */}
                   <div>
-                    <label className="block text-sm font-medium text-primary-dark mb-2">Specific Option</label>
+                    <label className="block text-[10px] uppercase tracking-widest font-bold text-primary mb-1.5 opacity-70">Option</label>
                     <div className="relative">
                       <select 
                         value={safeOptionIndex} 
                         onChange={(e) => setSelectedOptionIndex(Number(e.target.value))}
-                        className="w-full appearance-none bg-background-cream border border-gray-200 text-gray-800 py-3 px-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+                        className="w-full appearance-none bg-background-cream border border-primary/10 text-gray-800 py-2.5 px-3.5 rounded-xl focus:outline-none focus:ring-1 focus:ring-primary transition-all font-medium text-sm"
                       >
-                        {activeOptions.map((opt, idx) => (
-                          <option key={opt.name} value={idx}>{opt.name}</option>
+                        {activeOptions.map((opt: any, idx: number) => (
+                          <option key={opt.id || idx} value={idx}>{opt.name}</option>
                         ))}
                       </select>
-                      <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={20} />
+                      <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-primary pointer-events-none" size={16} />
                     </div>
                   </div>
                 </div>
 
                 {/* Dependents */}
-                <div>
-                  <label className="block text-sm font-medium text-primary-dark mb-2 flex justify-between">
-                    <span>Number of Additional Dependents</span>
-                    <span className="text-primary">${dependentPrice}/each</span>
+                <div className="p-4 bg-background-cream/50 rounded-2xl border border-primary/5">
+                  <label className="block text-[10px] uppercase tracking-widest font-bold text-primary mb-3 flex justify-between items-center gap-2">
+                    <span className="shrink-0">Additional Dependents</span>
+                    <span className="text-primary-dark opacity-60 text-[11px] font-bold whitespace-nowrap">${dependentPrice}/Mo</span>
                   </label>
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-4 justify-center sm:justify-start">
                     <button 
                       onClick={() => setDependents(Math.max(0, dependents - 1))}
-                      className="w-12 h-12 rounded-xl bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-xl font-medium transition-colors"
+                      className="w-10 h-10 rounded-xl bg-white border border-primary/10 shadow-sm hover:bg-gray-50 flex items-center justify-center text-lg text-primary transition-all shrink-0"
                     >-</button>
-                    <span className="w-12 text-center text-xl font-medium">{dependents}</span>
+                    <span className="w-8 text-center text-2xl font-serif font-bold text-primary-dark">{dependents}</span>
                     <button 
                       onClick={() => setDependents(dependents + 1)}
-                      className="w-12 h-12 rounded-xl bg-primary text-white hover:bg-primary-dark flex items-center justify-center text-xl font-medium transition-colors"
+                      className="w-10 h-10 rounded-xl bg-primary text-white shadow-md shadow-primary/20 hover:bg-primary-dark flex items-center justify-center text-lg transition-all shrink-0"
                     >+</button>
                   </div>
                 </div>
 
-                <div className="pt-6 border-t border-gray-100 space-y-4">
-                  <h3 className="font-medium text-primary-dark border-b pb-2">Optional Benefits</h3>
-                  
+                <div className="grid grid-cols-1 min-[440px]:grid-cols-2 gap-4">
                   {/* Accidental Death */}
                   <div>
-                    <label className="block text-sm text-gray-600 mb-2">Accidental Death Benefit</label>
+                    <label className="block text-[10px] uppercase tracking-widest font-bold text-primary mb-1.5 opacity-70">Accidental Death Benefit (Lump-sum)</label>
                     <div className="relative">
                       <select 
                         value={accidentalOption} 
                         onChange={(e) => setAccidentalOption(Number(e.target.value))}
-                        className="w-full appearance-none bg-background-cream border border-gray-200 text-gray-800 py-3 px-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+                        className="w-full appearance-none bg-background-cream border border-primary/10 text-gray-800 py-2.5 px-3.5 rounded-xl focus:outline-none focus:ring-1 focus:ring-primary transition-all font-medium text-xs"
                       >
                         {accidentalDeathOptions.map((opt, idx) => (
                           <option key={idx} value={idx}>
-                            {opt.label} {opt.price > 0 ? `(+$${opt.price}/mo)` : ''}
+                            {opt.label} {opt.premium > 0 ? `(+$${opt.premium}/mo)` : ''}
                           </option>
                         ))}
                       </select>
-                      <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={20} />
+                      <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-primary pointer-events-none" size={14} />
                     </div>
                   </div>
 
                   {/* Spousal Death */}
                   <div>
-                    <label className="block text-sm text-gray-600 mb-2">Spousal/Principal Member Death</label>
+                    <label className="block text-[10px] uppercase tracking-widest font-bold text-primary mb-1.5 opacity-70">Spousal/Principal Member Death Benefit</label>
                     <div className="relative">
                       <select 
                         value={spousalOption} 
                         onChange={(e) => setSpousalOption(Number(e.target.value))}
-                        className="w-full appearance-none bg-background-cream border border-gray-200 text-gray-800 py-3 px-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+                        className="w-full appearance-none bg-background-cream border border-primary/10 text-gray-800 py-2.5 px-3.5 rounded-xl focus:outline-none focus:ring-1 focus:ring-primary transition-all font-medium text-xs"
                       >
                         {spousalDeathOptions.map((opt, idx) => (
                           <option key={idx} value={idx}>
-                            {opt.label} {opt.price > 0 ? `(+$${opt.price}/mo)` : ''}
+                            {opt.label} {opt.premium > 0 ? `(+$${opt.premium}/mo)` : ''}
                           </option>
                         ))}
                       </select>
-                      <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={20} />
+                      <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-primary pointer-events-none" size={14} />
                     </div>
                   </div>
                 </div>
 
                 {/* Total */}
-                <div className="mt-8 p-6 bg-primary-dark text-white rounded-2xl flex items-end justify-between shadow-inner">
-                  <div>
-                    <p className="text-white/80 text-sm mb-1">Estimated Total</p>
-                    <p className="font-serif text-4xl md:text-5xl font-medium tracking-tight">
-                      ${totalPremium.toFixed(2)}
-                    </p>
+                <div className="mt-4 p-4 sm:p-5 bg-primary-dark text-white rounded-2xl sm:rounded-3xl flex flex-col min-[380px]:flex-row items-center justify-between shadow-xl relative overflow-hidden gap-4 text-center min-[380px]:text-left">
+                  <div className="absolute top-0 right-0 w-24 h-24 bg-primary/20 rounded-full blur-2xl -mr-12 -mt-12" />
+                  <div className="relative z-10">
+                    <p className="text-white/50 text-[9px] uppercase tracking-widest font-bold mb-0.5">Monthly Premium</p>
+                    <div className="flex items-baseline gap-1 justify-center min-[380px]:justify-start">
+                      <span className="text-2xl sm:text-3xl font-serif font-bold">${totalPremium.toFixed(2)}</span>
+                      <span className="text-white/50 text-[10px]">/mo</span>
+                    </div>
                   </div>
-                  <span className="text-white/80 mb-2">/ month</span>
+                  <div className="relative z-10 shrink-0">
+                    <div className="bg-white/10 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/10">
+                      <p className="text-[8px] uppercase font-bold text-primary-light">Guaranteed Price</p>
+                    </div>
+                  </div>
                 </div>
                 
-                <p className="text-xs text-center text-gray-400 mt-4">
-                  *This is an estimate. Final premiums are subject to underwriting and terms & conditions.
+                <p className="text-[9px] text-center text-gray-400 mt-2 italic px-4">
+                  *Estimate based on selections, subject to terms.
                 </p>
 
               </div>

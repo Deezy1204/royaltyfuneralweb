@@ -2,12 +2,45 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, Heart, Shield, Clock } from "lucide-react";
-import { Phone, CheckCircle2, DollarSign, Map, HeartHandshake } from "lucide-react";
+import { ArrowRight, Heart, Shield, Clock, Loader2 } from "lucide-react";
+import { Phone, CheckCircle2, DollarSign, Map, HeartHandshake, Calculator } from "lucide-react";
+import { useState, useEffect } from "react";
+import { getPlans } from "@/lib/firebase-utils";
 
 export default function Home() {
   const { scrollY } = useScroll();
   const textY = useTransform(scrollY, [0, 800], [0, 250]);
+  
+  const [minPrice, setMinPrice] = useState<number | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchMinPrice() {
+      try {
+        const plans = await getPlans() as any[];
+        if (plans.length > 0) {
+          // Find the absolute minimum price across all plans and categories
+          let min = Infinity;
+          plans.forEach(plan => {
+            plan.singleLife?.forEach((opt: any) => {
+              if (opt.basePrice < min) min = opt.basePrice;
+            });
+            plan.family?.forEach((opt: any) => {
+              if (opt.basePrice < min) min = opt.basePrice;
+            });
+          });
+          if (min !== Infinity) {
+            setMinPrice(min);
+          }
+        }
+      } catch (error) {
+        console.error("Failed to fetch starting price:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchMinPrice();
+  }, []);
 
   return (
     <div className="flex flex-col min-h-screen bg-primary-dark">
@@ -153,7 +186,15 @@ export default function Home() {
             >
               <HeartHandshake className="absolute -right-4 -top-4 w-32 h-32 text-primary/5" />
               <h3 className="font-serif text-2xl mb-4 text-primary">No Age Limit</h3>
-              <p className="text-text-muted font-light text-lg">Cover starting at just $6 per individual, ensuring everyone can plan for the future with dignity.</p>
+              <div className="flex items-center gap-2">
+                <p className="text-text-muted font-light text-lg">
+                  {loading ? (
+                    <span className="flex items-center gap-2">Cover starting at <Loader2 className="animate-spin" size={16} />...</span>
+                  ) : (
+                    `Cover starting at just $${minPrice || 6} per individual, ensuring everyone can plan for the future with dignity.`
+                  )}
+                </p>
+              </div>
             </motion.div>
           </div>
 
@@ -178,6 +219,88 @@ export default function Home() {
               ))}
             </div>
             <p className="text-sm text-text-muted mt-8 text-center italic">* Certain benefits are subject to waiting periods and chosen plans. E.g., The $6 plan includes a 2-tier casket, hearse, and a $50 cash allowance with a 6-month waiting period.</p>
+          </div>
+        </div>
+      </section>
+      
+      {/* Premium Calculator CTA Section */}
+      <section className="py-24 bg-primary-dark relative overflow-hidden">
+        <div className="absolute inset-0 bg-[url('https://images.pexels.com/photos/3760067/pexels-photo-3760067.jpeg')] opacity-10 bg-cover bg-center" />
+        <div className="container px-4 md:px-8 mx-auto relative z-10">
+          <div className="bg-white/5 backdrop-blur-md border border-white/10 p-8 md:p-16 rounded-[3rem] shadow-2xl overflow-hidden">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.0 }}
+              >
+                <div className="inline-flex items-center gap-2 bg-primary/20 text-primary-light px-4 py-2 rounded-full text-sm font-medium mb-6">
+                  <Calculator size={16} />
+                  <span>Interactive Planning Tool</span>
+                </div>
+                <h2 className="font-serif text-4xl md:text-5xl text-white mb-6 leading-tight">
+                  Transparent Pricing <br />
+                  <span className="text-white/60">At Your Fingertips</span>
+                </h2>
+                <p className="text-white/70 text-lg mb-8 font-light max-w-xl">
+                  Our interactive premium calculator is designed to provide you with an instant, accurate estimate for your chosen funeral cover. Adjust plans, add dependents, and include optional benefits to see exactly how we can protect your family's future.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <Link 
+                    href="/policies" 
+                    className="bg-primary hover:bg-primary-light text-white px-10 py-4 rounded-full font-medium transition-all shadow-lg hover:shadow-primary/20 flex items-center justify-center gap-2 group"
+                  >
+                    Calculate Your Premium
+                    <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                </div>
+              </motion.div>
+              
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.2 }}
+                className="hidden lg:block relative"
+              >
+                <div className="relative z-10 bg-background-cream p-8 rounded-3xl shadow-2xl border border-primary/10 max-w-md mx-auto transform rotate-3 hover:rotate-0 transition-transform duration-500">
+                  <div className="flex items-center justify-between mb-8 border-b border-primary/10 pb-4">
+                    <h4 className="font-serif text-xl text-primary-dark">Estimate Summary</h4>
+                    <Calculator className="text-primary" size={24} />
+                  </div>
+                  <div className="space-y-4 mb-8">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-text-muted">Selected Plan</span>
+                      <span className="font-bold text-primary-dark">Royalty Gold</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-text-muted">Category</span>
+                      <span className="font-bold text-primary-dark">Family Cover</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-text-muted">Dependents (x3)</span>
+                      <span className="font-bold text-primary-dark">$12.00</span>
+                    </div>
+                    <div className="border-t border-primary/5 pt-4 flex justify-between">
+                      <span className="text-primary-dark font-medium">Monthly Total</span>
+                      <span className="text-2xl font-serif text-primary">$24.00</span>
+                    </div>
+                  </div>
+                  <div className="w-full bg-primary/10 h-2 rounded-full overflow-hidden">
+                    <motion.div 
+                      className="bg-primary h-full" 
+                      initial={{ width: 0 }}
+                      whileInView={{ width: "100%" }}
+                      transition={{ duration: 2, delay: 0.5 }}
+                    />
+                  </div>
+                  <p className="text-[10px] text-center text-text-muted mt-4 uppercase tracking-widest font-bold">Instant Accuracy</p>
+                </div>
+                <div className="absolute -top-12 -right-12 w-32 h-32 bg-primary round-full blur-3xl opacity-20" />
+                <div className="absolute -bottom-12 -left-12 w-32 h-32 bg-primary-light round-full blur-3xl opacity-20" />
+              </motion.div>
+            </div>
           </div>
         </div>
       </section>

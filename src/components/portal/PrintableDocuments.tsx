@@ -31,6 +31,13 @@ interface Policy {
     dateOfBirth: string;
     idNumber?: string;
   }>;
+  beneficiaries?: Record<string, {
+    firstName: string;
+    lastName: string;
+    relationship: string;
+    idNumber?: string;
+    phone?: string;
+  }>;
 }
 
 interface Payment {
@@ -229,6 +236,30 @@ export const PolicyDocument = ({ client, policy }: { client: Client; policy: Pol
           </div>
         )}
 
+        {policy.beneficiaries && Object.keys(policy.beneficiaries).length > 0 && (
+          <div className="mb-8">
+            <h3 className="font-bold uppercase mb-2 text-sm">BENEFICIARIES</h3>
+            <table className="w-full text-sm border-collapse border border-gray-900">
+              <thead>
+                <tr className="bg-gray-50 border-b border-gray-900">
+                  <th className="p-2 border-r border-gray-900 text-left">Name</th>
+                  <th className="p-2 border-r border-gray-900 text-left">Relation</th>
+                  <th className="p-2 text-left">ID / Contact</th>
+                </tr>
+              </thead>
+              <tbody>
+                {Object.values(policy.beneficiaries).map((ben, i) => (
+                  <tr key={i} className="border-b border-gray-900">
+                    <td className="p-2 border-r border-gray-900">{ben.firstName} {ben.lastName}</td>
+                    <td className="p-2 border-r border-gray-900">{ben.relationship}</td>
+                    <td className="p-2">{ben.idNumber || ben.phone || '—'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+
         <div className="mb-8">
           <h3 className="font-bold uppercase mb-3 text-sm underline">BENEFITS UPON DEATH:</h3>
           <ul className="list-disc pl-5 space-y-1 text-sm text-gray-800">
@@ -332,7 +363,17 @@ export const PaymentReceipt = ({ client, policy, payment }: { client: Client; po
           </div>
           <div className="text-right">
             <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Date Issued</p>
-            <p className="text-lg font-bold text-gray-900">{new Date(payment.date).toLocaleDateString('en-ZW', { day: '2-digit', month: 'long', year: 'numeric' })}</p>
+            <p className="text-lg font-bold text-gray-900">
+              {(() => {
+                try {
+                  const d = new Date(payment.date);
+                  if (isNaN(d.getTime())) return new Date().toLocaleDateString('en-ZW', { day: '2-digit', month: 'long', year: 'numeric' });
+                  return d.toLocaleDateString('en-ZW', { day: '2-digit', month: 'long', year: 'numeric' });
+                } catch (e) {
+                  return new Date().toLocaleDateString('en-ZW', { day: '2-digit', month: 'long', year: 'numeric' });
+                }
+              })()}
+            </p>
           </div>
         </div>
 

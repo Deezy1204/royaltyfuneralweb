@@ -111,18 +111,7 @@ export default function PortalDashboard() {
                 <p className="text-white/50 text-xs mb-1">Start Date</p>
                 <p className="font-medium">{formatDate(policy.inceptionDate)}</p>
               </div>
-              <div>
-                <p className="text-white/50 text-xs mb-1">Renewal Date</p>
-                <p className="font-medium">{formatDate(policy.renewalDate)}</p>
-              </div>
             </div>
-
-            {policy.arrearsAmount && policy.arrearsAmount > 0 && (
-              <div className="mt-5 flex items-center gap-2 bg-red-500/20 border border-red-400/30 px-4 py-2 rounded-lg text-sm text-red-200">
-                <AlertCircle size={16} />
-                Arrears: {formatCurrency(policy.arrearsAmount)}
-              </div>
-            )}
           </div>
         </div>
       </motion.div>
@@ -151,6 +140,37 @@ export default function PortalDashboard() {
                 </div>
                 <div className="text-green-600 bg-green-50 px-3 py-1 rounded-full text-xs font-medium flex items-center gap-1">
                   <CheckCircle2 size={12} /> Covered
+                </div>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+      )}
+
+      {/* Beneficiaries */}
+      {policy.beneficiaries && Object.keys(policy.beneficiaries).length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.15 }}
+          className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-200"
+        >
+          <div className="flex items-center gap-3 mb-6">
+            <Users size={20} className="text-secondary" />
+            <h2 className="font-serif text-2xl text-primary-dark">Policy Beneficiaries</h2>
+            <span className="ml-auto bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded font-medium">
+              {Object.keys(policy.beneficiaries).length} beneficiary{Object.keys(policy.beneficiaries).length !== 1 ? "s" : ""}
+            </span>
+          </div>
+          <div className="divide-y divide-gray-100">
+            {Object.entries(policy.beneficiaries).map(([key, ben]: [string, any]) => (
+              <div key={key} className="py-4 flex justify-between items-center">
+                <div>
+                  <p className="font-medium text-gray-900">{ben.firstName} {ben.lastName}</p>
+                  <p className="text-sm text-gray-500">{ben.relationship} • {ben.idNumber || ben.phone || 'No contact provided'}</p>
+                </div>
+                <div className="text-blue-600 bg-blue-50 px-3 py-1 rounded-full text-xs font-medium flex items-center gap-1">
+                  <CheckCircle2 size={12} /> Nominated
                 </div>
               </div>
             ))}

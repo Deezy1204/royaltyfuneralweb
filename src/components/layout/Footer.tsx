@@ -28,7 +28,6 @@ export default function Footer() {
               <li><Link href="/about" className="hover:text-white transition-colors">About Us</Link></li>
               <li><Link href="/services" className="hover:text-white transition-colors">Our Services</Link></li>
               <li><Link href="/policies" className="hover:text-white transition-colors">Policy Options</Link></li>
-              <li><Link href="/obituaries" className="hover:text-white transition-colors">Obituaries</Link></li>
               <li><Link href="/portal" className="hover:text-white transition-colors">Client Portal</Link></li>
               <li><Link href="/contact" className="hover:text-white transition-colors">Contact Us</Link></li>
             </ul>
@@ -39,9 +38,7 @@ export default function Footer() {
             <ul className="space-y-3 text-white/80">
               <li><Link href="/services#funeral" className="hover:text-white transition-colors">Funeral Planning</Link></li>
               <li><Link href="/services#burial" className="hover:text-white transition-colors">Burial Services</Link></li>
-              <li><Link href="/services#cremation" className="hover:text-white transition-colors">Cremation Services</Link></li>
-              <li><Link href="/services#grief" className="hover:text-white transition-colors">Grief Support</Link></li>
-              <li><Link href="/services#pre-planning" className="hover:text-white transition-colors">Pre-planning</Link></li>
+                <li><Link href="/services#pre-planning" className="hover:text-white transition-colors">Pre-planning</Link></li>
             </ul>
           </div>
 

@@ -75,10 +75,11 @@ export default function MakePayment() {
             
             <div className="bg-gray-50 p-4 md:p-6 rounded-xl border border-gray-100 space-y-3 font-mono text-xs md:text-sm">
               {[
-                ["Bank", "First National Bank (FNB)"],
-                ["Account Name", "Royalty Funeral Services SA"],
-                ["Account No", "62123456789"],
+                ["Bank", "First National Bank (FNB)/ RMB"],
+                ["Account Name", "Royalty"],
+                ["Account No", "63137398251"],
                 ["Branch Code", "250655"],
+                ["Own Ref", "Royalty"],
               ].map(([label, value]) => (
                 <div key={label} className="flex flex-col sm:flex-row sm:justify-between border-b border-gray-200 pb-2 last:border-0 last:pb-0">
                   <span className="text-gray-500">{label}:</span>
@@ -86,7 +87,7 @@ export default function MakePayment() {
                 </div>
               ))}
               <div className="flex flex-col sm:flex-row sm:justify-between pt-4 items-start sm:items-center bg-blue-50/50 -mx-4 md:-mx-6 px-4 md:px-6 pb-4 -mb-4 md:-mb-6 rounded-b-xl border-t border-blue-100 gap-2">
-                <span className="text-gray-700 font-sans font-medium text-sm">Your Reference:</span>
+                <span className="text-gray-700 font-sans font-medium text-sm">Recipient Ref:</span>
                 <div className="flex items-center gap-2">
                   <span className="font-black text-primary tracking-wider text-sm">{policy.policyNumber}</span>
                   <button onClick={handleCopy} className="text-gray-400 hover:text-primary transition-colors focus:outline-none ml-2" title="Copy Reference">

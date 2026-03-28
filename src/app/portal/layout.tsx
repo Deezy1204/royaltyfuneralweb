@@ -51,6 +51,13 @@ export interface PolicyData {
     gender?: string;
     idNumber?: string;
   }>;
+  beneficiaries?: Record<string, {
+    firstName: string;
+    lastName: string;
+    relationship: string;
+    idNumber?: string;
+    phone?: string;
+  }>;
 }
 
 // ---------- Context ----------
