@@ -10,15 +10,66 @@ function formatCurrency(amount: number) {
 }
 
 export default function MakePayment() {
-  const { policy } = usePortal();
+  const { client, policy } = usePortal();
   const [copied, setCopied] = useState(false);
+  const [paymentError, setPaymentError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  if (!policy) return null;
+  if (!client || !policy) return null;
+
+  const isInsured = String(client.Insured ?? client.insured ?? "").trim().toLowerCase() === "yes";
+  const insuranceFee = isInsured ? 1 : 0;
+  const totalDue = Number(policy.premiumAmount || 0) + insuranceFee;
 
   const handleCopy = () => {
     navigator.clipboard.writeText(policy.policyNumber);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleGatewaySubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setPaymentError("");
+    setIsSubmitting(true);
+
+    const PAYMENTS_API_URL = process.env.NEXT_PUBLIC_PAYMENTS_API_URL?.replace(/\/+$/, "") || "";
+    const paymentEndpoint = PAYMENTS_API_URL
+      ? `${PAYMENTS_API_URL}/api/portal/payment/start`
+      : "/api/portal/payment/start";
+
+    try {
+      const response = await fetch(paymentEndpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          client,
+          policy,
+          clientEmail: client.email,
+        }),
+      });
+
+      const result = await response.json().catch(() => null);
+
+      if (!response.ok || !result?.success || !result?.redirectUrl) {
+        throw new Error(result?.error || "Unable to start your payment right now.");
+      }
+
+      // Store payment info for success page to save to database
+      if (typeof window !== "undefined") {
+        sessionStorage.setItem("paymentInfo", JSON.stringify({
+          clientId: client.clientId,
+          policyId: policy.policyId,
+          amount: result.amount?.totalAmount || totalDue,
+        }));
+      }
+
+      window.location.assign(result.redirectUrl);
+    } catch (error) {
+      setPaymentError(error instanceof Error ? error.message : "Unable to start your payment right now.");
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -39,23 +90,28 @@ export default function MakePayment() {
               <CreditCard className="text-primary" size={24} />
               <h2 className="font-serif text-2xl text-primary-dark">Local Gateway Option</h2>
             </div>
-            <p className="text-gray-600 mb-6 text-sm">Use Paynow to securely process payments via Ecocash, OneMoney, or Local ZimSwitch cards.</p>
+            <p className="text-gray-600 mb-6 text-sm">Use Paynow to securely process your premium via Ecocash, OneMoney, or local cards. We will post your client details, payment amount, and policy number reference to start the checkout session.</p>
             
-            <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+            <form className="space-y-4" onSubmit={handleGatewaySubmit}>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Amount to Pay (USD)</label>
-                <input type="text" readOnly value={formatCurrency(policy.premiumAmount + (policy.arrearsAmount || 0))} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl font-medium text-gray-900 focus:outline-none" />
+                <input type="text" readOnly value={formatCurrency(totalDue)} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl font-medium text-gray-900 focus:outline-none" />
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Payment Method</label>
-                <select className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary">
-                  <option>Ecocash</option>
-                  <option>OneMoney</option>
-                  <option>Visa / Mastercard (Local)</option>
-                </select>
+              <div className="bg-primary/5 border border-primary/10 rounded-xl px-4 py-3 text-sm text-gray-700">
+                Reference: <span className="font-bold text-primary-dark">{policy.policyNumber}</span>
               </div>
-              <button className="w-full bg-primary text-white py-4 rounded-xl font-medium hover:bg-primary-dark transition-colors mt-2 shadow-lg">
-                Proceed to Secure Payment
+              {paymentError && (
+                <div className="flex items-start gap-2 bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-3 rounded-xl">
+                  <AlertCircle size={18} className="mt-0.5 shrink-0" />
+                  <span>{paymentError}</span>
+                </div>
+              )}
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full bg-primary text-white py-4 rounded-xl font-medium hover:bg-primary-dark transition-colors disabled:opacity-60 disabled:cursor-not-allowed mt-2"
+              >
+                {isSubmitting ? "Starting secure payment..." : "Proceed to Secure Payment"}
               </button>
             </form>
           </motion.div>
@@ -87,7 +143,7 @@ export default function MakePayment() {
                 </div>
               ))}
               <div className="flex flex-col sm:flex-row sm:justify-between pt-4 items-start sm:items-center bg-blue-50/50 -mx-4 md:-mx-6 px-4 md:px-6 pb-4 -mb-4 md:-mb-6 rounded-b-xl border-t border-blue-100 gap-2">
-                <span className="text-gray-700 font-sans font-medium text-sm">Recipient Ref:</span>
+                <span className="text-gray-700 font-sans font-medium text-sm">Reference:</span>
                 <div className="flex items-center gap-2">
                   <span className="font-black text-primary tracking-wider text-sm">{policy.policyNumber}</span>
                   <button onClick={handleCopy} className="text-gray-400 hover:text-primary transition-colors focus:outline-none ml-2" title="Copy Reference">
@@ -115,18 +171,13 @@ export default function MakePayment() {
                 <span>{formatCurrency(policy.premiumAmount)}</span>
               </div>
               <div className="flex justify-between text-gray-600">
-                <span>Arrears</span>
-                <span>{formatCurrency(policy.arrearsAmount || 0)}</span>
+                <span>Insurance</span>
+                <span>{formatCurrency(insuranceFee)}</span>
               </div>
               <div className="flex justify-between font-bold text-lg text-primary-dark pt-3 border-t border-gray-200 mt-2">
                 <span>Total Due</span>
-                <span>{formatCurrency(policy.premiumAmount + (policy.arrearsAmount || 0))}</span>
+                <span>{formatCurrency(totalDue)}</span>
               </div>
-            </div>
-            
-            <div className="bg-yellow-50 text-yellow-800 text-xs p-3 rounded-lg flex items-start gap-2 border border-yellow-100">
-              <AlertCircle size={16} className="shrink-0 mt-0.5" />
-              <span>Please ensure your payment is completed before the 1st of next month to avoid policy suspension.</span>
             </div>
           </motion.div>
         </div>

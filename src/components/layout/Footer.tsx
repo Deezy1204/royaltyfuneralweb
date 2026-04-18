@@ -59,7 +59,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="shrink-0" size={20} />
-                <span>care@royaltyfunerals.co.zw</span>
+                <span>sales@royaltyfuneral.com</span>
               </li>
             </ul>
           </div>

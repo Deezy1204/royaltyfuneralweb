@@ -27,8 +27,12 @@ export default function Header() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background-cream/90 backdrop-blur-md border-b border-primary/10">
       <div className="container mx-auto px-4 lg:px-8 py-4 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 z-50">
-          <Image src="/images/logo.png" alt="Royalty Funeral Services" width={180} height={60} className="h-12 w-auto object-contain" priority />
+        <Link href="/" className="flex items-center gap-3 z-50 group">
+          <Image src="/images/logo.png" alt="Royalty Funeral Services" width={180} height={60} className="h-10 w-auto object-contain" priority />
+          <div className="hidden sm:block">
+            <span className="font-serif text-lg font-bold text-primary-dark block leading-none">Royalty</span>
+            <span className="text-[10px] uppercase tracking-widest text-[#1e3a8a] font-black">Funeral Services</span>
+          </div>
         </Link>
         
         {/* Desktop Navigation */}

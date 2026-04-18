@@ -11,7 +11,7 @@ export default function About() {
       <section className="bg-primary-dark text-white py-24 md:py-32 relative overflow-hidden">
         <div className="absolute inset-0 z-0 bg-cover bg-center opacity-20" style={{ backgroundImage: 'url("https://images.pexels.com/photos/17794572/pexels-photo-17794572.jpeg")' }} />
         <div className="container relative z-10 mx-auto px-4 md:px-8 text-center max-w-4xl">
-          <motion.h1 
+          <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.0 }}
@@ -19,7 +19,7 @@ export default function About() {
           >
             About Us
           </motion.h1>
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1.0, delay: 0.4 }}
@@ -34,33 +34,35 @@ export default function About() {
       <section className="py-24 bg-background-cream">
         <div className="container mx-auto px-4 md:px-8">
           <div className="grid md:grid-cols-2 gap-16 items-center">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.9 }}
             >
-              <h2 className="font-serif text-4xl text-primary-dark mb-6">Our Story</h2>
+              <h2 className="font-serif text-4xl text-primary-dark mb-6">About Us</h2>
               <div className="space-y-4 text-text-muted text-lg font-light leading-relaxed">
                 <p>
-                  Founded on principles of empathy and unwavering support, Royalty Funeral Services has been a pillar of strength for families in their most difficult times. We believe every life is unique and deserves to be celebrated with personalized care.
+                  Royalty Funeral Services is a professional funeral service provider committed to offering dignified, affordable, and compassionate funeral services. We serve both rural and urban communities, ensuring families receive respectful and reliable support during times of loss.
                 </p>
+                
+                <h3 className="font-serif text-2xl text-primary-dark mt-8 mb-4">CHURCH & COMMUNITY PARTNERSHIPS</h3>
                 <p>
-                  Our dedicated team brings decades of combined experience, ensuring that every detail is handled meticulously. From the initial consultation to the final farewell, we walk alongside you, honoring your traditions, beliefs, and wishes.
+                  Royalty Funeral Services works closely with churches and community institutions to provide faith-aligned funeral services that respect spiritual and cultural traditions.
                 </p>
               </div>
             </motion.div>
-            
-            <motion.div 
+
+            <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 1.1 }}
               className="relative aspect-square md:aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl"
             >
-              <Image 
-                src="https://images.pexels.com/photos/7317669/pexels-photo-7317669.jpeg" 
-                alt="Our dedicated team" 
+              <Image
+                src="https://images.pexels.com/photos/7317669/pexels-photo-7317669.jpeg"
+                alt="Our dedicated team"
                 fill
                 className="object-cover"
               />
@@ -69,11 +71,29 @@ export default function About() {
         </div>
       </section>
 
+      {/* Why Choose Us */}
+      <section className="py-24 bg-white">
+        <div className="container mx-auto px-4 md:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.9 }}
+            className="max-w-4xl mx-auto text-center"
+          >
+            <h2 className="font-serif text-4xl text-primary-dark mb-8">Why Choose Us</h2>
+            <p className="text-text-muted text-xl font-light leading-relaxed">
+              Affordable funeral cover options, rural and urban coverage, compassionate staff, transparent policies, and professional service delivery.
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
       {/* Vision & Mission */}
       <section className="py-24 bg-white border-b border-primary/10">
         <div className="container mx-auto px-4 md:px-8">
           <div className="grid md:grid-cols-2 gap-12">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -85,11 +105,11 @@ export default function About() {
               </div>
               <h2 className="font-serif text-3xl text-primary-dark mb-4">Our Vision</h2>
               <p className="text-text-muted text-lg leading-relaxed font-light">
-                To provide a dignified world-class royal service to all our clients.
+                To be a trusted and respected funeral services provider known for professionalism, ethical conduct, and faith-sensitive service delivery.
               </p>
             </motion.div>
 
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -101,7 +121,7 @@ export default function About() {
               </div>
               <h2 className="font-serif text-3xl mb-4">Our Mission</h2>
               <p className="text-white/80 text-lg leading-relaxed font-light">
-                To offer a seamless, dignified service that respects cultural and religious beliefs of our clients.
+                To provide accessible, dignified, and professional funeral services that ease emotional and financial burdens while honoring cultural and religious values.
               </p>
             </motion.div>
           </div>
@@ -111,14 +131,14 @@ export default function About() {
       {/* Values */}
       <section className="py-24 bg-background-cream">
         <div className="container mx-auto px-4 md:px-8">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-center max-w-3xl mx-auto mb-16"
           >
             <h2 className="font-serif text-4xl text-primary-dark mb-4">Our Core Values</h2>
-            <p className="text-text-muted text-lg">The principles that guide every aspect of our care.</p>
+            <p className="text-text-muted text-lg">Dignity, Compassion, Faith, Integrity, and Professionalism guide every aspect of our service delivery</p>
           </motion.div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-center">
@@ -129,7 +149,7 @@ export default function About() {
               { icon: Users, title: "Team Work", desc: "Collaborating seamlessly to provide comprehensive and unwavering support." },
               { icon: Clock, title: "Timeless", desc: "Creating enduring memories and legacies that stand the test of time." },
             ].map((val, i) => (
-              <motion.div 
+              <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}

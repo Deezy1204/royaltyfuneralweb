@@ -1,3 +1,13 @@
-Can you modify the website according to the details below:
+# Go to the website and where there are printable documents and fix their view and their printing design, on the receipts i need to remove "P A Y M E N T R E C E I P T
+" because it pushes the receipt down leading to two pages, i need that receipt to be on one page, also remove the REG No below the logo on top
+# Make sure on the printing and viwing you also show signatures if they exist in the db
+# On the declaration view and printing, remove the names, id number, designation, admin below the signatures, the signatures are enough, also reflect on the printable docs where necessary which policy type is, is a cash or services one? and i dont need content being cut in half and shared between two pages, if it doesnt fit on one page, send it to the next one
+# On the policy document printing, there is not enough padding on the sides, fix that
 
-# Make sure the packages plans prices on the website come from the db from the collection "Plans"
+# Go to the payment section for clients and remove this "Please ensure your payment is completed before the 1st of next month to avoid policy suspension."
+
+# Go to the payment section and on the heading Local Gateway Option, add (Coming soon) because the paynow option is not working yet and disable the button "Proceed to Secure payment", then on ttop of the "SA Diaspora EFT" section you need to add the local Ecocash payment section looking like the SA Diaspora EFT section with these details:
+Number: 077 717 6982
+Reference: Your Policy Number (put the client's policy number in the reference)
+
+# Then on the SA Diaspora EFT section, change this "Recipient Ref:" to "Reference:" 

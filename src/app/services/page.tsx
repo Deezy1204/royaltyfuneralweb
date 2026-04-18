@@ -1,7 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowLeft, ArrowRight, BookHeart, CircleDot, FileType2, Flower2, Heart, ShieldPlus } from "lucide-react";
+import { 
+  ArrowLeft, ArrowRight, BookHeart, CircleDot, FileType2, Flower2, 
+  Heart, ShieldPlus, Clock, ShieldCheck, Sparkles, Church, 
+  Truck, Archive, FileText 
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -125,6 +129,66 @@ export default function Services() {
               ))}
             </div>
 
+          </div>
+        </div>
+      </section>
+
+      {/* Comprehensive Services Grid */}
+      <section className="py-24 bg-background-cream">
+        <div className="container mx-auto px-4 md:px-8">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center max-w-3xl mx-auto mb-16"
+          >
+            <h2 className="font-serif text-4xl text-primary-dark mb-4">Our Comprehensive Offerings</h2>
+            <p className="text-text-muted text-lg font-light">Beyond our core planning, we provide a full range of professional funeral services to support you every step of the way.</p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            {[
+              { icon: Clock, title: "24-Hour Body Collection", desc: "Reliable and respectful retrieval services available at any time of day or night." },
+              { icon: ShieldCheck, title: "Mortuary Services", desc: "State-of-the-art mortuary and refrigeration facilities to ensure dignified care." },
+              { icon: Sparkles, title: "Body Preparation", desc: "Professional embalming and grooming services performed with the utmost respect." },
+              { icon: Church, title: "Viewing & Chapel", desc: "Quiet spaces for personal viewing and meaningful chapel ceremonies." },
+              { icon: Truck, title: "Hearse & Family Transport", desc: "Dignified transportation for the deceased and reliable vehicles for the family." },
+              { icon: Archive, title: "Coffins & Caskets", desc: "A wide selection of high-quality coffins and caskets to suit every preference." },
+              { icon: FileText, title: "Documentation Assistance", desc: "Expert guidance in managing funeral cover schemes and all necessary paperwork." },
+              { icon: Heart, title: "Compassionate Support", desc: "Ongoing emotional support for the family throughout the entire process." }
+            ].map((s, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="bg-white p-8 rounded-3xl border border-primary/5 shadow-sm hover:shadow-xl transition-all duration-300 group"
+              >
+                <div className="w-14 h-14 rounded-2xl bg-primary/5 text-primary flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-white transition-colors duration-500">
+                  <s.icon size={28} />
+                </div>
+                <h3 className="font-serif text-xl text-primary-dark mb-3 leading-tight">{s.title}</h3>
+                <p className="text-text-muted text-sm leading-relaxed">{s.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-24 bg-primary-dark text-white text-center relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-[100px] -mr-32 -mt-32" />
+        <div className="container relative z-10 mx-auto px-4">
+          <h2 className="font-serif text-4xl mb-6">Need Immediate Assistance?</h2>
+          <p className="text-white/60 text-lg mb-10 max-w-2xl mx-auto">Our team is available 24/7 to help you navigate this difficult time with dignity and respect.</p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link href="/contact" className="bg-white text-primary-dark px-10 py-4 rounded-2xl font-bold uppercase tracking-widest text-xs hover:bg-background-cream transition-colors">
+              Contact Us Now
+            </Link>
+            <a href="tel:+263717874750" className="border-2 border-white/20 px-10 py-4 rounded-2xl font-bold uppercase tracking-widest text-xs hover:bg-white/10 transition-colors">
+              Call Hotline
+            </a>
           </div>
         </div>
       </section>

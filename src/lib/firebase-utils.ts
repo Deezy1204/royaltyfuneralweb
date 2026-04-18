@@ -49,11 +49,14 @@ export async function getPlanData() {
     if (snapshot.exists()) {
       const data = snapshot.val();
       
-      const planKeys = ["WHITE", "BLUE", "GOLD", "PURPLE"];
+      const planKeys = ["BASIC", "BRONZE", "SILVER", "GOLD", "WHITE", "BLUE", "PURPLE"];
       const colors: Record<string, string> = {
         WHITE: "bg-slate-50 border-slate-200 text-slate-800 accent-slate-500 hover:bg-white",
+        BASIC: "bg-slate-50 border-slate-200 text-slate-800 accent-slate-500 hover:bg-white",
         BLUE: "bg-blue-50 border-blue-200 text-blue-900 accent-blue-600 hover:bg-blue-100/50",
-        GOLD: "bg-amber-50 border-amber-300 text-amber-900 accent-amber-600 hover:bg-amber-100/50",
+        BRONZE: "bg-[#FDF5F2] border-[#CD7F32] text-[#3E1F11] accent-[#CD7F32] shadow-[#CD7F32]/5 hover:bg-[#FDF5F2]/80",
+        GOLD: "bg-[#FFF9E6] border-[#FFD700] text-[#4A3B00] accent-[#FFD700] shadow-[#FFD700]/10 hover:bg-[#FFF9E6]/80",
+        SILVER: "bg-slate-50 border-slate-200 text-slate-800 accent-slate-500 hover:bg-white",
         PURPLE: "bg-purple-50 border-purple-200 text-purple-900 accent-purple-600 hover:bg-purple-100/50"
       };
 
@@ -61,21 +64,19 @@ export async function getPlanData() {
         .filter(key => data[key])
         .map((key, index) => {
           const plan = data[key];
-          // Map the user's structure to what the UI expects or a similar format
           return {
             ...plan,
             id: key,
             order: index,
             color: colors[key] || "bg-white",
-            // Split options into singleLife and family for backward compatibility with UI
-            singleLife: (plan.options || [])
-              .filter((opt: any) => opt.name.toLowerCase().includes("single"))
-              .map((opt: any) => ({ ...opt, basePrice: opt.premium })),
-            family: (plan.options || [])
-              .filter((opt: any) => !opt.name.toLowerCase().includes("single"))
-              .map((opt: any) => ({ ...opt, basePrice: opt.premium })),
-            singleDependentPrice: plan.dependentPremium || 0,
-            familyDependentPrice: plan.dependentPremium || 0,
+            // If it has ageTiers (new structure), use it. Otherwise, map old options.
+            ageTiers: plan.ageTiers || [],
+            benefits: plan.benefits || [],
+            cashBenefit: plan.cashBenefit || 0,
+            dependentPremium: plan.dependentPremium || 0,
+            // Keep old properties for compatibility if necessary
+            singleLife: plan.options?.filter((opt: any) => opt.name.toLowerCase().includes("single")),
+            family: plan.options?.filter((opt: any) => !opt.name.toLowerCase().includes("single")),
           };
         });
       

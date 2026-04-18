@@ -1,5 +1,5 @@
-import React from 'react';
 import { FileText, User, Calendar, Shield, Receipt as ReceiptIcon, CheckCircle2 } from 'lucide-react';
+import Head from 'next/head';
 
 // --- Types ---
 interface Client {
@@ -12,6 +12,7 @@ interface Client {
   phone: string;
   email?: string;
   dateOfBirth: string;
+  signatureImageUrl?: string;
 }
 
 interface Policy {
@@ -38,6 +39,7 @@ interface Policy {
     idNumber?: string;
     phone?: string;
   }>;
+  signatureImageUrl?: string;
 }
 
 interface Payment {
@@ -48,6 +50,7 @@ interface Payment {
   receiptNumber?: string;
   monthsCovered?: string;
   status?: string;
+  signatureImageUrl?: string;
 }
 
 interface Claim {
@@ -65,8 +68,8 @@ interface Claim {
 // --- Helper Components ---
 
 const PrintFooter = () => (
-  <div className="mt-auto pt-8 text-center border-t border-gray-100 print:fixed print:bottom-8 print:left-0 print:right-0 print:border-none">
-    <p className="text-[#1e3a8a] font-bold text-sm tracking-[0.2em] uppercase">
+  <div className="mt-auto pt-4 text-center border-t border-gray-100 print:border-none print:pt-4">
+    <p className="text-[#1e3a8a] font-bold text-[10px] tracking-[0.2em] uppercase">
       ROYALTY FUNERAL SERVICES – A DIGNIFIED SEND-OFF
     </p>
   </div>
@@ -79,16 +82,17 @@ const DocumentHeader = () => (
       <p>Stand 15383 Khami Road</p>
       <p>Kelvin North, Bulawayo</p>
       <p>Zimbabwe</p>
-      <p>Reg No: 2026/12345/07</p>
       <p>+263 71 787 4750</p>
     </div>
   </div>
 );
 
 const PageContainer = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
-  <div className={`bg-white p-8 md:p-16 print:p-0 relative min-h-[1050px] flex flex-col font-sans text-gray-900 ${className}`}>
+  <div className={`bg-white p-6 md:p-12 print:p-0 relative flex flex-col font-sans text-gray-900 ${className}`}>
     {children}
-    <PrintFooter />
+    <div className="mt-auto">
+      <PrintFooter />
+    </div>
   </div>
 );
 
@@ -130,7 +134,7 @@ function amountToWords(amount: number): string {
   return result.charAt(0).toUpperCase() + result.slice(1) + " only.";
 }
 
-export const PolicyDocument = ({ client, policy }: { client: Client; policy: Policy }) => {
+export const PolicyDocument = ({ client, policy, adminSignature }: { client: Client; policy: Policy; adminSignature?: string }) => {
   const dependentsList = policy.dependents ? Object.values(policy.dependents) : [];
   
   // Calculate specific dates
@@ -148,16 +152,16 @@ export const PolicyDocument = ({ client, policy }: { client: Client; policy: Pol
   return (
     <div className="space-y-0">
       {/* Page 1: Acceptance Letter */}
-      <PageContainer className="page-break-after">
+      <PageContainer className="print:break-after-page">
         <DocumentHeader />
         
-        <div className="mb-8 text-sm">
+        <div className="mb-4 text-xs">
           <p className="font-bold">{client.title} {client.firstName} {client.lastName}</p>
           <p>{client.streetAddress}</p>
           <p>{client.city}</p>
         </div>
 
-        <h1 className="text-base font-bold uppercase mb-8">
+        <h1 className="text-sm font-bold uppercase mb-4">
           Ref: LETTER OF ACCEPTANCE OF FUNERAL POLICY APPLICATION
         </h1>
 
@@ -173,19 +177,23 @@ export const PolicyDocument = ({ client, policy }: { client: Client; policy: Pol
         <div className="mt-12 space-y-12">
           <div className="text-sm">
             <p>Yours faithfully,</p>
-            <div className="h-16 w-48 border-b border-gray-300 mt-4 mb-2"></div>
+            {adminSignature || policy.signatureImageUrl ? (
+              <img src={adminSignature || policy.signatureImageUrl} alt="Administrator Signature" className="h-10 w-auto object-contain mt-2 mb-1" />
+            ) : (
+              <div className="h-16 w-48 border-b border-gray-300 mt-4 mb-2"></div>
+            )}
             <p className="font-bold">The Administrator</p>
           </div>
         </div>
       </PageContainer>
 
       {/* Page 2: Policy Schedule */}
-      <PageContainer className="page-break-after page-break-before">
+      <PageContainer className="print:break-after-page">
         <DocumentHeader />
         
         <h2 className="text-xl font-bold uppercase mb-6 underline">POLICY HOLDER DETAILS</h2>
 
-        <table className="w-full text-sm border-collapse border border-gray-900 mb-8">
+        <table className="w-full text-sm border-collapse border border-gray-900 mb-8 print:break-inside-avoid">
           <tbody>
             {[
               ['Policy number:', policy.policyNumber],
@@ -215,7 +223,7 @@ export const PolicyDocument = ({ client, policy }: { client: Client; policy: Pol
         {dependentsList.length > 0 && (
           <div className="mb-8">
             <h3 className="font-bold uppercase mb-2 text-sm">COVERED DEPENDENTS</h3>
-            <table className="w-full text-sm border-collapse border border-gray-900">
+            <table className="w-full text-sm border-collapse border border-gray-900 print:break-inside-avoid">
               <thead>
                 <tr className="bg-gray-50 border-b border-gray-900">
                   <th className="p-2 border-r border-gray-900 text-left">Name</th>
@@ -239,7 +247,7 @@ export const PolicyDocument = ({ client, policy }: { client: Client; policy: Pol
         {policy.beneficiaries && Object.keys(policy.beneficiaries).length > 0 && (
           <div className="mb-8">
             <h3 className="font-bold uppercase mb-2 text-sm">BENEFICIARIES</h3>
-            <table className="w-full text-sm border-collapse border border-gray-900">
+            <table className="w-full text-sm border-collapse border border-gray-900 print:break-inside-avoid">
               <thead>
                 <tr className="bg-gray-50 border-b border-gray-900">
                   <th className="p-2 border-r border-gray-900 text-left">Name</th>
@@ -273,18 +281,26 @@ export const PolicyDocument = ({ client, policy }: { client: Client; policy: Pol
 
         <div className="mt-auto flex justify-between items-end px-4 pt-12">
           <div className="text-center w-56">
-            <div className="border-b border-gray-900 h-10 mb-2"></div>
+            {adminSignature || policy.signatureImageUrl ? (
+              <img src={adminSignature || policy.signatureImageUrl} alt="Administrator Signature" className="h-10 mx-auto object-contain mb-1" />
+            ) : (
+              <div className="border-b border-gray-900 h-10 mb-2"></div>
+            )}
             <p className="text-[10px] uppercase font-bold">The Administrator</p>
           </div>
           <div className="text-center w-56">
-            <div className="border-b border-gray-900 h-10 mb-2"></div>
+            {client.signatureImageUrl ? (
+              <img src={client.signatureImageUrl} alt="Policy Holder Signature" className="h-10 mx-auto object-contain mb-1" />
+            ) : (
+              <div className="border-b border-gray-900 h-10 mb-2"></div>
+            )}
             <p className="text-[10px] uppercase font-bold">Policy Holder Signature</p>
           </div>
         </div>
       </PageContainer>
 
       {/* Page 3: Terms & Conditions */}
-      <PageContainer className="page-break-before">
+      <PageContainer>
         <DocumentHeader />
         
         <h2 className="text-center text-xl font-black uppercase mb-10 underline tracking-tight">Terms & Conditions</h2>
@@ -337,29 +353,28 @@ export const PolicyDocument = ({ client, policy }: { client: Client; policy: Pol
 
 export const PaymentReceipt = ({ client, policy, payment }: { client: Client; policy: Policy; payment: Payment }) => {
   return (
-    <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden print:shadow-none print:border print:border-gray-200">
-      <div className="p-8 md:p-10">
+    <div className="max-w-xl mx-auto bg-white p-2">
+      <div className="p-2 md:p-4">
         <div className="flex justify-between items-start mb-10">
           <div className="space-y-1">
             <img src="/images/logo.png" alt="Royalty" className="h-12 object-contain mb-2" />
-            <p className="text-[10px] font-bold text-gray-400">REG NO: 2026/12345/07</p>
           </div>
           <div className="text-right text-[10px] text-gray-500 space-y-0.5">
             <p className="font-bold text-gray-900">CONTACT US</p>
             <p>+263 71 787 4750</p>
-            <p>info@royaltyfuneral.co.zw</p>
+            <p>sales@royaltyfuneral.com</p>
             <p>www.royaltyfuneral.co.zw</p>
           </div>
         </div>
 
-        <div className="bg-gray-50 border-y border-gray-100 -mx-8 md:-mx-10 py-4 mb-10">
-          <h1 className="text-center text-2xl font-black tracking-[0.3em] text-gray-900">PAYMENT RECEIPT</h1>
+        <div className="bg-gray-50 border-y border-gray-100 -mx-4 md:-mx-6 py-3 mb-6 print:hidden">
+          <h1 className="text-center text-lg font-black tracking-[0.3em] text-gray-900 uppercase">PAYMENT RECEIPT</h1>
         </div>
 
-        <div className="grid grid-cols-2 gap-12 mb-10">
+        <div className="grid grid-cols-2 gap-8 mb-6">
           <div>
             <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Receipt Number</p>
-            <p className="text-2xl font-black text-[#1e3a8a]">#{payment.receiptNumber || 'N/A'}</p>
+            <p className="text-xs font-black text-[#1e3a8a]">#{payment.receiptNumber || 'N/A'}</p>
           </div>
           <div className="text-right">
             <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Date Issued</p>
@@ -390,7 +405,7 @@ export const PaymentReceipt = ({ client, policy, payment }: { client: Client; po
             <h3 className="text-[10px] font-bold text-[#1e3a8a] uppercase tracking-widest mb-4">Policy Details</h3>
             <div className="space-y-2 text-sm">
               <p className="font-bold text-gray-900">{policy.policyNumber}</p>
-              <p className="text-gray-500">Royalty {policy.planType}</p>
+              <p className="text-gray-500">Royalty {policy.planType} – {policy.policyType}</p>
               <p className="text-gray-400 text-xs">Principal: {client.lastName}</p>
             </div>
           </div>
@@ -430,11 +445,19 @@ export const PaymentReceipt = ({ client, policy, payment }: { client: Client; po
 
         <div className="grid grid-cols-2 gap-16 pt-8">
           <div className="text-center">
-            <div className="border-b border-gray-300 h-10 mb-2"></div>
+            {client.signatureImageUrl ? (
+              <img src={client.signatureImageUrl} alt="Customer Signature" className="h-10 mx-auto object-contain" />
+            ) : (
+              <div className="border-b border-gray-300 h-10 mb-2"></div>
+            )}
             <p className="text-[10px] uppercase font-bold text-gray-400">Customer Signature</p>
           </div>
           <div className="text-center">
-            <div className="border-b border-gray-300 h-10 mb-2"></div>
+            {payment.signatureImageUrl ? (
+              <img src={payment.signatureImageUrl} alt="Company Officer Signature" className="h-10 mx-auto object-contain" />
+            ) : (
+              <div className="border-b border-gray-300 h-10 mb-2"></div>
+            )}
             <p className="text-[10px] uppercase font-bold text-gray-400">Company Officer</p>
           </div>
         </div>
@@ -443,16 +466,17 @@ export const PaymentReceipt = ({ client, policy, payment }: { client: Client; po
   );
 };
 
-export const ClaimDocument = ({ client, policy, claim }: { client: Client; policy: Policy; claim: Claim }) => {
+export const ClaimDocument = ({ client, policy, claim, adminSignature }: { client: Client; policy: Policy; claim: Claim; adminSignature?: string }) => {
   return (
-    <div className="max-w-4xl mx-auto bg-white p-8 md:p-12 font-sans text-gray-900">
-      <div className="text-center mb-10">
-        <img src="/images/logo.png" alt="Royalty" className="h-16 mx-auto mb-4" />
-        <h1 className="text-3xl font-black uppercase tracking-widest text-[#1e3a8a]">Declaration of Death / Claim</h1>
+    <div className="max-w-4xl mx-auto bg-white p-2 font-sans text-gray-900">
+      <div className="text-center mb-6">
+        <img src="/images/logo.png" alt="Royalty" className="h-14 mx-auto mb-3" />
+        <h1 className="text-xl font-black uppercase tracking-widest text-[#1e3a8a]">Declaration of Death / Claim</h1>
         <p className="text-gray-500 font-bold tracking-widest text-xs mt-1">DOC #: CLM-{policy.policyNumber.slice(-5)}-{new Date().getTime().toString().slice(-4)}</p>
+        <p className="text-[#1e3a8a] font-black uppercase text-sm mt-2">Policy Type: {policy.policyType}</p>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-8 mb-8">
+      <div className="grid md:grid-cols-2 gap-8 mb-8 print:break-inside-avoid">
         {/* Card 1: Declarant */}
         <div className="bg-gray-50 p-6 rounded-2xl border border-gray-200">
           <div className="flex items-center gap-2 mb-4 text-[#1e3a8a]">
@@ -499,7 +523,7 @@ export const ClaimDocument = ({ client, policy, claim }: { client: Client; polic
       </div>
 
       {/* Card 3: Services */}
-      <div className="bg-gray-50 p-6 rounded-2xl border border-gray-200 mb-12">
+      <div className="bg-gray-50 p-6 rounded-2xl border border-gray-200 mb-12 print:break-inside-avoid">
         <div className="flex items-center gap-2 mb-6 text-[#1e3a8a]">
           <Calendar size={18} />
           <h3 className="font-bold uppercase text-xs tracking-widest">Services Provided</h3>
@@ -523,23 +547,27 @@ export const ClaimDocument = ({ client, policy, claim }: { client: Client; polic
         "I hereby declare that the information provided above is true and correct to the best of my knowledge. I understand that any false declaration may result in the forfeiture of benefits."
       </div>
 
-      <div className="grid grid-cols-2 gap-16">
+      <div className="grid grid-cols-2 gap-16 print:break-inside-avoid">
         <div className="space-y-6">
           <h4 className="font-bold text-xs uppercase tracking-[0.2em] text-gray-400 border-b pb-1">Submitted By</h4>
           <div className="space-y-4 pt-4">
-            <div className="border-b border-gray-300 w-full h-8 flex items-end px-2 text-xs font-serif italic text-gray-400">Signature</div>
-            <p className="text-xs font-bold">Name: ________________________</p>
-            <p className="text-xs font-bold">ID No: ________________________</p>
-            <p className="text-xs font-bold">Date: {new Date().toLocaleDateString()}</p>
+            {client.signatureImageUrl ? (
+              <img src={client.signatureImageUrl} alt="Declarant Signature" className="h-12 object-contain" />
+            ) : (
+              <div className="border-b border-gray-300 w-full h-12 flex items-end px-2 text-xs font-serif italic text-gray-400">Signature</div>
+            )}
+            <p className="text-xs font-bold pt-2">Date: {new Date().toLocaleDateString()}</p>
           </div>
         </div>
         <div className="space-y-6">
           <h4 className="font-bold text-xs uppercase tracking-[0.2em] text-gray-400 border-b pb-1">Verified By (Admin)</h4>
           <div className="space-y-4 pt-4">
-            <div className="border-b border-gray-300 w-full h-8"></div>
-            <p className="text-xs font-bold">Admin: ________________________</p>
-            <p className="text-xs font-bold">Designation: ____________________</p>
-            <p className="text-xs font-bold">Date: ________________________</p>
+            {adminSignature || policy.signatureImageUrl ? (
+              <img src={adminSignature || policy.signatureImageUrl} alt="Admin Signature" className="h-12 object-contain" />
+            ) : (
+              <div className="border-b border-gray-300 w-full h-12"></div>
+            )}
+            <p className="text-xs font-bold pt-2">Date: ________________________</p>
           </div>
         </div>
       </div>

@@ -27,20 +27,22 @@ function formatCurrency(amount: number) {
 function PrintableSection({ 
   title, 
   type, 
-  data 
+  data,
+  adminSignature
 }: { 
   title: string; 
   type: 'policy' | 'receipt' | 'claim';
   data: any;
+  adminSignature?: string;
 }) {
   const handlePrint = () => {
     let content = "";
     if (type === 'policy') {
-      content = renderToString(<PolicyDocument client={data.client} policy={data.policy} />);
+      content = renderToString(<PolicyDocument client={data.client} policy={data.policy} adminSignature={adminSignature} />);
     } else if (type === 'receipt') {
       content = renderToString(<PaymentReceipt client={data.client} policy={data.policy} payment={data.payment} />);
     } else if (type === 'claim') {
-      content = renderToString(<ClaimDocument client={data.client} policy={data.policy} claim={data.claim} />);
+      content = renderToString(<ClaimDocument client={data.client} policy={data.policy} claim={data.claim} adminSignature={adminSignature} />);
     }
 
     const win = window.open("", "_blank");
@@ -54,26 +56,26 @@ function PrintableSection({
           <script src="https://cdn.tailwindcss.com"></script>
           <style>
             @media print {
-              @page { margin: 0; size: auto; }
-              body { margin: 1.6cm; background: white !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+              @page { size: A4; margin: 1.5cm; }
+              body { margin: 0; background: white !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
               .page-break-after { page-break-after: always; }
               .page-break-before { page-break-before: always; }
               .no-print { display: none !important; }
+              .print-m-0 { margin: 0 !important; }
             }
-            body { font-family: 'Inter', sans-serif; background: #f9f9f9; padding: 40px; }
+            body { font-family: 'Inter', sans-serif; background: #ecedf2; padding: 40px; }
             @media print { body { background: white; padding: 0; } }
           </style>
         </head>
-        <body>
-          <div class="max-w-[1000px] mx-auto shadow-2xl print:shadow-none bg-white">
+        <body class="print-m-0">
+          <div class="max-w-[900px] mx-auto shadow-2xl print:shadow-none print:max-w-none bg-white">
             ${content}
           </div>
           <script>
             // Wait for Tailwind to process classes
             setTimeout(() => {
               window.print();
-              // window.close(); // Optional: close after printing
-            }, 1000);
+            }, 800);
           </script>
         </body>
       </html>
@@ -131,7 +133,7 @@ function AccordionCard({
 }
 
 export default function MyDocuments() {
-  const { client, policy } = usePortal();
+  const { client, policy, adminSignature } = usePortal();
   const [payments, setPayments] = useState<Record<string, any>>({});
   const [claims, setClaims] = useState<Record<string, any>>({});
   const [declarations, setDeclarations] = useState<Record<string, any>>({});
@@ -191,6 +193,7 @@ export default function MyDocuments() {
                 title="Policy Document" 
                 type="policy" 
                 data={{ client, policy }} 
+                adminSignature={adminSignature}
               />
             </div>
             
@@ -273,6 +276,7 @@ export default function MyDocuments() {
                         title={`Claim - ${key}`} 
                         type="claim" 
                         data={{ client, policy, claim: { ...c, deceasedName: c.deceasedName || c.description } }} 
+                        adminSignature={adminSignature}
                       />
                     </div>
                   </div>

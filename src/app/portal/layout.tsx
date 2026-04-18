@@ -24,6 +24,8 @@ export interface ClientData {
   gender: string;
   title: string;
   isActive: boolean;
+  Insured?: string;
+  insured?: string;
 }
 
 export interface PolicyData {
@@ -64,12 +66,14 @@ export interface PolicyData {
 interface PortalContextType {
   client: ClientData | null;
   policy: PolicyData | null;
+  adminSignature?: string;
   signOut: () => void;
 }
 
 const PortalContext = createContext<PortalContextType>({
   client: null,
   policy: null,
+  adminSignature: undefined,
   signOut: () => { },
 });
 
@@ -91,13 +95,17 @@ function PortalNavbar({ client, policy, onSignOut }: { client: ClientData; polic
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo & Brand */}
-          <Link href="/portal" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-white shadow-lg group-hover:scale-105 transition-transform">
-              <Shield size={20} />
-            </div>
-            <div>
-              <span className="font-serif text-lg font-bold text-primary-dark block leading-none">Royalty</span>
-              <span className="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Portal</span>
+          <Link href="/portal" className="flex items-center gap-3">
+            <Image 
+              src="/images/logo.png" 
+              alt="Royalty Funeral Services" 
+              width={140} 
+              height={45} 
+              className="h-9 w-auto object-contain" 
+              priority 
+            />
+            <div className="border-l border-gray-200 pl-3 hidden sm:block">
+              <span className="text-[10px] uppercase tracking-[0.2em] text-gray-400 font-bold block">Client Portal</span>
             </div>
           </Link>
 
@@ -188,7 +196,7 @@ function PortalNavbar({ client, policy, onSignOut }: { client: ClientData; polic
   );
 }
 
-function LoginForm({ onSuccess }: { onSuccess: (client: ClientData, policy: PolicyData) => void }) {
+function LoginForm({ onSuccess }: { onSuccess: (client: ClientData, policy: PolicyData, adminSignature?: string) => void }) {
   const [policyNumber, setPolicyNumber] = useState("");
   const [pin, setPin] = useState("");
   const [confirmPin, setConfirmPin] = useState("");
@@ -279,7 +287,26 @@ function LoginForm({ onSuccess }: { onSuccess: (client: ClientData, policy: Poli
         }
       }
 
-      onSuccess(clientData, policyData);
+      // 4. Fetch Administrator Signature from users collection
+      let adminSignature = "";
+      try {
+        const usersSnap = await get(ref(db, "users"));
+        if (usersSnap.exists()) {
+          const users = usersSnap.val();
+          const adminUserKey = Object.keys(users).find(k => 
+            users[k].role === "admin" || 
+            users[k].type === "admin" || 
+            k === "admin"
+          );
+          if (adminUserKey) {
+            adminSignature = users[adminUserKey].signature || "";
+          }
+        }
+      } catch (err) {
+        console.warn("Could not fetch admin signature:", err);
+      }
+
+      onSuccess(clientData, policyData, adminSignature);
     } catch (err) {
       console.error(err);
       setError("Unable to connect. Please check your connection and try again.");
@@ -407,6 +434,7 @@ function LoginForm({ onSuccess }: { onSuccess: (client: ClientData, policy: Poli
 export default function PortalLayout({ children }: { children: React.ReactNode }) {
   const [client, setClient] = useState<ClientData | null>(null);
   const [policy, setPolicy] = useState<PolicyData | null>(null);
+  const [adminSignature, setAdminSignature] = useState<string | undefined>(undefined);
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
@@ -414,26 +442,32 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
     try {
       const savedClient = sessionStorage.getItem("portal_client");
       const savedPolicy = sessionStorage.getItem("portal_policy");
+      const savedAdminSig = sessionStorage.getItem("portal_admin_sig");
       if (savedClient && savedPolicy) {
         setClient(JSON.parse(savedClient));
         setPolicy(JSON.parse(savedPolicy));
+        if (savedAdminSig) setAdminSignature(savedAdminSig);
       }
     } catch { }
     setHydrated(true);
   }, []);
 
-  const handleLoginSuccess = (c: ClientData, p: PolicyData) => {
+  const handleLoginSuccess = (c: ClientData, p: PolicyData, sig?: string) => {
     setClient(c);
     setPolicy(p);
+    setAdminSignature(sig);
     sessionStorage.setItem("portal_client", JSON.stringify(c));
     sessionStorage.setItem("portal_policy", JSON.stringify(p));
+    if (sig) sessionStorage.setItem("portal_admin_sig", sig);
   };
 
   const handleSignOut = () => {
     setClient(null);
     setPolicy(null);
+    setAdminSignature(undefined);
     sessionStorage.removeItem("portal_client");
     sessionStorage.removeItem("portal_policy");
+    sessionStorage.removeItem("portal_admin_sig");
   };
 
   if (!hydrated) return null;
@@ -443,7 +477,7 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
   }
 
   return (
-    <PortalContext.Provider value={{ client, policy, signOut: handleSignOut }}>
+    <PortalContext.Provider value={{ client, policy, adminSignature, signOut: handleSignOut }}>
       <div className="min-h-screen bg-[#fcfcf9] flex flex-col">
         <PortalNavbar client={client} policy={policy} onSignOut={handleSignOut} />
         <main className="flex-1 p-4 md:p-10">
