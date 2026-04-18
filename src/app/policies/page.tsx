@@ -147,7 +147,7 @@ export default function Policies() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.3 }}
-              className="bg-white/5 backdrop-blur-xl border border-white/10 p-2 rounded-2xl flex items-center gap-1 shadow-2xl"
+              className="bg-white/5 backdrop-blur-xl border border-white/10 p-1 rounded-lg flex items-center gap-1 shadow-2xl"
             >
               {[
                 { id: "USD", label: "USD", sub: "US Dollar" },
@@ -156,9 +156,9 @@ export default function Policies() {
                 <button
                   key={c.id}
                   onClick={() => setCurrency(c.id as any)}
-                  className={`px-6 py-3 rounded-xl transition-all duration-300 flex flex-col items-center ${
+                  className={`px-4 py-2 rounded-md transition-all duration-300 flex flex-col items-center min-w-[80px] ${
                     currency === c.id 
-                    ? "bg-white text-primary-dark shadow-xl" 
+                    ? "bg-white text-primary-dark shadow-md" 
                     : "hover:bg-white/10 text-white/60"
                   }`}
                 >
@@ -181,7 +181,7 @@ export default function Policies() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1 }}
-              className={`flex flex-col rounded-[2.5rem] border-2 ${plan.color} p-8 shadow-2xl transition-all duration-500 hover:-translate-y-2 relative overflow-hidden group`}
+              className={`flex flex-col rounded-xl border-t-4 border-l border-r border-b border-primary/10 ${plan.color.replace('border-', 'border-t-')} bg-white p-6 shadow-xl transition-all duration-300 hover:border-primary/30 relative group`}
             >
               <div className="mb-8">
                 <div className="flex justify-between items-start mb-4">
@@ -213,24 +213,29 @@ export default function Policies() {
               </div>
 
               {/* Pricing Table */}
-              <div className="bg-white/40 backdrop-blur-md rounded-3xl p-5 border border-current/10 mb-8 space-y-4 shadow-inner">
-                <h4 className="text-[10px] font-bold uppercase tracking-widest opacity-40 text-center">Premiums by Tier</h4>
+              <div className="bg-primary/5 rounded-lg p-5 border border-primary/10 mb-6 space-y-4">
+                <h4 className="text-xs font-bold uppercase tracking-widest text-primary-dark opacity-60">Premiums by Option</h4>
                 <div className="space-y-2">
-                  {plan.ageTiers?.map((tier: any, i: number) => (
-                    <div key={i} className={`flex justify-between items-center py-2 px-3 rounded-xl border border-current/5 ${i === 0 ? "bg-white/60 shadow-sm" : ""}`}>
-                      <span className="text-xs font-bold opacity-60">{tier.label} yrs</span>
-                      <span className="text-sm font-bold font-serif">{formatCurrency(tier.options?.SINGLE || 0, currency)}</span>
+                  {plan.ageTiers?.length > 0 && plan.ageTiers[0].options && (
+                    <div className="space-y-1">
+                      {Object.entries(plan.ageTiers[0].options).filter(([_, v]) => Number(v) > 0).map(([optName, optPrice]: any, j) => (
+                        <div key={j} className="flex justify-between items-center py-1.5 border-b border-primary/5 last:border-0">
+                          <span className="text-sm font-semibold uppercase tracking-widest text-primary-dark/70">{optName.replace('_', ' ')}</span>
+                          <span className="text-base font-bold font-serif text-primary-dark">{formatCurrency(optPrice, currency)}/mo</span>
+                        </div>
+                      ))}
+                      <div className="text-[10px] uppercase tracking-widest opacity-40 mt-3 italic text-primary-dark">* Prices for {plan.ageTiers[0].label} yrs age group</div>
                     </div>
-                  ))}
+                  )}
                 </div>
               </div>
 
               {/* Footer */}
-              <div className="pt-6 border-t border-current/10 mt-auto space-y-3">
-                <div className="flex justify-between items-center bg-white/60 p-4 rounded-2xl border border-current/5 shadow-sm">
+              <div className="pt-6 border-t border-primary/10 mt-auto space-y-3">
+                <div className="flex justify-between items-center bg-primary/5 p-4 rounded-lg border border-primary/5">
                   <div>
-                    <span className="text-[9px] uppercase font-bold opacity-40 block">Cash Benefit</span>
-                    <span className="text-xl font-bold font-serif">{formatCurrency(plan.cashBenefit || 0, currency)}</span>
+                    <span className="text-xs uppercase font-bold text-primary-dark/50 block">Cash Benefit</span>
+                    <span className="text-2xl font-bold font-serif text-primary-dark">{formatCurrency(plan.cashBenefit || 0, currency)}</span>
                   </div>
                 </div>
                 <button 
@@ -238,7 +243,7 @@ export default function Policies() {
                     setSelectedPlanId(plan.id);
                     document.getElementById('estimator')?.scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className="w-full bg-primary-dark text-white py-4 rounded-2xl font-bold text-xs uppercase tracking-widest hover:bg-primary transition-colors flex items-center justify-center gap-2 group/btn"
+                  className="w-full bg-primary-dark text-white py-3 rounded-md font-bold text-sm uppercase tracking-widest hover:bg-primary transition-colors flex items-center justify-center gap-2 group/btn"
                 >
                   Select This Policy
                   <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
@@ -263,18 +268,18 @@ export default function Policies() {
               <p className="text-text-muted text-lg font-light max-w-2xl mx-auto">Tailor your selection to your specific needs and see your guaranteed monthly premium instantly.</p>
             </div>
 
-            <div className="bg-background-cream rounded-[3rem] p-8 md:p-16 shadow-2xl border border-primary/5 grid lg:grid-cols-12 gap-12 items-center">
+            <div className="bg-background-cream rounded-xl p-4 md:p-6 shadow-xl border border-primary/10 grid lg:grid-cols-12 gap-6 items-center">
               
               {/* Controls */}
-              <div className="lg:col-span-7 space-y-10">
-                <div className="grid sm:grid-cols-2 gap-8">
-                  <div className="space-y-3">
-                    <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary">Package</label>
+              <div className="lg:col-span-7 space-y-6">
+                <div className="grid sm:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold uppercase tracking-[0.2em] text-primary">Package</label>
                     <div className="relative group">
                       <select 
                         value={selectedPlanId} 
                         onChange={handlePlanChange}
-                        className="w-full appearance-none bg-white border-2 border-primary/10 hover:border-primary/30 text-primary-dark py-5 px-6 rounded-3xl outline-none transition-all font-serif text-xl"
+                        className="w-full appearance-none bg-white border border-primary/20 hover:border-primary/50 text-primary-dark py-3 px-4 rounded-md outline-none transition-all font-serif text-xl"
                       >
                         {plans.map(p => <option key={p.id} value={p.id}>{p.name || p.id}</option>)}
                       </select>
@@ -282,13 +287,13 @@ export default function Policies() {
                     </div>
                   </div>
 
-                  <div className="space-y-3">
-                    <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary">Age Group</label>
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold uppercase tracking-[0.2em] text-primary">Age Group</label>
                     <div className="relative group">
                       <select 
                         value={selectedAgeTierLabel} 
                         onChange={(e) => setSelectedAgeTierLabel(e.target.value)}
-                        className="w-full appearance-none bg-white border-2 border-primary/10 hover:border-primary/30 text-primary-dark py-5 px-6 rounded-3xl outline-none transition-all font-serif text-xl"
+                        className="w-full appearance-none bg-white border border-primary/20 hover:border-primary/50 text-primary-dark py-3 px-4 rounded-md outline-none transition-all font-serif text-xl"
                       >
                         {activePlan.ageTiers?.map((t: any) => (
                           <option key={t.label} value={t.label}>{t.label} Years</option>
@@ -299,17 +304,17 @@ export default function Policies() {
                   </div>
                 </div>
 
-                <div className="space-y-3">
-                  <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary">Option</label>
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                <div className="space-y-2">
+                  <label className="text-xs font-bold uppercase tracking-[0.2em] text-primary">Option</label>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                     {availableOptions.map((opt: string) => (
                       <button
                         key={opt}
                         onClick={() => setSelectedOption(opt)}
-                        className={`py-4 px-2 rounded-2xl font-bold text-[10px] uppercase tracking-widest transition-all ${
+                        className={`py-3 px-4 rounded-md font-bold text-xs uppercase tracking-widest transition-all ${
                           selectedOption === opt 
-                          ? "bg-primary text-white shadow-lg scale-105" 
-                          : "bg-white border border-primary/10 text-primary-dark hover:border-primary/40"
+                          ? "bg-primary text-white shadow-md" 
+                          : "bg-white border border-primary/20 text-primary-dark hover:border-primary/50"
                         }`}
                       >
                         {opt.replace('_', ' ')}
@@ -318,52 +323,52 @@ export default function Policies() {
                   </div>
                 </div>
 
-                <div className="grid sm:grid-cols-2 gap-8">
-                  <div className="bg-white p-6 rounded-[2rem] border border-primary/5">
-                    <div className="flex justify-between items-center mb-6">
-                      <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary">Dependents</label>
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div className="bg-white p-5 rounded-lg border border-primary/10">
+                    <div className="flex justify-between items-center mb-4">
+                      <label className="text-xs font-bold uppercase tracking-[0.2em] text-primary">Dependents</label>
                       <span className="text-primary-dark font-serif text-sm font-bold">+{formatCurrency(dependentPrice, currency)}/ea</span>
                     </div>
                     <div className="flex items-center justify-between">
                       <button 
                         onClick={() => setDependents(Math.max(0, dependents - 1))}
-                        className="w-12 h-12 rounded-2xl bg-background-cream text-primary"
+                        className="w-10 h-10 rounded-md border border-primary/20 text-primary hover:bg-background-cream"
                       >-</button>
                       <span className="text-4xl font-serif font-bold text-primary-dark">{dependents}</span>
                       <button 
                         onClick={() => setDependents(dependents + 1)}
-                        className="w-12 h-12 rounded-2xl bg-primary text-white shadow-xl shadow-primary/20 hover:bg-primary-dark"
+                        className="w-10 h-10 rounded-md bg-primary text-white shadow-md shadow-primary/20 hover:bg-primary-dark"
                       >+</button>
                     </div>
                   </div>
 
-                  <div className="space-y-6">
-                    <div className="space-y-2">
-                       <label className="text-[10px] font-bold uppercase tracking-widest text-primary/60">Optional Lump Sum</label>
+                  <div className="space-y-4">
+                    <div className="space-y-1">
+                       <label className="text-[10px] font-bold uppercase tracking-widest text-primary/80">Optional Lump Sum</label>
                        <select 
                           value={accidentalOption} 
                           onChange={(e) => setAccidentalOption(Number(e.target.value))}
-                          className="w-full bg-white border border-primary/10 py-3 px-4 rounded-xl text-xs outline-none"
+                          className="w-full bg-white border border-primary/20 py-2.5 px-3 rounded-md text-sm outline-none hover:border-primary/40 focus:border-primary"
                         >
                           {accidentalDeathOptions.map((opt, idx) => (
                             <option key={idx} value={idx}>
                               {opt.label} {opt.premium > 0 ? `(+${formatCurrency(opt.premium, currency)})` : ''}
                             </option>
-                          ))}
+                           ))}
                         </select>
                     </div>
-                    <div className="space-y-2">
-                       <label className="text-[10px] font-bold uppercase tracking-widest text-primary/60">Spousal Benefit</label>
+                    <div className="space-y-1">
+                       <label className="text-[10px] font-bold uppercase tracking-widest text-primary/80">Spousal Benefit</label>
                        <select 
                           value={spousalOption} 
                           onChange={(e) => setSpousalOption(Number(e.target.value))}
-                          className="w-full bg-white border border-primary/10 py-3 px-4 rounded-xl text-xs outline-none"
+                          className="w-full bg-white border border-primary/20 py-2.5 px-3 rounded-md text-sm outline-none hover:border-primary/40 focus:border-primary"
                         >
                           {spousalDeathOptions.map((opt, idx) => (
                             <option key={idx} value={idx}>
                               {opt.label} {opt.premium > 0 ? `(+${formatCurrency(opt.premium, currency)})` : ''}
                             </option>
-                          ))}
+                           ))}
                         </select>
                     </div>
                   </div>
@@ -371,7 +376,7 @@ export default function Policies() {
               </div>
 
               {/* Display Results */}
-              <div className="lg:col-span-5 bg-primary-dark rounded-[2.5rem] p-10 md:p-14 text-white relative overflow-hidden shadow-2xl">
+              <div className="lg:col-span-5 bg-primary-dark rounded-xl p-6 md:p-8 text-white relative overflow-hidden shadow-xl">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-[80px] -mr-32 -mt-32" />
                 <div className="relative z-10">
                   <span className="text-primary-light font-bold text-[10px] uppercase tracking-[0.3em] mb-8 block">Policy Quote</span>
@@ -406,7 +411,7 @@ export default function Policies() {
                   <div className="flex flex-col gap-4">
                     <Link 
                       href={`/contact?plan=${activePlan.name || activePlan.id}&tier=${selectedAgeTierLabel}&dependents=${dependents}&total=${totalPremium}&currency=${currency}`}
-                      className="bg-primary text-white py-5 rounded-2xl flex items-center justify-center gap-3 font-bold uppercase tracking-widest text-xs hover:bg-primary-light transition-colors group"
+                      className="bg-primary text-white py-4 rounded-md flex items-center justify-center gap-3 font-bold uppercase tracking-widest text-sm hover:bg-primary-light transition-colors group"
                     >
                       Secure Your Policy
                       <ShieldCheck size={16} />
@@ -429,9 +434,9 @@ export default function Policies() {
                 { icon: DollarSign, title: "Cash-Back", desc: "Enjoy up to 30% cashback." },
                 { icon: HeartHandshake, title: "No Age Limit", desc: "Inclusive coverage options for seniors up to 84 years." }
               ].map((f, i) => (
-                <div key={i} className="space-y-4">
-                  <div className="w-16 h-16 bg-white rounded-2xl border border-primary/10 flex items-center justify-center mx-auto shadow-lg text-primary">
-                    <f.icon size={28} />
+                <div key={i} className="space-y-3">
+                  <div className="w-12 h-12 bg-white rounded-lg border border-primary/10 flex items-center justify-center mx-auto shadow-md text-primary">
+                    <f.icon size={24} />
                   </div>
                   <h4 className="font-serif text-xl">{f.title}</h4>
                   <p className="text-sm text-text-muted font-light">{f.desc}</p>

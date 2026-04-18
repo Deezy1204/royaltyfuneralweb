@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const PAYNOW_START_URL = process.env.PAYNOW_START_URL || "https://royaltyfuneral.com/securepay/paynow/start";
+const PAYNOW_START_URL = process.env.PAYNOW_START_URL || "https://pay.royaltyfuneral.com/.netlify/functions/paynow-start";
 
 export async function POST(request: NextRequest) {
   try {

@@ -32,10 +32,8 @@ export default function MakePayment() {
     setPaymentError("");
     setIsSubmitting(true);
 
-    const PAYMENTS_API_URL = process.env.NEXT_PUBLIC_PAYMENTS_API_URL?.replace(/\/+$/, "") || "";
-    const paymentEndpoint = PAYMENTS_API_URL
-      ? `${PAYMENTS_API_URL}/api/portal/payment/start`
-      : "/api/portal/payment/start";
+    const PAYMENTS_API_URL = process.env.NEXT_PUBLIC_PAYMENTS_API_URL?.replace(/\/+$/, "") || "https://royaltyfuneral.com";
+    const paymentEndpoint = `${PAYMENTS_API_URL}/api/portal/payment/start`;
 
     try {
       const response = await fetch(paymentEndpoint, {
