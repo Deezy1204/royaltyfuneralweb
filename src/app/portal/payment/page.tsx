@@ -32,8 +32,8 @@ export default function MakePayment() {
     setPaymentError("");
     setIsSubmitting(true);
 
-    const PAYMENTS_API_URL = process.env.NEXT_PUBLIC_PAYMENTS_API_URL?.replace(/\/+$/, "") || "https://royaltyfuneral.com";
-    const paymentEndpoint = `${PAYMENTS_API_URL}/api/portal/payment/start`;
+    const PAYMENTS_API_URL = process.env.NEXT_PUBLIC_PAYMENTS_API_URL?.replace(/\/+$/, "") || "https://pay.royaltyfuneral.com";
+    const paymentEndpoint = `${PAYMENTS_API_URL}/.netlify/functions/paynow-start`;
 
     try {
       const response = await fetch(paymentEndpoint, {
@@ -42,6 +42,19 @@ export default function MakePayment() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          reference: policy.policyNumber,
+          authEmail: client.email || "",
+          items: [
+            ...(Number(policy.premiumAmount || 0) > 0 ? [{
+              name: `Policy Premium (Ref: ${policy.policyNumber})`,
+              amount: Number(policy.premiumAmount || 0)
+            }] : []),
+            ...(insuranceFee > 0 ? [{
+              name: `Insurance (Ref: ${policy.policyNumber})`,
+              amount: insuranceFee
+            }] : [])
+          ],
+          // Send original data just in case it's still needed by other parts of the webhook/backend
           client,
           policy,
           clientEmail: client.email,
