@@ -15,8 +15,39 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Royalty Funeral Services | Dignity, Respect, Comfort",
-  description: "Providing compassionate, respectful, and dignified funeral services, cremation, and grief support.",
+  metadataBase: new URL("https://www.royaltyfuneral.com"),
+  title: {
+    default: "Royalty Funeral Services | Dignity, Respect, Comfort",
+    template: "%s | Royalty Funeral Services"
+  },
+  description: "Providing compassionate, respectful, and dignified funeral services, cremation, and grief support in Zimbabwe.",
+  keywords: ["funeral services Zimbabwe", "funeral coverage", "funeral planning", "Royalty Funeral Services", "burial services", "funeral insurance"],
+  openGraph: {
+    title: "Royalty Funeral Services | Dignity, Respect, Comfort",
+    description: "Providing compassionate, respectful, and dignified funeral services, cremation, and grief support.",
+    url: "https://www.royaltyfuneral.com",
+    siteName: "Royalty Funeral Services",
+    locale: "en_ZW",
+    type: "website",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  twitter: {
+    title: "Royalty Funeral Services",
+    card: "summary_large_image",
+  },
+  verification: {
+    google: "YOUR_GOOGLE_VERIFICATION_CODE_HERE", // Replace with actual GSC token
+  },
   icons: {
     icon: "/src/app/logo.ico",
   },
