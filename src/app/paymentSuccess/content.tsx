@@ -232,7 +232,7 @@ export default function PaymentContent() {
                 <p className="text-sm text-amber-900">
                   <span className="font-semibold">Need help?</span>
                   <br />
-                  Please contact our support team at <a href="tel:+263717874750" className="underline hover:text-amber-700">+263 71 787 4750</a> or email <a href="mailto:royaltyzw.tech@gmail.com" className="underline hover:text-amber-700">royaltyzw.tech@gmail.com</a>
+                  Please contact our support team at <a href="tel:+263717874750" className="underline hover:text-amber-700">+263 71 787 4750</a> or email <a href="mailto:sales@royaltyfuneral.com" className="underline hover:text-amber-700">royaltyzw.tech@gmail.com</a>
                 </p>
               </div>
             </div>
@@ -243,11 +243,10 @@ export default function PaymentContent() {
         <div className="p-8 md:p-12 bg-gray-50 border-t border-gray-200 flex flex-col sm:flex-row gap-4">
           <Link
             href="/portal/payment"
-            className={`flex-1 py-4 px-6 rounded-xl font-medium text-center transition-all ${
-              isSuccess
+            className={`flex-1 py-4 px-6 rounded-xl font-medium text-center transition-all ${isSuccess
                 ? "bg-primary text-white hover:bg-primary-dark"
                 : "bg-primary text-white hover:bg-primary-dark"
-            }`}
+              }`}
           >
             {isSuccess ? "Back to Portal" : "Try Payment Again"}
           </Link>

@@ -16,6 +16,8 @@ function ContactForm() {
     nature: "Immediate Need",
     message: ""
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [status, setStatus] = useState<{ type: "success" | "error" | null; message: string }>({ type: null, message: "" });
 
   useEffect(() => {
     const plan = searchParams.get("plan");
@@ -35,6 +37,38 @@ function ContactForm() {
       }));
     }
   }, [searchParams]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData.firstName || !formData.email || !formData.message) {
+      setStatus({ type: "error", message: "Please fill in your first name, email, and message." });
+      return;
+    }
+
+    setIsSubmitting(true);
+    setStatus({ type: null, message: "" });
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || "Failed to send message. Please try again.");
+      }
+
+      setStatus({ type: "success", message: "Message sent! We will get back to you shortly." });
+      setFormData({ firstName: "", lastName: "", email: "", phone: "", nature: "Immediate Need", message: "" });
+    } catch (error: any) {
+      setStatus({ type: "error", message: error.message || "Something went wrong." });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-0 md:gap-16 bg-white rounded-3xl shadow-xl overflow-hidden">
@@ -84,7 +118,12 @@ function ContactForm() {
       {/* Contact Form */}
       <div className="p-6 sm:p-8 md:p-12">
         <h2 className="font-serif text-3xl text-primary-dark mb-8">Send Us a Message</h2>
-        <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+        <form className="space-y-6" onSubmit={handleSubmit}>
+          {status.message && (
+            <div className={`p-4 rounded-xl text-sm ${status.type === "success" ? "bg-green-50 text-green-700 border border-green-200" : "bg-red-50 text-red-700 border border-red-200"}`}>
+              {status.message}
+            </div>
+          )}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div className="space-y-2">
               <label htmlFor="firstName" className="text-sm font-medium text-gray-700">First Name</label>
@@ -161,9 +200,17 @@ function ContactForm() {
             ></textarea>
           </div>
 
-          <button type="submit" className="w-full bg-primary text-white py-4 rounded-xl font-medium hover:bg-primary-dark transition-all flex items-center justify-center gap-2 shadow-lg group">
-            <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" /> 
-            Send Message
+          <button 
+            type="submit" 
+            disabled={isSubmitting}
+            className="w-full bg-primary text-white py-4 rounded-xl font-medium hover:bg-primary-dark transition-all flex items-center justify-center gap-2 shadow-lg group disabled:opacity-70 disabled:cursor-not-allowed"
+          >
+            {isSubmitting ? (
+              <Loader2 size={18} className="animate-spin" />
+            ) : (
+              <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" /> 
+            )}
+            {isSubmitting ? "Sending..." : "Send Message"}
           </button>
         </form>
       </div>

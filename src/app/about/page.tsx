@@ -40,6 +40,13 @@ export default function About() {
               viewport={{ once: true }}
               transition={{ duration: 0.9 }}
             >
+              <Image 
+                src="/images/logo.png" 
+                alt="Royalty Funeral Services Logo" 
+                width={400} 
+                height={140} 
+                className="h-32 md:h-40 w-auto object-contain mb-8" 
+              />
               <h2 className="font-serif text-4xl text-primary-dark mb-6">About Us</h2>
               <div className="space-y-4 text-text-muted text-lg font-light leading-relaxed">
                 <p>
