@@ -22,22 +22,22 @@ export default function Terms() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Header Banner */}
-      <section className="bg-primary-dark text-white py-24 md:py-32 relative overflow-hidden">
-        <div className="absolute inset-0 z-0 bg-[url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-10" />
+      <section className="bg-white text-primary-dark py-24 md:py-32 relative overflow-hidden border-b border-primary/10">
+        <div className="absolute inset-0 z-0 bg-[url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-[0.05]" />
         <div className="container relative z-10 mx-auto px-4 md:px-8 text-center max-w-4xl">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8 }}
-            className="inline-block p-3 rounded-2xl bg-white/10 backdrop-blur-md mb-6"
+            className="inline-block p-3 rounded-2xl bg-primary/10 backdrop-blur-md mb-6"
           >
-            <FileText className="text-white w-8 h-8" />
+            <FileText className="text-primary w-8 h-8" />
           </motion.div>
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.0 }}
-            className="font-serif text-5xl md:text-6xl mb-6 tracking-tight"
+            className="font-serif text-5xl md:text-6xl mb-6 tracking-tight text-primary-dark"
           >
             Terms & Conditions
           </motion.h1>
@@ -45,7 +45,7 @@ export default function Terms() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1.0, delay: 0.4 }}
-            className="text-white/80 text-xl font-light"
+            className="text-text-muted text-xl font-light"
           >
             Ensuring transparency, trust, and professional service delivery for every Royalty policy holder.
           </motion.p>
@@ -114,25 +114,25 @@ export default function Terms() {
             </motion.div>
 
             {/* Qualification & Waiting Periods */}
-            <motion.div variants={itemVariants} className="bg-primary-dark text-white p-8 md:p-10 rounded-3xl shadow-xl">
+            <motion.div variants={itemVariants} className="bg-white text-primary-dark p-8 md:p-10 rounded-3xl shadow-sm border border-primary/10">
               <div className="flex items-start gap-6">
-                <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center shrink-0">
-                  <Info className="text-white w-6 h-6" />
+                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                  <Info className="text-primary w-6 h-6" />
                 </div>
                 <div className="space-y-6 flex-1">
-                  <h2 className="font-serif text-2xl">Qualification & Waiting Periods</h2>
+                  <h2 className="font-serif text-2xl text-primary-dark">Qualification & Waiting Periods</h2>
                   <div className="space-y-4">
-                    <div className="pb-4 border-b border-white/10">
-                      <h3 className="font-semibold text-white/90 mb-1">General Qualification</h3>
-                      <p className="text-white/70 font-light">A member qualifies for cover after <strong>3 consecutive payments</strong>.</p>
+                    <div className="pb-4 border-b border-primary/10">
+                      <h3 className="font-semibold text-primary/90 mb-1">General Qualification</h3>
+                      <p className="text-text-muted font-light">A member qualifies for cover after <strong>3 consecutive payments</strong>.</p>
                     </div>
-                    <div className="pb-4 border-b border-white/10">
-                      <h3 className="font-semibold text-white/90 mb-1">Accidental Death</h3>
-                      <p className="text-white/70 font-light">No waiting period, provided you have made the first payment up to 3 months.</p>
+                    <div className="pb-4 border-b border-primary/10">
+                      <h3 className="font-semibold text-primary/90 mb-1">Accidental Death</h3>
+                      <p className="text-text-muted font-light">No waiting period, provided you have made the first payment up to 3 months.</p>
                     </div>
                     <div>
-                      <h3 className="font-semibold text-white/90 mb-1">Suicidal & Other Causes</h3>
-                      <p className="text-white/70 font-light">Suicidal death and other specific causes (suicide and accident excluded) – 6 calendar month waiting period or 3 months where applicable.</p>
+                      <h3 className="font-semibold text-primary/90 mb-1">Suicidal & Other Causes</h3>
+                      <p className="text-text-muted font-light">Suicidal death and other specific causes (suicide and accident excluded) – 6 calendar month waiting period or 3 months where applicable.</p>
                     </div>
                   </div>
                 </div>

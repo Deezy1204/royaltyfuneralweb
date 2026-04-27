@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import Preloader from "@/components/ui/Preloader";
+import { LoadingProvider } from "@/context/LoadingContext";
 import "./globals.css";
 
 const inter = Inter({
@@ -48,9 +50,6 @@ export const metadata: Metadata = {
   verification: {
     google: "YOUR_GOOGLE_VERIFICATION_CODE_HERE", // Replace with actual GSC token
   },
-  icons: {
-    icon: "/src/app/logo.ico",
-  },
 };
 
 export default function RootLayout({
@@ -61,11 +60,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} ${playfair.variable} antialiased bg-background-cream text-text-main font-sans min-h-screen flex flex-col`}>
-        <Header />
-        <main className="flex-1 pt-[80px]">
-          {children}
-        </main>
-        <Footer />
+        <LoadingProvider>
+          <Preloader />
+          <Header />
+          <main className="flex-1 pt-[80px]">
+            {children}
+          </main>
+          <Footer />
+        </LoadingProvider>
       </body>
     </html>
   );

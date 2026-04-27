@@ -17,31 +17,27 @@ export default function Header() {
   }, [pathname]);
 
   const navLinks = [
-    { name: "Home", href: "/" },
     { name: "About Us", href: "/about" },
     { name: "Our Services", href: "/services" },
+    { name: "Our Offices", href: "/offices" },
     { name: "Policy Options", href: "/policies" },
     { name: "Contact", href: "/contact" },
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background-cream/90 backdrop-blur-md border-b border-primary/10">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md shadow-sm border-b border-primary/10">
       <div className="container mx-auto px-4 lg:px-8 py-4 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-3 z-50 group">
           <Image src="/images/logo.png" alt="Royalty Funeral Services" width={280} height={90} className="h-20 md:h-24 w-auto object-contain" priority />
-          <div className="hidden sm:block">
-            <span className="font-serif text-lg font-bold text-primary-dark block leading-none">Royalty</span>
-            <span className="text-[10px] uppercase tracking-widest text-[#1e3a8a] font-black">Funeral Services</span>
-          </div>
         </Link>
-        
+
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-6 lg:gap-8 text-sm font-medium tracking-wide">
           {navLinks.map((link) => (
-            <Link 
-              key={link.name} 
-              href={link.href} 
-              className={`hover:text-primary transition-colors ${pathname === link.href ? "text-primary font-semibold" : "text-primary-dark"}`}
+            <Link
+              key={link.name}
+              href={link.href}
+              className={`hover:text-primary transition-colors ${pathname === link.href ? "text-primary font-bold" : "text-primary-dark"}`}
             >
               {link.name}
             </Link>
@@ -57,9 +53,9 @@ export default function Header() {
             <span className="hidden lg:inline">24/7 Support</span>
           </a>
         </div>
-        
+
         {/* Mobile menu toggle */}
-        <button 
+        <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           className="md:hidden text-primary z-50 p-2"
           aria-label="Toggle mobile menu"
@@ -81,17 +77,17 @@ export default function Header() {
             <div className="container mx-auto px-4 py-8 flex flex-col gap-6">
               <nav className="flex flex-col gap-4 text-center text-lg font-medium">
                 {navLinks.map((link) => (
-                  <Link 
-                    key={link.name} 
-                    href={link.href} 
+                  <Link
+                    key={link.name}
+                    href={link.href}
                     className={`p-3 rounded-lg ${pathname === link.href ? "bg-primary/10 text-primary" : "text-primary-dark hover:bg-white"}`}
                   >
                     {link.name}
                   </Link>
                 ))}
                 <div className="h-px bg-primary/10 my-2" />
-                <Link 
-                  href="/portal" 
+                <Link
+                  href="/portal"
                   className="p-3 rounded-lg text-primary bg-primary/5 border border-primary/20"
                 >
                   Client Portal

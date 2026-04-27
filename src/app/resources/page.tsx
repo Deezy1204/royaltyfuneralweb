@@ -8,13 +8,13 @@ import Image from "next/image";
 export default function Resources() {
   return (
     <div className="flex flex-col min-h-screen pt-20">
-      <section className="bg-primary-dark text-white py-24 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10 bg-[url('https://images.pexels.com/photos/17794572/pexels-photo-17794572.jpeg')] bg-cover bg-center" />
+      <section className="bg-white text-primary-dark py-24 relative overflow-hidden border-b border-primary/10">
+        <div className="absolute inset-0 opacity-[0.03] bg-[url('https://images.pexels.com/photos/17794572/pexels-photo-17794572.jpeg')] bg-cover bg-center" />
         <div className="container relative z-10 mx-auto px-4 md:px-8 text-center max-w-3xl">
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="font-serif text-5xl md:text-6xl mb-6"
+            className="font-serif text-5xl md:text-6xl mb-6 text-primary-dark"
           >
             Resources & Guides
           </motion.h1>
@@ -22,7 +22,7 @@ export default function Resources() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="text-white/80 text-xl font-light"
+            className="text-text-muted text-xl font-light"
           >
             Helpful information to guide you through planning, grief, and honoring your loved one's memory.
           </motion.p>

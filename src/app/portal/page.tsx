@@ -79,37 +79,37 @@ export default function PortalDashboard() {
         </div>
 
         {/* Policy Summary */}
-        <div className="bg-primary-dark text-white p-6 md:p-8 rounded-2xl shadow-lg relative overflow-hidden">
-          <div className="absolute top-0 right-0 p-8 opacity-10">
+        <div className="bg-white text-primary-dark p-6 md:p-8 rounded-2xl shadow-sm border border-primary/10 relative overflow-hidden">
+          <div className="absolute top-0 right-0 p-8 opacity-5 text-primary">
             <Shield size={120} />
           </div>
           <div className="relative z-10">
             <div className="flex items-center gap-3 mb-1">
-              <span className={`text-xs font-bold px-2 py-1 rounded-full ${planColors[policy.planType] || "bg-white/20 text-white"}`}>
+              <span className={`text-xs font-bold px-2 py-1 rounded-full ${planColors[policy.planType] || "bg-primary/10 text-primary"}`}>
                 Royalty {policy.planType}
               </span>
-              <span className={`text-xs font-medium px-2 py-1 rounded-full ${policy.status === "ACTIVE" ? "bg-green-400/20 text-green-300" : "bg-red-400/20 text-red-300"}`}>
+              <span className={`text-xs font-medium px-2 py-1 rounded-full ${policy.status === "ACTIVE" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
                 {policy.status}
               </span>
             </div>
-            <p className="font-mono text-white/60 text-xs mb-5 mt-2">{policy.policyNumber}</p>
+            <p className="font-mono text-text-muted text-xs mb-5 mt-2">{policy.policyNumber}</p>
 
-            <div className="text-3xl font-semibold mb-6">
-              {formatCurrency(policy.premiumAmount)} <span className="text-lg font-normal text-white/70">/ {policy.paymentFrequency.toLowerCase()}</span>
+            <div className="text-3xl font-semibold mb-6 text-primary">
+              {formatCurrency(policy.premiumAmount)} <span className="text-lg font-normal text-text-muted">/ {policy.paymentFrequency.toLowerCase()}</span>
             </div>
 
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
-                <p className="text-white/50 text-xs mb-1">Policy Type</p>
-                <p className="font-medium">{policy.policyType}</p>
+                <p className="text-text-muted font-bold uppercase text-[10px] tracking-wider mb-1">Policy Type</p>
+                <p className="font-medium text-gray-900">{policy.policyType}</p>
               </div>
               <div>
-                <p className="text-white/50 text-xs mb-1">Payment Method</p>
-                <p className="font-medium">{policy.paymentMethod}</p>
+                <p className="text-text-muted font-bold uppercase text-[10px] tracking-wider mb-1">Payment Method</p>
+                <p className="font-medium text-gray-900">{policy.paymentMethod}</p>
               </div>
               <div>
-                <p className="text-white/50 text-xs mb-1">Start Date</p>
-                <p className="font-medium">{formatDate(policy.inceptionDate)}</p>
+                <p className="text-text-muted font-bold uppercase text-[10px] tracking-wider mb-1">Start Date</p>
+                <p className="font-medium text-gray-900">{formatDate(policy.inceptionDate)}</p>
               </div>
             </div>
           </div>

@@ -177,16 +177,16 @@ export default function Services() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 bg-primary-dark text-white text-center relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-[100px] -mr-32 -mt-32" />
+      <section className="py-24 bg-background-cream text-primary-dark text-center relative overflow-hidden border-t border-primary/10">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-[100px] -mr-32 -mt-32" />
         <div className="container relative z-10 mx-auto px-4">
-          <h2 className="font-serif text-4xl mb-6">Need Immediate Assistance?</h2>
-          <p className="text-white/60 text-lg mb-10 max-w-2xl mx-auto">Our team is available 24/7 to help you navigate this difficult time with dignity and respect.</p>
+          <h2 className="font-serif text-4xl mb-6 text-primary-dark">Need Immediate Assistance?</h2>
+          <p className="text-text-muted text-lg mb-10 max-w-2xl mx-auto">Our team is available 24/7 to help you navigate this difficult time with dignity and respect.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/contact" className="bg-white text-primary-dark px-10 py-4 rounded-2xl font-bold uppercase tracking-widest text-xs hover:bg-background-cream transition-colors">
+            <Link href="/contact" className="bg-primary text-white px-10 py-4 rounded-2xl font-bold uppercase tracking-widest text-xs hover:bg-primary-dark transition-colors shadow-lg shadow-primary/20">
               Contact Us Now
             </Link>
-            <a href="tel:+263717874750" className="border-2 border-white/20 px-10 py-4 rounded-2xl font-bold uppercase tracking-widest text-xs hover:bg-white/10 transition-colors">
+            <a href="tel:+263717874750" className="border-2 border-primary/20 text-primary-dark px-10 py-4 rounded-2xl font-bold uppercase tracking-widest text-xs hover:bg-primary/5 transition-colors">
               Call Hotline
             </a>
           </div>

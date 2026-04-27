@@ -324,12 +324,12 @@ function LoginForm({ onSuccess }: { onSuccess: (client: ClientData, policy: Poli
       >
         <div className="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
           {/* Header */}
-          <div className="bg-primary-dark text-white p-8 text-center">
-            <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center mx-auto mb-4">
-              <Lock size={32} className="text-white" />
+          <div className="bg-white text-primary-dark p-8 text-center border-b border-primary/10">
+            <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+              <Lock size={32} className="text-primary" />
             </div>
-            <h1 className="font-serif text-2xl mb-1">Client Portal</h1>
-            <p className="text-white/70 text-sm">Sign in with your policy number and PIN</p>
+            <h1 className="font-serif text-2xl mb-1 text-primary-dark">Client Portal</h1>
+            <p className="text-text-muted text-sm">Sign in with your policy number and PIN</p>
           </div>
 
           {/* Form */}

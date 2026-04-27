@@ -73,38 +73,38 @@ function ContactForm() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-0 md:gap-16 bg-white rounded-3xl shadow-xl overflow-hidden">
       {/* Contact Details & Map Area */}
-      <div className="bg-primary-dark text-white p-6 sm:p-8 md:p-12 flex flex-col justify-between">
+      <div className="bg-background-cream text-primary-dark p-6 sm:p-8 md:p-12 flex flex-col justify-between border-r border-primary/10">
         <div>
-          <h2 className="font-serif text-3xl mb-8">Get in Touch</h2>
+          <h2 className="font-serif text-3xl mb-8 text-primary-dark">Get in Touch</h2>
           <div className="space-y-6 md:space-y-8">
-            <div className="flex items-start gap-4 hover:bg-white/5 p-3 sm:p-4 rounded-xl transition-colors cursor-pointer">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white/10 rounded-full flex items-center justify-center shrink-0">
-                <Phone size={20} className="text-white sm:w-6 sm:h-6" />
+            <div className="flex items-start gap-4 hover:bg-primary/5 p-3 sm:p-4 rounded-xl transition-colors cursor-pointer">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary/10 rounded-full flex items-center justify-center shrink-0">
+                <Phone size={20} className="text-primary sm:w-6 sm:h-6" />
               </div>
               <div className="min-w-0 flex-1">
-                <h4 className="font-medium text-lg sm:text-xl mb-1">24/7 Hotline Numbers</h4>
-                <p className="text-white/70 tracking-wide text-sm sm:text-base break-words">+263 71 787 4750</p>
-                <p className="text-white/70 tracking-wide text-sm sm:text-base break-words">+263 71 787 4747</p>
+                <h4 className="font-medium text-lg sm:text-xl mb-1 text-primary-dark">24/7 Hotline Numbers</h4>
+                <p className="text-text-muted tracking-wide text-sm sm:text-base break-words">+263 71 787 4750</p>
+                <p className="text-text-muted tracking-wide text-sm sm:text-base break-words">+263 71 787 4747</p>
               </div>
             </div>
 
-            <div className="flex items-start gap-4 hover:bg-white/5 p-3 sm:p-4 rounded-xl transition-colors cursor-pointer">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white/10 rounded-full flex items-center justify-center shrink-0">
-                <Mail size={20} className="text-white sm:w-6 sm:h-6" />
+            <div className="flex items-start gap-4 hover:bg-primary/5 p-3 sm:p-4 rounded-xl transition-colors cursor-pointer">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary/10 rounded-full flex items-center justify-center shrink-0">
+                <Mail size={20} className="text-primary sm:w-6 sm:h-6" />
               </div>
               <div className="min-w-0 flex-1">
-                <h4 className="font-medium text-lg sm:text-xl mb-1">Email Us</h4>
-                <p className="text-white/70 tracking-wide text-sm sm:text-base break-words">sales@royaltyfuneral.com</p>
+                <h4 className="font-medium text-lg sm:text-xl mb-1 text-primary-dark">Email Us</h4>
+                <p className="text-text-muted tracking-wide text-sm sm:text-base break-words">sales@royaltyfuneral.com</p>
               </div>
             </div>
 
-            <div className="flex items-start gap-4 hover:bg-white/5 p-3 sm:p-4 rounded-xl transition-colors cursor-pointer">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white/10 rounded-full flex items-center justify-center shrink-0">
-                <MapPin size={20} className="text-white sm:w-6 sm:h-6" />
+            <div className="flex items-start gap-4 hover:bg-primary/5 p-3 sm:p-4 rounded-xl transition-colors cursor-pointer">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary/10 rounded-full flex items-center justify-center shrink-0">
+                <MapPin size={20} className="text-primary sm:w-6 sm:h-6" />
               </div>
               <div className="min-w-0 flex-1">
-                <h4 className="font-medium text-lg sm:text-xl mb-1">Main Office</h4>
-                <p className="text-white/70 tracking-wide leading-relaxed text-sm sm:text-base break-words">
+                <h4 className="font-medium text-lg sm:text-xl mb-1 text-primary-dark">Main Office</h4>
+                <p className="text-text-muted tracking-wide leading-relaxed text-sm sm:text-base break-words">
                   Stand 15383, Khami Road<br />
                   Kelvin North 11, Bulawayo<br />
                   Zimbabwe

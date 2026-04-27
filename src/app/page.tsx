@@ -6,8 +6,10 @@ import { ArrowRight, Heart, Shield, Clock, Loader2 } from "lucide-react";
 import { Phone, CheckCircle2, DollarSign, Map, HeartHandshake, Calculator } from "lucide-react";
 import { useState, useEffect } from "react";
 import { getPlans } from "@/lib/firebase-utils";
+import { useLoading } from "@/context/LoadingContext";
 
 export default function Home() {
+  const { isLoading } = useLoading();
   const { scrollY } = useScroll();
   const textY = useTransform(scrollY, [0, 800], [0, 250]);
 
@@ -52,10 +54,10 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen bg-primary-dark">
+    <div className="flex flex-col min-h-screen bg-white">
       {/* Hero Section */}
       <section className="sticky top-0 h-screen flex items-center justify-center overflow-hidden z-0">
-        <div className="absolute inset-0 bg-primary-dark/90 z-10" />
+        <div className="absolute inset-0 bg-white/90 z-10" />
         <div
           className="absolute inset-0 z-0 bg-cover bg-center"
           style={{ backgroundImage: 'url("https://images.pexels.com/photos/17794572/pexels-photo-17794572.jpeg")' }}
@@ -63,40 +65,40 @@ export default function Home() {
 
         <motion.div
           style={{ y: textY }}
-          className="container relative z-20 px-4 md:px-8 text-center text-white"
+          className="container relative z-20 px-4 md:px-8 text-center text-primary-dark"
         >
-          <span className="max-w-2xl mx-auto text-lg md:text-xl text-white/80 italic font-light">A Dignified Send-off...</span>
+          <span className="max-w-2xl mx-auto text-lg md:text-xl text-primary/80 italic font-light font-serif">A Dignified Send-off...</span>
 
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.2, ease: "easeOut" }}
-            className="font-serif text-5xl md:text-7xl lg:text-8xl mb-6 font-medium tracking-tight text-white/95"
+            animate={!isLoading ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+            transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
+            className="font-serif text-5xl md:text-7xl lg:text-8xl mb-6 font-medium tracking-tight text-primary-dark"
           >
             Honoring Life <br />
-            <span className="text-white/80 italic font-light">with Dignity...</span>
+            <span className="text-primary italic font-light">with Dignity...</span>
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1.0, delay: 0.5 }}
-            className="max-w-2xl mx-auto text-lg md:text-xl text-white/80 mb-10 font-light"
+            animate={!isLoading ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ duration: 1.0, delay: 0.6 }}
+            className="max-w-2xl mx-auto text-lg md:text-xl text-text-muted mb-10 font-light"
           >
             Providing compassionate, respectful, and dignified funeral services to help families navigate their time of need.
           </motion.p>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.0, delay: 0.7 }}
+            animate={!isLoading ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 1.0, delay: 0.8 }}
             className="flex flex-col sm:flex-row gap-4 justify-center items-center"
           >
-            <Link href="/services" className="bg-white text-primary-dark px-8 py-4 rounded-full font-medium hover:bg-white/90 transition-all flex items-center gap-2 group shadow-xl">
+            <Link href="/services" className="bg-primary text-white px-8 py-4 rounded-full font-medium hover:bg-primary-dark transition-all flex items-center gap-2 group shadow-xl">
               Learn About Our Services
               <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
             </Link>
-            <Link href="/contact" className="bg-transparent border border-white/30 text-white px-8 py-4 rounded-full font-medium hover:bg-white/10 transition-all">
+            <Link href="/contact" className="bg-transparent border border-primary/30 text-primary-dark px-8 py-4 rounded-full font-medium hover:bg-primary/5 transition-all">
               Request a Consultation
             </Link>
           </motion.div>
@@ -169,11 +171,11 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 1.0 }}
-                className="bg-primary-dark text-white p-8 rounded-2xl shadow-lg relative overflow-hidden"
+                className="bg-background-cream text-primary-dark p-8 rounded-2xl shadow-sm border border-primary/5 relative overflow-hidden"
               >
-                <DollarSign className="absolute -right-4 -top-4 w-32 h-32 text-white/5" />
-                <h3 className="font-serif text-2xl mb-4 text-primary-light">Premium Cash-Back</h3>
-                <p className="text-white/80 font-light text-lg">Enjoy 1 full year of premium cash-back for every claim-free 5-year period.</p>
+                <DollarSign className="absolute -right-4 -top-4 w-32 h-32 text-primary/5" />
+                <h3 className="font-serif text-2xl mb-4 text-primary">Premium Cash-Back</h3>
+                <p className="text-text-muted font-light text-lg">Enjoy 1 full year of premium cash-back for every claim-free 5-year period.</p>
               </motion.div>
 
               <motion.div
@@ -181,11 +183,11 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 1.0, delay: 0.15 }}
-                className="bg-primary text-white p-8 rounded-2xl shadow-lg relative overflow-hidden"
+                className="bg-white text-primary-dark p-8 rounded-2xl shadow-sm border border-primary/10 relative overflow-hidden"
               >
-                <Map className="absolute -right-4 -top-4 w-32 h-32 text-white/10" />
-                <h3 className="font-serif text-2xl mb-4">Nationwide Coverage</h3>
-                <p className="text-white/80 font-light text-lg">Burial anywhere within the borders of Zimbabwe at no extra cost to you or your family.</p>
+                <Map className="absolute -right-4 -top-4 w-32 h-32 text-primary/5" />
+                <h3 className="font-serif text-2xl mb-4 text-primary">Nationwide Coverage</h3>
+                <p className="text-text-muted font-light text-lg">Burial anywhere within the borders of Zimbabwe at no extra cost to you or your family.</p>
               </motion.div>
 
               <motion.div
@@ -235,10 +237,10 @@ export default function Home() {
         </section>
 
         {/* Premium Calculator CTA Section */}
-        <section className="py-24 bg-primary-dark relative overflow-hidden">
-          <div className="absolute inset-0 bg-[url('https://images.pexels.com/photos/3760067/pexels-photo-3760067.jpeg')] opacity-10 bg-cover bg-center" />
+        <section className="py-24 bg-background-cream relative overflow-hidden">
+          <div className="absolute inset-0 bg-[url('https://images.pexels.com/photos/3760067/pexels-photo-3760067.jpeg')] opacity-5 bg-cover bg-center" />
           <div className="container px-4 md:px-8 mx-auto relative z-10">
-            <div className="bg-white/5 backdrop-blur-md border border-white/10 p-8 md:p-16 rounded-[3rem] shadow-2xl overflow-hidden">
+            <div className="bg-white border border-primary/10 p-8 md:p-16 rounded-[3rem] shadow-xl overflow-hidden">
               <div className="grid lg:grid-cols-2 gap-12 items-center">
                 <motion.div
                   initial={{ opacity: 0, x: -30 }}
@@ -246,15 +248,15 @@ export default function Home() {
                   viewport={{ once: true }}
                   transition={{ duration: 1.0 }}
                 >
-                  <div className="inline-flex items-center gap-2 bg-primary/20 text-primary-light px-4 py-2 rounded-full text-sm font-medium mb-6">
+                  <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium mb-6">
                     <Calculator size={16} />
                     <span>Interactive Planning Tool</span>
                   </div>
-                  <h2 className="font-serif text-4xl md:text-5xl text-white mb-6 leading-tight">
+                  <h2 className="font-serif text-4xl md:text-5xl text-primary-dark mb-6 leading-tight">
                     Transparent Pricing <br />
-                    <span className="text-white/60">At Your Fingertips</span>
+                    <span className="text-primary/60">At Your Fingertips</span>
                   </h2>
-                  <p className="text-white/70 text-lg mb-8 font-light max-w-xl">
+                  <p className="text-text-muted text-lg mb-8 font-light max-w-xl">
                     Our interactive premium calculator is designed to provide you with an instant, accurate estimate for your chosen funeral cover. Adjust plans, add dependents, and include optional benefits to see exactly how we can protect your family's future.
                   </p>
                   <div className="flex flex-col sm:flex-row gap-4">
@@ -369,7 +371,7 @@ export default function Home() {
         </section>
 
         {/* Call to Action pre-footer */}
-        <section className="py-24 bg-primary text-white">
+        <section className="py-24 bg-background-cream text-primary-dark border-t border-primary/10">
           <div className="container px-4 md:px-8 mx-auto text-center">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -379,8 +381,8 @@ export default function Home() {
               className="max-w-3xl mx-auto"
             >
               <h2 className="font-serif text-4xl md:text-5xl mb-6 font-medium">We Are Here For You</h2>
-              <p className="text-white/80 text-xl mb-10 font-light">Whether you need immediate assistance or are planning for the future, our dedicated staff is ready to help 24 hours a day.</p>
-              <Link href="/contact" className="inline-flex items-center gap-2 bg-white text-primary-dark px-8 py-4 rounded-full font-medium hover:bg-background-cream transition-all shadow-lg hover:shadow-xl hover:-translate-y-1">
+              <p className="text-text-muted text-xl mb-10 font-light">Whether you need immediate assistance or are planning for the future, our dedicated staff is ready to help 24 hours a day.</p>
+              <Link href="/contact" className="inline-flex items-center gap-2 bg-primary text-white px-8 py-4 rounded-full font-medium hover:bg-primary-dark transition-all shadow-lg hover:shadow-xl hover:-translate-y-1">
                 Contact Us Today
                 <Phone size={18} />
               </Link>

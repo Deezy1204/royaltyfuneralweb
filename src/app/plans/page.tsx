@@ -111,9 +111,9 @@ export default function PlansAndPricing() {
     <div className="flex flex-col min-h-screen pt-20 bg-background-cream font-sans">
       
       {/* Header and Currency Switcher */}
-      <section className="bg-primary-dark text-white py-16 md:py-24 border-b border-primary/10 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-primary/20 rounded-full blur-[120px] -mr-48 -mt-48" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-primary-light/10 rounded-full blur-[120px] -ml-48 -mb-48" />
+      <section className="bg-white text-primary-dark py-16 md:py-24 border-b border-primary/10 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-[120px] -mr-48 -mt-48" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-primary/5 rounded-full blur-[120px] -ml-48 -mb-48" />
         
         <div className="container mx-auto px-4 md:px-8 relative z-10">
           <div className="flex flex-col md:flex-row justify-between items-center gap-8 text-center md:text-left">
@@ -121,23 +121,23 @@ export default function PlansAndPricing() {
               <motion.span 
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="text-primary-light font-bold text-xs uppercase tracking-[0.2em] mb-4 block"
+                className="text-primary font-bold text-xs uppercase tracking-[0.2em] mb-4 block"
               >
                 Pricing & Coverage
               </motion.span>
               <motion.h1
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="font-serif text-5xl md:text-7xl mb-6 leading-tight"
+                className="font-serif text-5xl md:text-7xl mb-6 leading-tight text-primary-dark"
               >
                 Protection That <br />
-                Fits Your <span className="text-primary-light italic font-light">Legacy</span>
+                Fits Your <span className="text-primary italic font-light">Legacy</span>
               </motion.h1>
               <motion.p
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.2 }}
-                className="text-white/60 text-lg md:text-xl font-light leading-relaxed max-w-xl"
+                className="text-text-muted text-lg md:text-xl font-light leading-relaxed max-w-xl"
               >
                 Explore our transparent, flexible funeral cover options designed to provide peace of mind for every family budget.
               </motion.p>
@@ -147,7 +147,7 @@ export default function PlansAndPricing() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.3 }}
-              className="bg-white/5 backdrop-blur-xl border border-white/10 p-2 rounded-2xl flex items-center gap-1 shadow-2xl"
+              className="bg-primary/5 backdrop-blur-xl border border-primary/10 p-2 rounded-2xl flex items-center gap-1 shadow-sm"
             >
               {[
                 { id: "USD", label: "USD", sub: "US Dollar" },
@@ -158,12 +158,12 @@ export default function PlansAndPricing() {
                   onClick={() => setCurrency(c.id as any)}
                   className={`px-6 py-3 rounded-xl transition-all duration-300 flex flex-col items-center ${
                     currency === c.id 
-                    ? "bg-white text-primary-dark shadow-xl" 
-                    : "hover:bg-white/10 text-white/60"
+                    ? "bg-white text-primary-dark shadow-md" 
+                    : "hover:bg-primary/5 text-primary/60"
                   }`}
                 >
                   <span className="font-bold text-sm tracking-widest">{c.label}</span>
-                  <span className={`text-[8px] font-medium opacity-50 ${currency === c.id ? "text-primary-dark" : "text-white"}`}>{c.sub}</span>
+                  <span className={`text-[8px] font-medium opacity-50 ${currency === c.id ? "text-primary-dark" : "text-primary"}`}>{c.sub}</span>
                 </button>
               ))}
             </motion.div>
@@ -239,7 +239,7 @@ export default function PlansAndPricing() {
                     setSelectedPlanId(plan.id);
                     document.getElementById('estimator')?.scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className="w-full bg-primary-dark text-white py-4 rounded-2xl font-bold text-xs uppercase tracking-widest hover:bg-primary transition-colors flex items-center justify-center gap-2 group/btn"
+                  className="w-full bg-primary text-white py-4 rounded-2xl font-bold text-xs uppercase tracking-widest hover:bg-primary-dark transition-colors flex items-center justify-center gap-2 group/btn shadow-lg shadow-primary/20"
                 >
                   Configure This Plan
                   <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
@@ -382,47 +382,47 @@ export default function PlansAndPricing() {
               </div>
 
               {/* Display Results */}
-              <div className="lg:col-span-5 bg-primary-dark rounded-[2.5rem] p-10 md:p-14 text-white relative overflow-hidden shadow-2xl">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-[80px] -mr-32 -mt-32" />
+              <div className="lg:col-span-5 bg-white border border-primary/10 rounded-[2.5rem] p-10 md:p-14 text-primary-dark relative overflow-hidden shadow-xl">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-[80px] -mr-32 -mt-32" />
                 <div className="relative z-10">
-                  <span className="text-primary-light font-bold text-[10px] uppercase tracking-[0.3em] mb-8 block">Summary Estimate</span>
+                  <span className="text-primary font-bold text-[10px] uppercase tracking-[0.3em] mb-8 block">Summary Estimate</span>
                   
-                  <div className="space-y-6 mb-12 border-b border-white/10 pb-12">
+                  <div className="space-y-6 mb-12 border-b border-primary/10 pb-12">
                      <div className="flex justify-between items-center">
-                        <span className="text-sm font-light text-white/60">Base Premium</span>
+                        <span className="text-sm font-light text-text-muted">Base Premium</span>
                         <span className="font-serif text-xl">{formatCurrency(basePrice, currency)}</span>
                      </div>
                      {dependents > 0 && (
                         <div className="flex justify-between items-center">
-                          <span className="text-sm font-light text-white/60">Dependents (x{dependents})</span>
+                          <span className="text-sm font-light text-text-muted">Dependents (x{dependents})</span>
                           <span className="font-serif text-xl">+{formatCurrency(totalDependentsCost, currency)}</span>
                         </div>
                      )}
                      {(accidentalCost > 0 || spousalCost > 0) && (
                         <div className="flex justify-between items-center">
-                          <span className="text-sm font-light text-white/60">Riders & Extras</span>
+                          <span className="text-sm font-light text-text-muted">Riders & Extras</span>
                           <span className="font-serif text-xl">+{formatCurrency(accidentalCost + spousalCost, currency)}</span>
                         </div>
                      )}
                   </div>
 
                   <div className="space-y-2 mb-12">
-                    <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-white/40">Total Monthly Investment</p>
+                    <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-primary/40">Total Monthly Investment</p>
                     <div className="flex items-baseline gap-2">
-                      <span className="text-6xl md:text-7xl font-serif font-bold tracking-tight">{formatCurrency(totalPremium, currency)}</span>
-                      <span className="text-white/40 text-sm font-light italic">/mo</span>
+                       <span className="text-6xl md:text-7xl font-serif font-bold tracking-tight text-primary">{formatCurrency(totalPremium, currency)}</span>
+                       <span className="text-text-muted/40 text-sm font-light italic">/mo</span>
                     </div>
                   </div>
 
                   <div className="flex flex-col gap-4">
                     <Link 
                       href={`/contact?plan=${activePlan.name || activePlan.id}&tier=${selectedAgeTierLabel}&dependents=${dependents}&total=${totalPremium}&currency=${currency}`}
-                      className="bg-white text-primary-dark py-5 rounded-2xl flex items-center justify-center gap-3 font-bold uppercase tracking-widest text-xs hover:bg-background-cream transition-colors group shadow-xl shadow-black/20"
+                      className="bg-primary text-white py-5 rounded-2xl flex items-center justify-center gap-3 font-bold uppercase tracking-widest text-xs hover:bg-primary-dark transition-colors group shadow-xl shadow-primary/20"
                     >
                       Apply For Coverage
                       <Phone size={16} className="group-hover:rotate-12 transition-transform" />
                     </Link>
-                    <p className="text-[9px] text-center text-white/30 italic">
+                    <p className="text-[9px] text-center text-text-muted/30 italic">
                       *Exact premium subject to final underwriting and terms.
                     </p>
                   </div>

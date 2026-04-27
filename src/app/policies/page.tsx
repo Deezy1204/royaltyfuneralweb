@@ -111,9 +111,9 @@ export default function Policies() {
     <div className="flex flex-col min-h-screen bg-background-cream font-sans">
 
       {/* Header and Currency Switcher */}
-      <section className="bg-primary-dark text-white py-16 md:py-24 border-b border-primary/10 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-primary/20 rounded-full blur-[120px] -mr-48 -mt-48" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-primary-light/10 rounded-full blur-[120px] -ml-48 -mb-48" />
+      <section className="bg-white text-primary-dark py-16 md:py-24 border-b border-primary/10 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-[120px] -mr-48 -mt-48" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-primary/5 rounded-full blur-[120px] -ml-48 -mb-48" />
         
         <div className="container mx-auto px-4 md:px-8 relative z-10">
           <div className="flex flex-col md:flex-row justify-between items-center gap-8 text-center md:text-left">
@@ -121,23 +121,23 @@ export default function Policies() {
               <motion.span 
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="text-primary-light font-bold text-xs uppercase tracking-[0.2em] mb-4 block"
+                className="text-primary font-bold text-xs uppercase tracking-[0.2em] mb-4 block"
               >
                 Policies & Options
               </motion.span>
               <motion.h1
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="font-serif text-5xl md:text-7xl mb-6 leading-tight"
+                className="font-serif text-5xl md:text-7xl mb-6 leading-tight text-primary-dark"
               >
                 Comprehensive <br />
-                Policy <span className="text-primary-light italic font-light">Suite</span>
+                Policy <span className="text-primary italic font-light">Suite</span>
               </motion.h1>
               <motion.p
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.2 }}
-                className="text-white/60 text-lg md:text-xl font-light leading-relaxed max-w-xl"
+                className="text-text-muted text-lg md:text-xl font-light leading-relaxed max-w-xl"
               >
                 Choose from our range of expertly crafted policy packages designed to protect your family's future with dignity.
               </motion.p>
@@ -147,7 +147,7 @@ export default function Policies() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.3 }}
-              className="bg-white/5 backdrop-blur-xl border border-white/10 p-1 rounded-lg flex items-center gap-1 shadow-2xl"
+              className="bg-primary/5 backdrop-blur-xl border border-primary/10 p-1 rounded-lg flex items-center gap-1 shadow-sm"
             >
               {[
                 { id: "USD", label: "USD", sub: "US Dollar" },
@@ -159,11 +159,11 @@ export default function Policies() {
                   className={`px-4 py-2 rounded-md transition-all duration-300 flex flex-col items-center min-w-[80px] ${
                     currency === c.id 
                     ? "bg-white text-primary-dark shadow-md" 
-                    : "hover:bg-white/10 text-white/60"
+                    : "hover:bg-primary/10 text-primary/60"
                   }`}
                 >
                   <span className="font-bold text-sm tracking-widest">{c.label}</span>
-                  <span className={`text-[8px] font-medium opacity-50 ${currency === c.id ? "text-primary-dark" : "text-white"}`}>{c.sub}</span>
+                  <span className={`text-[8px] font-medium opacity-50 ${currency === c.id ? "text-primary-dark" : "text-primary"}`}>{c.sub}</span>
                 </button>
               ))}
             </motion.div>
@@ -243,7 +243,7 @@ export default function Policies() {
                     setSelectedPlanId(plan.id);
                     document.getElementById('estimator')?.scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className="w-full bg-primary-dark text-white py-3 rounded-md font-bold text-sm uppercase tracking-widest hover:bg-primary transition-colors flex items-center justify-center gap-2 group/btn"
+                  className="w-full bg-primary text-white py-3 rounded-md font-bold text-sm uppercase tracking-widest hover:bg-primary-dark transition-colors flex items-center justify-center gap-2 group/btn shadow-lg shadow-primary/20"
                 >
                   Select This Policy
                   <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
@@ -376,42 +376,42 @@ export default function Policies() {
               </div>
 
               {/* Display Results */}
-              <div className="lg:col-span-5 bg-primary-dark rounded-xl p-6 md:p-8 text-white relative overflow-hidden shadow-xl">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-[80px] -mr-32 -mt-32" />
+              <div className="lg:col-span-5 bg-white border border-primary/10 rounded-xl p-6 md:p-8 text-primary-dark relative overflow-hidden shadow-xl">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-[80px] -mr-32 -mt-32" />
                 <div className="relative z-10">
-                  <span className="text-primary-light font-bold text-[10px] uppercase tracking-[0.3em] mb-8 block">Policy Quote</span>
+                  <span className="text-primary font-bold text-[10px] uppercase tracking-[0.3em] mb-8 block">Policy Quote</span>
                   
-                  <div className="space-y-6 mb-12 border-b border-white/10 pb-12">
-                     <div className="flex justify-between items-center text-white/60 text-sm font-light">
+                  <div className="space-y-6 mb-12 border-b border-primary/10 pb-12">
+                     <div className="flex justify-between items-center text-text-muted text-sm font-light">
                         <span>Base Policy</span>
-                        <span className="text-white font-serif text-lg">{formatCurrency(basePrice, currency)}</span>
+                        <span className="text-primary-dark font-serif text-lg">{formatCurrency(basePrice, currency)}</span>
                      </div>
                      {dependents > 0 && (
-                        <div className="flex justify-between items-center text-white/60 text-sm font-light">
+                        <div className="flex justify-between items-center text-text-muted text-sm font-light">
                           <span>Dependents</span>
-                          <span className="text-white font-serif text-lg">+{formatCurrency(totalDependentsCost, currency)}</span>
+                          <span className="text-primary-dark font-serif text-lg">+{formatCurrency(totalDependentsCost, currency)}</span>
                         </div>
                      )}
                      {(accidentalCost > 0 || spousalCost > 0) && (
-                        <div className="flex justify-between items-center text-white/60 text-sm font-light">
+                        <div className="flex justify-between items-center text-text-muted text-sm font-light">
                           <span>Add-ons</span>
-                          <span className="text-white font-serif text-lg">+{formatCurrency(accidentalCost + spousalCost, currency)}</span>
+                          <span className="text-primary-dark font-serif text-lg">+{formatCurrency(accidentalCost + spousalCost, currency)}</span>
                         </div>
                      )}
                   </div>
 
                   <div className="space-y-2 mb-12">
-                    <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-white/40">Total Monthly Premium</p>
+                    <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-primary/40">Total Monthly Premium</p>
                     <div className="flex items-baseline gap-2">
-                      <span className="text-5xl md:text-6xl font-serif font-bold">{formatCurrency(totalPremium, currency)}</span>
-                      <span className="text-white/40 text-sm">/mo</span>
+                       <span className="text-5xl md:text-6xl font-serif font-bold text-primary">{formatCurrency(totalPremium, currency)}</span>
+                       <span className="text-text-muted/40 text-sm">/mo</span>
                     </div>
                   </div>
 
                   <div className="flex flex-col gap-4">
                     <Link 
                       href={`/contact?plan=${activePlan.name || activePlan.id}&tier=${selectedAgeTierLabel}&dependents=${dependents}&total=${totalPremium}&currency=${currency}`}
-                      className="bg-primary text-white py-4 rounded-md flex items-center justify-center gap-3 font-bold uppercase tracking-widest text-sm hover:bg-primary-light transition-colors group"
+                      className="bg-primary text-white py-4 rounded-md flex items-center justify-center gap-3 font-bold uppercase tracking-widest text-sm hover:bg-primary-dark transition-colors shadow-lg shadow-primary/20 group"
                     >
                       Secure Your Policy
                       <ShieldCheck size={16} />
