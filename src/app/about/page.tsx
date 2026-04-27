@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, Variants } from "framer-motion";
 import Image from "next/image";
 import { useState, useCallback, useEffect } from "react";
 import { Users, Eye, Target, Heart, Star, Crown, Clock, UserCircle2, ChevronLeft, ChevronRight, X } from "lucide-react";
@@ -57,7 +57,7 @@ export default function About() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [selectedIndex, showNext, showPrev]);
 
-  const teamContainerVariants = {
+  const teamContainerVariants: Variants = {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
@@ -65,7 +65,7 @@ export default function About() {
     },
   };
 
-  const teamItemVariants = {
+  const teamItemVariants: Variants = {
     hidden: { opacity: 0, y: 30 },
     show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } },
   };
